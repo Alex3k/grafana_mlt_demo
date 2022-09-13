@@ -26,7 +26,6 @@ The other cool thing about the demo is that I have a bunch of “errors” that 
 # Deploying the demo
 ## Step 1) Install required Software
 - Terraform - https://learn.hashicorp.com/tutorials/terraform/install-cli
-- GCP GCloud - https://cloud.google.com/sdk/docs/install
 - Kubectl - https://kubernetes.io/docs/tasks/tools/#kubectl
 
 ## Step 2) Creating a Cloud API Key
