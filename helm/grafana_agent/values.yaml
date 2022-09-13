@@ -1,0 +1,26 @@
+image:
+  repository: grafana/agent
+  tag: "v0.24.2"
+
+tempo:
+    username: foo
+    apikey: foo
+    url: foo
+
+prometheus:
+    username: foo
+    apikey: foo
+    url: foo
+
+loki:
+    username: foo
+    apikey: foo
+    url: foo
+
+otel:
+  host: otel-collector
+  port: 4317
+
+service:
+    version: 2c43f3f4
+    environment: production

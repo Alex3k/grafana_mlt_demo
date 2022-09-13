@@ -1,0 +1,2033 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM",
+      "label": "grafanacloud-microbsalexkirtleyclose-prom",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    },
+    {
+      "name": "DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-LOGS",
+      "label": "grafanacloud-microbsalexkirtleyclose-logs",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "loki",
+      "pluginName": "Loki"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "agenty-flowcharting-panel",
+      "name": "FlowCharting",
+      "version": "0.9.1"
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.3-e1f2f3c"
+    },
+    {
+      "type": "datasource",
+      "id": "loki",
+      "name": "Loki",
+      "version": "1.0.0"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+      },
+      "description": "* 168 = the SLO (2 minutes 48 seconds) in seconds\n*  (sum(count_over_time((probe_success{probe=\"Private Probe\"} == 0)[30d:])) == How many failed probes where there in the last 30 days\n* / 7 == there are 7 services so normalise it back down to a service perspective\n* 10 == the synthetic monitoring checks run every 10 seconds so this takes the above everything which is how many windows failed and converts that to seconds\n",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 168,
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "green",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 42,
+      "maxDataPoints": 7300,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3-e1f2f3c",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "expr": "300 - (sum(count_over_time((probe_success{probe=\"Private Probe\"} == 0)[30d:])) / 7 * 10) or vector(300)",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "timeFrom": "now/M",
+      "title": "Downtime Budget Remaining this month",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "m"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "id": 49,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3-e1f2f3c",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "expr": "vector(5)",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Downtime SLO (fixed) this month",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-LOGS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "dark-green",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 0
+      },
+      "id": 51,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "/^RemainingErrors$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3-e1f2f3c",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-LOGS}"
+          },
+          "editorMode": "code",
+          "expr": "100 - sum(count_over_time({service=\"payment\"} | logfmt | endpoint = `/process` | status != `200` [30d])) or vector(100)",
+          "legendFormat": "RemainingErrors",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Payment Error Failure Budget Remaining This Month",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 12,
+        "y": 0
+      },
+      "id": 50,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3-e1f2f3c",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "expr": "vector(100)",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Payment Failure SLO (fixed)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 16,
+        "y": 0
+      },
+      "id": 39,
+      "options": {
+        "content": "<div style=\"height:100%;width:100%;display:flex;align-items:end;text-align:center;\">\n  <h4>api-gateway</h4>\n</div>",
+        "mode": "html"
+      },
+      "pluginVersion": "9.1.3-e1f2f3c",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 20,
+        "y": 0
+      },
+      "id": 40,
+      "options": {
+        "content": "<div style=\"height:100%;width:100%;display:flex;align-items:end;text-align:center;\">\n  <h4>web-gateway</h4>\n</div>",
+        "mode": "html"
+      },
+      "pluginVersion": "9.1.3-e1f2f3c",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+      },
+      "description": "The fraction of time the target was up during the whole period.",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 0.99
+              },
+              {
+                "color": "green",
+                "value": 0.995
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 16,
+        "y": 2
+      },
+      "id": 35,
+      "links": [
+        {
+          "title": "Show details",
+          "url": "/d/rq0JrllZz/synthetic-monitoring-http?var-job=ecommerce-api-gateway"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3-e1f2f3c",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "exemplar": true,
+          "expr": "sum_over_time(\n  (\n    ceil(\n      sum by (instance, job) (increase(probe_all_success_sum{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n      /\n      sum by (instance, job) (increase(probe_all_success_count{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n    )\n  )[$__range:]\n)\n/\ncount_over_time(\n  (\n      sum by (instance, job) (increase(probe_all_success_count{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n  )[$__range:]\n)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
+        }
+      ],
+      "title": "Uptime",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+      },
+      "description": "The percentage of all the checks that have succeeded during the whole time period.",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 0.99
+              },
+              {
+                "color": "green",
+                "value": 0.995
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 18,
+        "y": 2
+      },
+      "id": 38,
+      "links": [
+        {
+          "title": "Show details",
+          "url": "/d/rq0JrllZz/synthetic-monitoring-http?var-job=ecommerce-api-gateway"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3-e1f2f3c",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "exemplar": true,
+          "expr": "sum(\n  increase(probe_all_success_sum{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[$__range])\n   )\n/\nsum(\n  increase(probe_all_success_count{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[$__range])\n)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
+        }
+      ],
+      "title": "Reachability",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+      },
+      "description": "The fraction of time the target was up during the whole period.",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 0.99
+              },
+              {
+                "color": "green",
+                "value": 0.995
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 20,
+        "y": 2
+      },
+      "id": 34,
+      "links": [
+        {
+          "title": "Show details",
+          "url": "/d/rq0JrllZz/synthetic-monitoring-http?var-job=ecommerce-web-gateway"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3-e1f2f3c",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "exemplar": true,
+          "expr": "sum_over_time(\n  (\n    ceil(\n      sum by (instance, job) (increase(probe_all_success_sum{instance=\"http://web-gateway.default.svc.cluster.local/\", job=\"ecommerce-web-gateway\"}[5m]))\n      /\n      sum by (instance, job) (increase(probe_all_success_count{instance=\"http://web-gateway.default.svc.cluster.local/\", job=\"ecommerce-web-gateway\"}[5m]))\n    )\n  )[$__range:]\n)\n/\ncount_over_time(\n  (\n      sum by (instance, job) (increase(probe_all_success_count{instance=\"http://web-gateway.default.svc.cluster.local/\", job=\"ecommerce-web-gateway\"}[5m]))\n  )[$__range:]\n)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
+        }
+      ],
+      "title": "Uptime",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+      },
+      "description": "The percentage of all the checks that have succeeded during the whole time period.",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 0.99
+              },
+              {
+                "color": "green",
+                "value": 0.995
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 22,
+        "y": 2
+      },
+      "id": 37,
+      "links": [
+        {
+          "title": "Show details",
+          "url": "/d/rq0JrllZz/synthetic-monitoring-http?var-job=ecommerce-web-gateway"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3-e1f2f3c",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "exemplar": true,
+          "expr": "sum(\n  increase(probe_all_success_sum{instance=\"http://web-gateway.default.svc.cluster.local/\", job=\"ecommerce-web-gateway\"}[$__range])\n   )\n/\nsum(\n  increase(probe_all_success_count{instance=\"http://web-gateway.default.svc.cluster.local/\", job=\"ecommerce-web-gateway\"}[$__range])\n)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
+        }
+      ],
+      "title": "Reachability",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
+      "flowchartsData": {
+        "flowcharts": [
+          {
+            "allowDrawio": false,
+            "center": true,
+            "csv": "## See more information for the syntax at https://drawio-app.com/import-from-csv-to-drawio/\n##\n## Example CSV. Use ## for comments and # for configuration.\n## The following names are reserved and should not be used (or ignored):\n## id, tooltip, placeholder(s), link and label (see below)\n##\n#\n## Node label with placeholders and HTML.\n## Default is '%name_of_first_column%'.\n#\n# label: %name%<br><i style=\"color:gray;\">%position%</i><br><a href=\"mailto:%email%\">Email</a>\n#\n## Node style (placeholders are replaced once).\n## Default is the current style for nodes.\n#\n# style: label;image=%image%;whiteSpace=wrap;html=1;rounded=1;fillColor=%fill%;strokeColor=%stroke%;\n#\n## Parent style for nodes with child nodes (placeholders are replaced once).\n#\n# parentstyle: swimlane;whiteSpace=wrap;html=1;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;\n#\n## Optional column name that contains a reference to a named style in styles.\n## Default is the current style for nodes.\n#\n# stylename: -\n#\n## JSON for named styles of the form {\"name\": \"style\", \"name\": \"style\"} where style is a cell style with\n## placeholders that are replaced once.\n#\n# styles: -\n#\n## Optional column name that contains a reference to a named label in labels.\n## Default is the current label.\n#\n# labelname: -\n#\n## JSON for named labels of the form {\"name\": \"label\", \"name\": \"label\"} where label is a cell label with\n## placeholders.\n#\n# labels: -\n#\n## Uses the given column name as the identity for cells (updates existing cells).\n## Default is no identity (empty value or -).\n#\n# identity: -\n#\n## Uses the given column name as the parent reference for cells. Default is no parent (empty or -).\n## The identity above is used for resolving the reference so it must be specified.\n#\n# parent: -\n#\n## Adds a prefix to the identity of cells to make sure they do not collide with existing cells (whose\n## IDs are numbers from 0..n, sometimes with a GUID prefix in the context of realtime collaboration).\n## Default is csvimport-.\n#\n# namespace: csvimport-\n#\n## Connections between rows (\"from\": source colum, \"to\": target column).\n## Label, style and invert are optional. Defaults are '', current style and false.\n## If placeholders are used in the style, they are replaced with data from the source.\n## An optional placeholders can be set to target to use data from the target instead.\n## In addition to label, an optional fromlabel and tolabel can be used to name the column\n## that contains the text for the label in the edges source or target (invert ignored).\n## The label is concatenated in the form fromlabel + label + tolabel if all are defined.\n## The target column may contain a comma-separated list of values.\n## Multiple connect entries are allowed.\n#\n# connect: {\"from\": \"manager\", \"to\": \"name\", \"invert\": true, \"label\": \"manages\", \\\n#          \"style\": \"curved=1;endArrow=blockThin;endFill=1;fontSize=11;\"}\n# connect: {\"from\": \"refs\", \"to\": \"id\", \"style\": \"curved=1;fontSize=11;\"}\n#\n## Node x-coordinate. Possible value is a column name. Default is empty. Layouts will\n## override this value.\n#\n# left: \n#\n## Node y-coordinate. Possible value is a column name. Default is empty. Layouts will\n## override this value.\n#\n# top: \n#\n## Node width. Possible value is a number (in px), auto or an @ sign followed by a column\n## name that contains the value for the width. Default is auto.\n#\n# width: auto\n#\n## Node height. Possible value is a number (in px), auto or an @ sign followed by a column\n## name that contains the value for the height. Default is auto.\n#\n# height: auto\n#\n## Padding for autosize. Default is 0.\n#\n# padding: -12\n#\n## Comma-separated list of ignored columns for metadata. (These can be\n## used for connections and styles but will not be added as metadata.)\n#\n# ignore: id,image,fill,stroke,refs,manager\n#\n## Column to be renamed to link attribute (used as link).\n#\n# link: url\n#\n## Spacing between nodes. Default is 40.\n#\n# nodespacing: 40\n#\n## Spacing between levels of hierarchical layouts. Default is 100.\n#\n# levelspacing: 100\n#\n## Spacing between parallel edges. Default is 40. Use 0 to disable.\n#\n# edgespacing: 40\n#\n## Name or JSON of layout. Possible values are auto, none, verticaltree, horizontaltree,\n## verticalflow, horizontalflow, organic, circle or a JSON string as used in Layout, Apply.\n## Default is auto.\n#\n# layout: auto\n#\n## ---- CSV below this line. First line are column names. ----\nname,position,id,location,manager,email,fill,stroke,refs,url,image\nEvan Miller,CFO,emi,Office 1,,me@example.com,#dae8fc,#6c8ebf,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-9-2-128.png\nEdward Morrison,Brand Manager,emo,Office 2,Evan Miller,me@example.com,#d5e8d4,#82b366,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-10-3-128.png\nRon Donovan,System Admin,rdo,Office 3,Evan Miller,me@example.com,#d5e8d4,#82b366,\"emo,tva\",https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-2-128.png\nTessa Valet,HR Director,tva,Office 4,Evan Miller,me@example.com,#d5e8d4,#82b366,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-3-128.png\n",
+            "download": false,
+            "editorTheme": "dark",
+            "editorUrl": "https://www.draw.io",
+            "enableAnim": true,
+            "grid": false,
+            "lock": true,
+            "name": "Main",
+            "scale": true,
+            "tooltip": true,
+            "type": "xml",
+            "url": "http://<YourUrl>/<Your XML/drawio file/api>",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<mxfile host=\"app.diagrams.net\" modified=\"2022-09-05T16:41:23.024Z\" agent=\"5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\" etag=\"ENoAqbkWhFtosch2jTjY\" version=\"20.2.8\" type=\"google\"><diagram id=\"MTbsGWXTnp812zgA_9wx\" name=\"Page-1\">7Vpbb5swFP41eSwCG3J5bNJmF21apWxa+zQ54IIXg5kxDdmvnw0mhFnpMm2padW8xP58w993zvGJyQgu0uoNR3nykUWYjoAbVSN4NQIA+L4nvxSyaxAPwqBBYk4ijXXAivzEGnQ1WpIIF72OgjEqSN4HQ5ZlOBQ9DHHOtv1u94z2V81RjA1gFSJqol9JJJIGnYJJh7/FJE7alb3xrGlJUdtZ76RIUMS2BxC8HsEFZ0w0pbRaYKrYa3lpxi2PtO4fjONMnDJguirelTe3xfWm+vzp26cPDz/fry88oB9O7Nod40gSoKuMi4TFLEP0ukPnnJVZhNW0rqx1fT4wlkvQk+B3LMROq4lKwSSUiJTqVlwRcXtQvlNTOYGuXVV65rqyayuZ4Lvbw8rBKFXthtW1dlwhONvgBaOM1/uDy/ojW5qdq+0eZVRDBSt5iB+jUVsm4jEWj/SDe92lx2CWYvmkchzHFAny0H8OpC033vfrxJUFre/faB08F60HpdnYqmbj56LZi/DPiVWtJ69aP6HWU6taz161fkKtA6taN/M+IFrqlS5v3kngDRJ4i3aGIXQyK522CRF4laOah63MsvuS6rkxF7h6nE5z+12W3gzROTqY6ox12yW8XpvFJgfJ7tg9F2OuQZkNd3kSEwYnmvARDZ/GhIHVcNWFqLuDlj+Fqy5C3fUClMVwdarWwGoeAgzn+4rXA4pXs8GFq+nrYf4fvAOe6B0zm84BDee44SwqQ2HdLfZ3be1VG7DtF3ZO7RfnF8Gpp4bVFCEwHGOB+PC8Ari2vWJsEpXgcMPKAZJl/WidmGSxTKjtDI0rGNjmamoeTWiXDpEr3/rRNDt+jMslx1SuP19zWYpV6QoJZJ3EsdfPewdwvps3G03Mfy4U2j8MgJlPGiwVCcpVkaT1u8q5ooCEMiNCa0xvWEEEYZlsXzMhWCo7UNUwR+Emrglu05MI36OylqWd4ZKSWI0UKrWaoyJv3qDek0qJMq8XvGxRt0VkORFCvX+9VJsHyzKnDEXOlmxIiiOCHMZjCat6ruqyHLI0ZVkhSyIpU/lrcqmIU9cKS7kDEXNc/KDfMMV5gjLhFA9qAimFm1cXRzo4eRb/H7OYtGbQepbvOzNoWAb0TcOAgeNOzmUb/guwjTDKfIeELLsn0tW5Iw1BolEdDZYKVzbBpZUU6t5h6fmB1Gr5JRNEUBxdgIvAA+dTWnr2aTL759LYTHBWuCiUaEYIld8oVWJk6yIfSkj97TIGTqxHVDMNevWaf9PYm/a9Bs7O5jVqW/t/xNRtB38sgte/AA==</diagram></mxfile>",
+            "zoom": "100%"
+          }
+        ]
+      },
+      "format": "short",
+      "graphId": "flowchart_48",
+      "gridPos": {
+        "h": 18,
+        "w": 10,
+        "x": 0,
+        "y": 5
+      },
+      "id": 48,
+      "newFlag": false,
+      "rulesData": {
+        "rulesData": [
+          {
+            "aggregation": "current",
+            "alias": "APIGateway",
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": false,
+            "linkData": [
+              {
+                "hidden": false,
+                "linkOn": "a",
+                "linkParams": false,
+                "linkUrl": "/d/a164a7f0339f99e89cea5cb47e9be617/kubernetes-compute-resources-workload?orgId=1&refresh=30s&var-cluster=microbs&var-namespace=default&var-workload=web-gateway",
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-2"
+              }
+            ],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 1,
+            "overlayIcon": false,
+            "pattern": "APIGateway",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [
+              {
+                "colorOn": "a",
+                "hidden": false,
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-1",
+                "style": "fillColor"
+              }
+            ],
+            "shapeProp": "id",
+            "shapeRegEx": false,
+            "stringThresholds": [],
+            "textData": [],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [
+              1
+            ],
+            "tooltip": true,
+            "tooltipColors": true,
+            "tooltipLabel": "Uptime",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "bool_on_off",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "WebGateway",
+            "colors": [
+              "#C4162A",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": true,
+            "linkData": [
+              {
+                "hidden": false,
+                "linkOn": "a",
+                "linkParams": false,
+                "linkUrl": "/d/a164a7f0339f99e89cea5cb47e9be617/kubernetes-compute-resources-workload?orgId=1&refresh=30s&var-cluster=microbs&var-namespace=default&var-workload=api-gateway",
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-1"
+              }
+            ],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 2,
+            "overlayIcon": false,
+            "pattern": "WebGateway",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [
+              {
+                "colorOn": "a",
+                "hidden": false,
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-2",
+                "style": "fillColor"
+              }
+            ],
+            "shapeProp": "id",
+            "shapeRegEx": false,
+            "stringThresholds": [],
+            "textData": [],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [
+              1
+            ],
+            "tooltip": true,
+            "tooltipColors": true,
+            "tooltipLabel": "Uptime",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "bool_on_off",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "Cart",
+            "colors": [
+              "#C4162A",
+              "#56A64B",
+              "#C4162A"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": true,
+            "linkData": [
+              {
+                "hidden": false,
+                "linkOn": "a",
+                "linkParams": false,
+                "linkUrl": "/d/KajugoM4z/service-detail?orgId=1&refresh=5s&var-workload=cart",
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-5"
+              }
+            ],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 3,
+            "overlayIcon": false,
+            "pattern": "Cart",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [
+              {
+                "colorOn": "a",
+                "hidden": false,
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-5",
+                "style": "fillColor"
+              }
+            ],
+            "shapeProp": "id",
+            "shapeRegEx": false,
+            "stringThresholds": [],
+            "textData": [],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [
+              1,
+              2000
+            ],
+            "tooltip": true,
+            "tooltipColors": true,
+            "tooltipLabel": "SLI (SLO 2s)",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "ms",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "Checkout",
+            "colors": [
+              "#C4162A",
+              "#56A64B",
+              "#C4162A"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": true,
+            "linkData": [
+              {
+                "hidden": false,
+                "linkOn": "a",
+                "linkParams": false,
+                "linkUrl": "/d/KajugoM4z/service-detail?orgId=1&refresh=5s&var-workload=checkout",
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-6"
+              }
+            ],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 4,
+            "overlayIcon": false,
+            "pattern": "Checkout",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [
+              {
+                "colorOn": "a",
+                "hidden": false,
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-6",
+                "style": "fillColor"
+              }
+            ],
+            "shapeProp": "id",
+            "shapeRegEx": false,
+            "stringThresholds": [],
+            "textData": [],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [
+              1,
+              2000
+            ],
+            "tooltip": true,
+            "tooltipColors": true,
+            "tooltipLabel": "SLI (SLO 2s)",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "ms",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "Content",
+            "colors": [
+              "#C4162A",
+              "#56A64B",
+              "#C4162A"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": true,
+            "linkData": [
+              {
+                "hidden": false,
+                "linkOn": "a",
+                "linkParams": false,
+                "linkUrl": "/d/KajugoM4z/service-detail?orgId=1&refresh=5s&var-workload=content",
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-7"
+              }
+            ],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 5,
+            "overlayIcon": false,
+            "pattern": "Content",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [
+              {
+                "colorOn": "a",
+                "hidden": false,
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-7",
+                "style": "fillColor"
+              }
+            ],
+            "shapeProp": "id",
+            "shapeRegEx": false,
+            "stringThresholds": [],
+            "textData": [],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [
+              1,
+              2000
+            ],
+            "tooltip": true,
+            "tooltipColors": true,
+            "tooltipLabel": "SLI (SLO 2s)",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "ms",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "Payment",
+            "colors": [
+              "#C4162A",
+              "#56A64B",
+              "#C4162A"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": true,
+            "linkData": [
+              {
+                "hidden": false,
+                "linkOn": "a",
+                "linkParams": false,
+                "linkUrl": "/d/KajugoM4z/service-detail?orgId=1&refresh=5s&var-workload=payment",
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-8"
+              }
+            ],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 6,
+            "overlayIcon": false,
+            "pattern": "Payment",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [
+              {
+                "colorOn": "a",
+                "hidden": false,
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-8",
+                "style": "fillColor"
+              }
+            ],
+            "shapeProp": "id",
+            "shapeRegEx": false,
+            "stringThresholds": [],
+            "textData": [],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [
+              1,
+              2000
+            ],
+            "tooltip": true,
+            "tooltipColors": true,
+            "tooltipLabel": "SLI (SLO 2s)",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "ms",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "Product",
+            "colors": [
+              "#56A64B",
+              "#C4162A"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": true,
+            "linkData": [
+              {
+                "hidden": false,
+                "linkOn": "a",
+                "linkParams": false,
+                "linkUrl": "/d/KajugoM4z/service-detail?orgId=1&refresh=5s&var-workload=product",
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-3"
+              }
+            ],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 7,
+            "overlayIcon": false,
+            "pattern": "ProductSLI",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [
+              {
+                "colorOn": "a",
+                "hidden": false,
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-3",
+                "style": "fillColor"
+              }
+            ],
+            "shapeProp": "id",
+            "shapeRegEx": false,
+            "stringThresholds": [],
+            "textData": [],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [
+              1
+            ],
+            "tooltip": false,
+            "tooltipColors": true,
+            "tooltipLabel": "SLI (SLO 2s)",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "ms",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "SessionDb",
+            "colors": [
+              "#56A64B",
+              "#F2495C"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": true,
+            "linkData": [
+              {
+                "hidden": false,
+                "linkOn": "a",
+                "linkParams": false,
+                "linkUrl": "/d/UlpJgOGVk/redis-dashboard?orgId=1&refresh=30s&var-instance=session-data",
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-27"
+              }
+            ],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 8,
+            "overlayIcon": true,
+            "pattern": "SessionDb",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [
+              {
+                "colorOn": "a",
+                "hidden": false,
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-27",
+                "style": "fillColor"
+              }
+            ],
+            "shapeProp": "id",
+            "shapeRegEx": false,
+            "stringThresholds": [],
+            "textData": [],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [
+              1
+            ],
+            "tooltip": true,
+            "tooltipColors": true,
+            "tooltipLabel": "Error Count",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "none",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "CartDb",
+            "colors": [
+              "#56A64B",
+              "#C4162A"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": true,
+            "linkData": [
+              {
+                "hidden": false,
+                "linkOn": "a",
+                "linkParams": false,
+                "linkUrl": "/d/UlpJgOGVk/redis-dashboard?orgId=1&refresh=30s&var-instance=cart-data",
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-21"
+              }
+            ],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 9,
+            "overlayIcon": true,
+            "pattern": "CartDb",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [
+              {
+                "colorOn": "a",
+                "hidden": false,
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-21",
+                "style": "fillColor"
+              }
+            ],
+            "shapeProp": "id",
+            "shapeRegEx": false,
+            "stringThresholds": [],
+            "textData": [],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [
+              1
+            ],
+            "tooltip": true,
+            "tooltipColors": true,
+            "tooltipLabel": "Error Count",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "none",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "ProductDB",
+            "colors": [
+              "#56A64B",
+              "#C4162A"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": true,
+            "linkData": [
+              {
+                "hidden": false,
+                "linkOn": "a",
+                "linkParams": false,
+                "linkUrl": "/d/wLEXziM4z/postgresql-database",
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-9"
+              }
+            ],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 10,
+            "overlayIcon": true,
+            "pattern": "ProductDB",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [
+              {
+                "colorOn": "a",
+                "hidden": false,
+                "pattern": "8SsIuPXsEkxTO_OLvzJb-9",
+                "style": "fillColor"
+              }
+            ],
+            "shapeProp": "id",
+            "shapeRegEx": false,
+            "stringThresholds": [],
+            "textData": [],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [
+              1
+            ],
+            "tooltip": true,
+            "tooltipColors": true,
+            "tooltipLabel": "Error Count",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "none",
+            "valueData": []
+          }
+        ]
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "expr": "(probe_success{job=\"ecommerce-web-gateway\"})",
+          "legendFormat": "WebGateway",
+          "range": true,
+          "refId": "WebGateway"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "expr": "(probe_success{job=\"ecommerce-api-gateway\"})",
+          "hide": false,
+          "legendFormat": "APIGateway",
+          "range": true,
+          "refId": "APIGateway"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"product\"}[1m])) by (le)) * 1) > bool 2000 or (probe_success{job=\"ecommerce-product\"}) == bool 0 or {name=\"ProductDBErrors\"} > bool 0",
+          "hide": false,
+          "legendFormat": "ProductSLI",
+          "range": true,
+          "refId": "ProductSLI"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "expr": "ProductDBErrors{name=\"ProductDBErrors\"}",
+          "hide": false,
+          "legendFormat": "ProductDB",
+          "range": true,
+          "refId": "ProductDb"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"cart\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-cart\"})",
+          "hide": false,
+          "legendFormat": "Cart",
+          "range": true,
+          "refId": "CartSLI"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"checkout\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-checkout\"})",
+          "hide": false,
+          "legendFormat": "Checkout",
+          "range": true,
+          "refId": "CheckoutSLI"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"content\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-content\"})",
+          "hide": false,
+          "legendFormat": "Content",
+          "range": true,
+          "refId": "ContentSLI"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"payment\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-payment\"})",
+          "hide": false,
+          "legendFormat": "Payment",
+          "range": true,
+          "refId": "PaymentSLI"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "expr": "SessionDBErrors{}",
+          "hide": false,
+          "legendFormat": "SessionDb",
+          "range": true,
+          "refId": "SessionDb"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "CartDBErrors{}",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "CartDb",
+          "range": true,
+          "refId": "CartDb"
+        }
+      ],
+      "title": "Application Architecture",
+      "transformations": [],
+      "type": "agenty-flowcharting-panel",
+      "valueName": "current",
+      "version": "0.9.0"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 25,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [
+            {
+              "title": "Kubernetes Details",
+              "url": "/d/85a562078cdf77779eaa1add43ccec1e/kubernetes-compute-resources-namespace-pods?var-datasource=grafanacloud-microbsalexkirtleyclose-prom&var-cluster=microbs&var-namespace=default&orgId=1&refresh=30s"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "(average)"
+            },
+            "properties": [
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "fill": "solid"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 3
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "text",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 14,
+        "x": 10,
+        "y": 5
+      },
+      "id": 7,
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "8.4.3-54429",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{}[1m])) by(le, service_name)) * 1",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{ service_name }}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{}[1m])) by (le)) * 1",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "(average)",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Service Latency",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 25,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "reqps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "(total)"
+            },
+            "properties": [
+              {
+                "id": "custom.lineWidth",
+                "value": 3
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "text",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "fill": "solid"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 14,
+        "x": 10,
+        "y": 11
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(rate(traces_spanmetrics_calls_total{}[1m])) by (service_name)",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{ service_name }}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(sum(rate(traces_spanmetrics_calls_total{}[1m])) by (service_name))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "(total)",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Service Throughput",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 25,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "always",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [
+            {
+              "title": "Service Details",
+              "url": "/d/KajugoM4z/service-detail?orgId=1&refresh=5s&var-workload=${__series.name}"
+            }
+          ],
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "reqps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 14,
+        "x": 10,
+        "y": 17
+      },
+      "id": 52,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(rate(traces_spanmetrics_calls_total{event_outcome=\"failure\"}[1m])) by (service_name)\n/\nsum(rate(traces_spanmetrics_calls_total[1m])) by (service_name)",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{ service_name }}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Service Error Rate by Service",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [
+    "microbs",
+    "ecommerce"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Services Overview",
+  "uid": "ihMHTlZVk",
+  "version": 71,
+  "weekStart": ""
+}
