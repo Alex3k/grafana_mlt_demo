@@ -53,9 +53,10 @@ I have created a workspace called "akc-mlt-demo.slack.com" that you are welcome 
 - Run `terraform init`
 - Run `terraform apply -var-file vars.tfvars` - this will list everything that will be deployed. If you're happy with it type "yes" and enter when prompted
 - When terraform finishes, it will display a bunch of outputs. Run the `gke_connection_command` in the terminal to connect to the GKE cluster. Then go open a browser and go to your stack by using the `grafana_url` URL.
+- If you need to get these outputs again just go into the terraform directory and run `terraform output`
 
-## Step 7) Create the recording rules
-Sadly the Terraform provider doesn't allow you to create recording rules. We use these for the Flowchart Plugin as Loki's LogQL support count_over_time but if the filter doesn't return any logs, "no data" is returned. When using count_over_time over "no data" you don't get a numerical 0 as a result. You get "no data". When using this with the flow chart plugin you can't colour the boxes accordingly as there is no data to run the condition over. Quite frustating. As a way around this we can use a recording rule as that periodically counts how many logs have been returned that meet our error filter. Even if no logs are returned, the recording rule returns 0. Exactly the behaviour we need. We need one recording rule per database. To create them, go to explore, put in the respective query below and then click on the button to the right hand side of the query panel that looks like two circles - at the time of writing it was to the left of the copy button. When creating each of the below recorded queries, make sure you are in the `grafanacloud-*-logs` data source.
+## Step 7) Create the recorded queries
+Sadly the Terraform provider doesn't allow you to create recorded queries. We use these for the Flowchart Plugin as Loki's LogQL support count_over_time but if the filter doesn't return any logs, "no data" is returned. When using count_over_time over "no data" you don't get a numerical 0 as a result. You get "no data". When using this with the flow chart plugin you can't colour the boxes accordingly as there is no data to run the condition over. Quite frustating. As a way around this we can use a recorded query as that periodically counts how many logs have been returned that meet our error filter. Even if no logs are returned, the recorded query returns 0. Exactly the behaviour we need. We need one recording rule per database. To create them, go to explore, put in the respective query below and then click on the button to the right hand side of the query panel that looks like two circles - at the time of writing it was to the left of the copy button. When creating each of the below recorded queries, make sure you are in the `grafanacloud-*-logs` data source.
 - product-data
 	- Query: `{cluster="microbs",container=~"product-data"} |~ "critical|Critical|CRITICAL|error|Error|ERROR|exception|Exception|EXCEPTION|fail|Fail|FAIL|fatal|Fatal|FATAL"`
 	- Name: ProductDBErrors
@@ -133,3 +134,6 @@ Finally, this bug is super simple and not super realistic. What it does is deplo
 To debug this you will notice the Product component turning red. Click on it and see the errors.
 
 To solve it run `kubectl apply -f app.yaml`.
+
+# Tearing everything down and cleaning Up
+Go into the terraform directory and run `terraform destroy -var-file vars.tfvars -auto-approve`. **Everything** will be deleted
