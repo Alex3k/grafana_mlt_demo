@@ -439,6 +439,54 @@ resource "grafana_data_source" "custom_tempo" {
   })
 }
 
+resource "grafana_data_source" "custom_loki" {
+  provider            = grafana.stack
+  type                = "loki"
+  name                = "MLT Logs"
+  url                 = "${grafana_cloud_stack.stack.logs_url}"
+  basic_auth_enabled  = true
+  basic_auth_username = grafana_cloud_stack.stack.logs_user_id
+
+  json_data_encoded = jsonencode({
+    "derivedFields":[{
+        "datasourceUid": grafana_data_source.custom_tempo.uid
+        "matcherRegex":"traceID=(\\w+)",
+        "name":"traceID",
+        "url":"$${__value.raw}"
+    }],
+    "timeout":"300"
+  })
+
+  secure_json_data_encoded = jsonencode({
+    "basicAuthPassword"   = var.grafana_cloud_api_key
+    "basic_auth_password" = var.grafana_cloud_api_key
+  })
+}
+
+resource "grafana_data_source" "custom_prometheus" {
+  provider            = grafana.stack
+  type                = "prometheus"
+  name                = "MLT Metrics"
+  url                 = "${grafana_cloud_stack.stack.prometheus_url}"
+  basic_auth_enabled  = true
+  basic_auth_username = grafana_cloud_stack.stack.prometheus_user_id
+
+  json_data_encoded = jsonencode({
+    "exemplarTraceIdDestinations":[{
+        "datasourceUid": grafana_data_source.custom_tempo.uid
+        "name":"traceID",
+    }],
+    "timeout":"150",
+    "timeInterval":"60s"
+  })
+
+  secure_json_data_encoded = jsonencode({
+    "basicAuthPassword"   = var.grafana_cloud_api_key
+    "basic_auth_password" = var.grafana_cloud_api_key
+  })
+}
+
+
 variable "contact_point_high_latency_body" {
   type    = string
   default = <<EOH

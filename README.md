@@ -84,7 +84,7 @@ Sadly the Terraform provider doesn't allow you to create recorded queries. We us
 ## Step 8) Import Dashboards
 The Grafana Terraform provider allows you to import dashboards, however you can't override the datasources from within Terraform. Somewhat odd... So it's easier for you to important the four manually and then update the datasources accordingly.
 
-You can find the dashboards in grafana/dashboards. Please import all four. Leave the UID as it is but update the prometheus and logs data sources to point to the logical data sources. Please also put the dashboards in the "Ecommerce App" folder
+You can find the dashboards in grafana/dashboards. Please import all four. Leave the UID as it is but update the data sources so they point to the ones beginnging with `MLT`, **not** the ones starting with `grafanacloud`. Please also put the dashboards in the "Ecommerce App" folder
 
 ## Step 9) Deploy the app
 Here we are going to deploy our application and k6 which generates the load for the application. Make sure you are in the root directory of this git repo and run `kubectl apply -f app.yaml`
