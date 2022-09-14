@@ -467,7 +467,7 @@ resource "grafana_data_source" "custom_prometheus" {
   provider            = grafana.stack
   type                = "prometheus"
   name                = "MLT Metrics"
-  url                 = "${grafana_cloud_stack.stack.prometheus_url}"
+  url                 = "${grafana_cloud_stack.stack.prometheus_url}/api/prom"
   basic_auth_enabled  = true
   basic_auth_username = grafana_cloud_stack.stack.prometheus_user_id
 
