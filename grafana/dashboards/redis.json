@@ -23,7 +23,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.1.3-e1f2f3c"
+      "version": "9.1.5-0100a6a"
     },
     {
       "type": "panel",
@@ -145,7 +145,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3-e1f2f3c",
+      "pluginVersion": "9.1.5-0100a6a",
       "targets": [
         {
           "datasource": {
@@ -206,7 +206,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3-e1f2f3c",
+      "pluginVersion": "9.1.5-0100a6a",
       "targets": [
         {
           "datasource": {
@@ -335,7 +335,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.1.3-e1f2f3c",
+      "pluginVersion": "9.1.5-0100a6a",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -439,7 +439,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.1.3-e1f2f3c",
+      "pluginVersion": "9.1.5-0100a6a",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -544,7 +544,7 @@
         "alertThreshold": true
       },
       "percentage": true,
-      "pluginVersion": "9.1.3-e1f2f3c",
+      "pluginVersion": "9.1.5-0100a6a",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -699,7 +699,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.1.3-e1f2f3c",
+      "pluginVersion": "9.1.5-0100a6a",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -836,7 +836,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.1.3-e1f2f3c",
+      "pluginVersion": "9.1.5-0100a6a",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -949,7 +949,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.1.3-e1f2f3c",
+      "pluginVersion": "9.1.5-0100a6a",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1077,7 +1077,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.1.3-e1f2f3c",
+      "pluginVersion": "9.1.5-0100a6a",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1194,7 +1194,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.1.3-e1f2f3c",
+      "pluginVersion": "9.1.5-0100a6a",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1296,7 +1296,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.1.3-e1f2f3c",
+      "pluginVersion": "9.1.5-0100a6a",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
