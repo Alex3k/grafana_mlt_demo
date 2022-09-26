@@ -291,7 +291,7 @@
             "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-LOGS}"
           },
           "editorMode": "code",
-          "expr": "100 - sum(count_over_time({service=\"payment\"} | logfmt | endpoint = `/process` | status != `200` [30d])) ",
+          "expr": "500 - sum(count_over_time({service=\"payment\"} | logfmt | endpoint = `/process` | status != `200` [30d])) ",
           "legendFormat": "RemainingErrors",
           "queryType": "range",
           "refId": "A"
@@ -354,7 +354,7 @@
             "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
           },
           "editorMode": "code",
-          "expr": "vector(100)",
+          "expr": "vector(500)",
           "range": true,
           "refId": "A"
         }
@@ -957,7 +957,6 @@
             "aggregation": "current",
             "alias": "Cart",
             "colors": [
-              "#C4162A",
               "#56A64B",
               "#C4162A"
             ],
@@ -969,7 +968,7 @@
             "eventRegEx": false,
             "gradient": false,
             "hidden": false,
-            "invert": true,
+            "invert": false,
             "linkData": [
               {
                 "hidden": false,
@@ -1005,8 +1004,7 @@
             "textProp": "id",
             "textRegEx": true,
             "thresholds": [
-              1,
-              2000
+              1
             ],
             "tooltip": true,
             "tooltipColors": true,
@@ -1025,7 +1023,6 @@
             "aggregation": "current",
             "alias": "Checkout",
             "colors": [
-              "#C4162A",
               "#56A64B",
               "#C4162A"
             ],
@@ -1037,7 +1034,7 @@
             "eventRegEx": false,
             "gradient": false,
             "hidden": false,
-            "invert": true,
+            "invert": false,
             "linkData": [
               {
                 "hidden": false,
@@ -1073,8 +1070,7 @@
             "textProp": "id",
             "textRegEx": true,
             "thresholds": [
-              1,
-              2000
+              1
             ],
             "tooltip": true,
             "tooltipColors": true,
@@ -1093,7 +1089,6 @@
             "aggregation": "current",
             "alias": "Content",
             "colors": [
-              "#C4162A",
               "#56A64B",
               "#C4162A"
             ],
@@ -1105,7 +1100,7 @@
             "eventRegEx": false,
             "gradient": false,
             "hidden": false,
-            "invert": true,
+            "invert": false,
             "linkData": [
               {
                 "hidden": false,
@@ -1141,8 +1136,7 @@
             "textProp": "id",
             "textRegEx": true,
             "thresholds": [
-              1,
-              2000
+              1
             ],
             "tooltip": true,
             "tooltipColors": true,
@@ -1161,13 +1155,12 @@
             "aggregation": "current",
             "alias": "Payment",
             "colors": [
-              "#C4162A",
               "#56A64B",
               "#C4162A"
             ],
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
-            "decimals": 2,
+            "decimals": 0,
             "eventData": [],
             "eventProp": "id",
             "eventRegEx": false,
@@ -1209,8 +1202,7 @@
             "textProp": "id",
             "textRegEx": true,
             "thresholds": [
-              1,
-              2000
+              1
             ],
             "tooltip": true,
             "tooltipColors": true,
@@ -1222,7 +1214,7 @@
             "tpGraphSize": "100%",
             "tpGraphType": "line",
             "type": "number",
-            "unit": "ms",
+            "unit": "none",
             "valueData": []
           },
           {
@@ -1545,7 +1537,7 @@
             "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
           },
           "editorMode": "code",
-          "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"cart\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-cart\"})",
+          "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"cart\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-cart\"}) == bool 0",
           "hide": false,
           "legendFormat": "Cart",
           "range": true,
@@ -1557,7 +1549,7 @@
             "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
           },
           "editorMode": "code",
-          "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"checkout\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-checkout\"})",
+          "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"checkout\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-checkout\"}) == bool 0",
           "hide": false,
           "legendFormat": "Checkout",
           "range": true,
@@ -1569,7 +1561,7 @@
             "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
           },
           "editorMode": "code",
-          "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"content\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-content\"})",
+          "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"content\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-content\"}) == bool 0",
           "hide": false,
           "legendFormat": "Content",
           "range": true,
@@ -1581,7 +1573,7 @@
             "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
           },
           "editorMode": "code",
-          "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"payment\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-payment\"})",
+          "expr": " sum_over_time(PaymentProcessErrors1m[1m]) > bool 0",
           "hide": false,
           "legendFormat": "Payment",
           "range": true,
@@ -1619,154 +1611,6 @@
       "type": "agenty-flowcharting-panel",
       "valueName": "current",
       "version": "0.9.0"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "axisSoftMin": 0,
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 25,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "links": [
-            {
-              "title": "Kubernetes Details",
-              "url": "/d/85a562078cdf77779eaa1add43ccec1e/kubernetes-compute-resources-namespace-pods?var-datasource=grafanacloud-microbsalexkirtleyclose-prom&var-cluster=microbs&var-namespace=default&orgId=1&refresh=30s"
-            }
-          ],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "ms"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "(average)"
-            },
-            "properties": [
-              {
-                "id": "custom.lineStyle",
-                "value": {
-                  "fill": "solid"
-                }
-              },
-              {
-                "id": "custom.lineWidth",
-                "value": 3
-              },
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "text",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillOpacity",
-                "value": 0
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 14,
-        "x": 10,
-        "y": 5
-      },
-      "id": 7,
-      "links": [],
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "right",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "8.4.3-54429",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{}[1m])) by(le, service_name)) * 1",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{ service_name }}",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{}[1m])) by (le)) * 1",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "(average)",
-          "range": true,
-          "refId": "B"
-        }
-      ],
-      "title": "Service Latency",
-      "type": "timeseries"
     },
     {
       "datasource": {
@@ -1861,7 +1705,7 @@
         "h": 6,
         "w": 14,
         "x": 10,
-        "y": 11
+        "y": 5
       },
       "id": 2,
       "options": {
@@ -1975,7 +1819,7 @@
         "h": 6,
         "w": 14,
         "x": 10,
-        "y": 17
+        "y": 11
       },
       "id": 52,
       "options": {
@@ -2008,6 +1852,154 @@
       ],
       "title": "Service Error Rate by Service",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 25,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [
+            {
+              "title": "Kubernetes Details",
+              "url": "/d/85a562078cdf77779eaa1add43ccec1e/kubernetes-compute-resources-namespace-pods?var-datasource=grafanacloud-microbsalexkirtleyclose-prom&var-cluster=microbs&var-namespace=default&orgId=1&refresh=30s"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "(average)"
+            },
+            "properties": [
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "fill": "solid"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 3
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "text",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 14,
+        "x": 10,
+        "y": 17
+      },
+      "id": 7,
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "8.4.3-54429",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{}[1m])) by(le, service_name)) * 1",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{ service_name }}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{}[1m])) by (le)) * 1",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "(average)",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Service Latency",
+      "type": "timeseries"
     }
   ],
   "refresh": "5s",
@@ -2028,6 +2020,6 @@
   "timezone": "",
   "title": "Services Overview",
   "uid": "ihMHTlZVk",
-  "version": 78,
+  "version": 85,
   "weekStart": ""
 }
