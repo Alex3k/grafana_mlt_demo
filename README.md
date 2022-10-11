@@ -65,7 +65,7 @@ Sadly the Terraform provider doesn't allow you to create recorded queries. We us
 	- Interval: 30 seconds
 	- Relative Time Range: 
 		- From: now-31s
-		- To: no
+		- To: now
 	- Count query results: true
 - session-data
 	- Query: `{cluster="microbs",container=~"session-data|session-data-replica"} |~ "critical|Critical|CRITICAL|error|Error|ERROR|exception|Exception|EXCEPTION|fail|Fail|FAIL|fatal|Fatal|FATAL"`
@@ -73,7 +73,7 @@ Sadly the Terraform provider doesn't allow you to create recorded queries. We us
 	- Interval: 30 seconds
 	- Relative Time Range: 
 		- From: now-31s
-		- To: no
+		- To: now
 	- Count query results: true
 - cart-data
 	- Query: `{cluster="microbs",container=~"cart-data|cart-data-replica"} |~ "critical|Critical|CRITICAL|error|Error|ERROR|exception|Exception|EXCEPTION|fail|Fail|FAIL|fatal|Fatal|FATAL"`
@@ -81,7 +81,7 @@ Sadly the Terraform provider doesn't allow you to create recorded queries. We us
 	- Interval: 30 seconds
 	- Relative Time Range: 
 		- From: now-31s
-		- To: no
+		- To: now
 	- Count query results: true
 
 ## Step 9) Import Dashboards
