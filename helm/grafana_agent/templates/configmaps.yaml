@@ -81,7 +81,7 @@ data:
       configs:
       - name: integrations
         clients:
-        - url: {{ .Values.loki.url }}
+        - url: {{ .Values.loki.url }}/loki/api/v1/push
           basic_auth:
             username: {{ .Values.loki.username }}
             password: {{ .Values.loki.apikey }}
@@ -107,7 +107,7 @@ data:
       configs:
       - name: integrations
         clients:
-        - url: {{ .Values.loki.url }}
+        - url: {{ .Values.loki.url }}/loki/api/v1/push
           basic_auth:
             username: {{ .Values.loki.username }}
             password: {{ .Values.loki.apikey }}
