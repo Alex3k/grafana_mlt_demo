@@ -1,16 +1,16 @@
 {
   "__inputs": [
     {
-      "name": "DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM",
-      "label": "grafanacloud-microbsalexkirtleyclose-prom",
+      "name": "DS_MLT_METRICS",
+      "label": "MLT Metrics",
       "description": "",
       "type": "datasource",
       "pluginId": "prometheus",
       "pluginName": "Prometheus"
     },
     {
-      "name": "DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-LOGS",
-      "label": "grafanacloud-microbsalexkirtleyclose-logs",
+      "name": "DS_MLT_LOGS",
+      "label": "MLT Logs",
       "description": "",
       "type": "datasource",
       "pluginId": "loki",
@@ -29,7 +29,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.1.5-0100a6a"
+      "version": "9.2.0"
     },
     {
       "type": "datasource",
@@ -94,7 +94,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "description": "* 168 = the SLO (2 minutes 48 seconds) in seconds\n*  (sum(count_over_time((probe_success{probe=\"Private Probe\"} == 0)[30d:])) == How many failed probes where there in the last 30 days\n* / 7 == there are 7 services so normalise it back down to a service perspective\n* 10 == the synthetic monitoring checks run every 10 seconds so this takes the above everything which is how many windows failed and converts that to seconds\n",
       "fieldConfig": {
@@ -148,12 +148,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.5-0100a6a",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "300 - (sum(count_over_time((probe_success{probe=\"Private Probe\"} == 0)[30d:])) / 7 * 10) or vector(300)",
@@ -168,7 +168,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -211,12 +211,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.5-0100a6a",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "vector(5)",
@@ -230,7 +230,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-LOGS}"
+        "uid": "${DS_MLT_LOGS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -283,15 +283,15 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.5-0100a6a",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
             "type": "loki",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-LOGS}"
+            "uid": "${DS_MLT_LOGS}"
           },
           "editorMode": "code",
-          "expr": "500 - sum(count_over_time({service=\"payment\"} | logfmt | endpoint = `/process` | status != `200` [30d])) ",
+          "expr": "500 - (sum(count_over_time({service=\"payment\"} | logfmt | endpoint = `/process` | status != `200` [30d])) or vector(0))",
           "legendFormat": "RemainingErrors",
           "queryType": "range",
           "refId": "A"
@@ -303,7 +303,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -346,12 +346,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.5-0100a6a",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "vector(500)",
@@ -375,10 +375,15 @@
       },
       "id": 39,
       "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
         "content": "<div style=\"height:100%;width:100%;display:flex;align-items:end;text-align:center;\">\n  <h4>api-gateway</h4>\n</div>",
         "mode": "html"
       },
-      "pluginVersion": "9.1.5-0100a6a",
+      "pluginVersion": "9.2.0",
       "transparent": true,
       "type": "text"
     },
@@ -395,17 +400,22 @@
       },
       "id": 40,
       "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
         "content": "<div style=\"height:100%;width:100%;display:flex;align-items:end;text-align:center;\">\n  <h4>web-gateway</h4>\n</div>",
         "mode": "html"
       },
-      "pluginVersion": "9.1.5-0100a6a",
+      "pluginVersion": "9.2.0",
       "transparent": true,
       "type": "text"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "description": "The fraction of time the target was up during the whole period.",
       "fieldConfig": {
@@ -478,12 +488,12 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.5-0100a6a",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "exemplar": true,
           "expr": "sum_over_time(\n  (\n    ceil(\n      sum by (instance, job) (increase(probe_all_success_sum{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n      /\n      sum by (instance, job) (increase(probe_all_success_count{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n    )\n  )[$__range:]\n)\n/\ncount_over_time(\n  (\n      sum by (instance, job) (increase(probe_all_success_count{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n  )[$__range:]\n)",
@@ -500,7 +510,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "description": "The percentage of all the checks that have succeeded during the whole time period.",
       "fieldConfig": {
@@ -573,12 +583,12 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.5-0100a6a",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "exemplar": true,
           "expr": "sum(\n  increase(probe_all_success_sum{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[$__range])\n   )\n/\nsum(\n  increase(probe_all_success_count{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[$__range])\n)",
@@ -595,7 +605,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "description": "The fraction of time the target was up during the whole period.",
       "fieldConfig": {
@@ -668,12 +678,12 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.5-0100a6a",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "exemplar": true,
           "expr": "sum_over_time(\n  (\n    ceil(\n      sum by (instance, job) (increase(probe_all_success_sum{instance=\"http://web-gateway.default.svc.cluster.local/\", job=\"ecommerce-web-gateway\"}[5m]))\n      /\n      sum by (instance, job) (increase(probe_all_success_count{instance=\"http://web-gateway.default.svc.cluster.local/\", job=\"ecommerce-web-gateway\"}[5m]))\n    )\n  )[$__range:]\n)\n/\ncount_over_time(\n  (\n      sum by (instance, job) (increase(probe_all_success_count{instance=\"http://web-gateway.default.svc.cluster.local/\", job=\"ecommerce-web-gateway\"}[5m]))\n  )[$__range:]\n)",
@@ -690,7 +700,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "description": "The percentage of all the checks that have succeeded during the whole time period.",
       "fieldConfig": {
@@ -763,12 +773,12 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.5-0100a6a",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "exemplar": true,
           "expr": "sum(\n  increase(probe_all_success_sum{instance=\"http://web-gateway.default.svc.cluster.local/\", job=\"ecommerce-web-gateway\"}[$__range])\n   )\n/\nsum(\n  increase(probe_all_success_count{instance=\"http://web-gateway.default.svc.cluster.local/\", job=\"ecommerce-web-gateway\"}[$__range])\n)",
@@ -1487,7 +1497,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(probe_success{job=\"ecommerce-web-gateway\"})",
@@ -1498,7 +1508,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(probe_success{job=\"ecommerce-api-gateway\"})",
@@ -1510,7 +1520,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"product\"}[1m])) by (le)) * 1) > bool 2000 or (probe_success{job=\"ecommerce-product\"}) == bool 0 or {name=\"ProductDBErrors\"} > bool 0",
@@ -1522,7 +1532,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "ProductDBErrors{name=\"ProductDBErrors\"}",
@@ -1534,7 +1544,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"cart\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-cart\"}) == bool 0",
@@ -1546,7 +1556,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"checkout\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-checkout\"}) == bool 0",
@@ -1558,7 +1568,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"content\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-content\"}) == bool 0",
@@ -1570,7 +1580,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": " sum_over_time(PaymentProcessErrors1m[1m]) > bool 0",
@@ -1582,7 +1592,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "SessionDBErrors{}",
@@ -1594,7 +1604,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1615,7 +1625,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1724,7 +1734,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -1738,7 +1748,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -1756,7 +1766,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1838,7 +1848,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -1856,7 +1866,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1972,7 +1982,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -1986,7 +1996,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -2020,6 +2030,6 @@
   "timezone": "",
   "title": "Services Overview",
   "uid": "ihMHTlZVk",
-  "version": 85,
+  "version": 2,
   "weekStart": ""
 }
