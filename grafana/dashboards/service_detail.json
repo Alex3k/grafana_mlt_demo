@@ -1,16 +1,16 @@
 {
   "__inputs": [
     {
-      "name": "DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM",
-      "label": "grafanacloud-microbsalexkirtleyclose-prom",
+      "name": "DS_MLT_METRICS",
+      "label": "MLT Metrics",
       "description": "",
       "type": "datasource",
       "pluginId": "prometheus",
       "pluginName": "Prometheus"
     },
     {
-      "name": "DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-LOGS",
-      "label": "grafanacloud-microbsalexkirtleyclose-logs",
+      "name": "DS_MLT_LOGS",
+      "label": "MLT Logs",
       "description": "",
       "type": "datasource",
       "pluginId": "loki",
@@ -23,7 +23,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.1.5-0100a6a"
+      "version": "9.2.0"
     },
     {
       "type": "panel",
@@ -91,7 +91,7 @@
       {
         "datasource": {
           "type": "loki",
-          "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-LOGS}"
+          "uid": "${DS_MLT_LOGS}"
         },
         "enable": true,
         "expr": "{job=\"integrations/kubernetes/eventhandler\", cluster=\"$cluster\", namespace=\"$namespace\"} |~ \"(?i)kind=$type\" |~ \"name=$workload.*\" | logfmt",
@@ -119,7 +119,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -180,12 +180,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.5-0100a6a",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "probe_success{job=\"ecommerce-$workload\"} ",
@@ -200,7 +200,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -279,7 +279,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=~\"$workload\"}[1m])) by (le)) * 1",
@@ -294,7 +294,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -373,7 +373,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "sum(rate(traces_spanmetrics_calls_total{service_name=~\"$workload\"}[1m])) ",
@@ -401,7 +401,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-LOGS}"
+        "uid": "${DS_MLT_LOGS}"
       },
       "gridPos": {
         "h": 8,
@@ -424,7 +424,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-LOGS}"
+            "uid": "${DS_MLT_LOGS}"
           },
           "editorMode": "code",
           "expr": "{cluster=\"microbs\",container=~\"$workload\"} | logfmt != \"healthz\"",
@@ -438,7 +438,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-LOGS}"
+        "uid": "${DS_MLT_LOGS}"
       },
       "gridPos": {
         "h": 8,
@@ -461,7 +461,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-LOGS}"
+            "uid": "${DS_MLT_LOGS}"
           },
           "editorMode": "code",
           "expr": "{cluster=\"microbs\",container=~\"$workload\"} |~ \"critical|Critical|CRITICAL|error|Error|ERROR|exception|Exception|EXCEPTION|fail|Fail|FAIL|fatal|Fatal|FATAL\"",
@@ -475,7 +475,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -554,7 +554,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "sum(rate(kube_pod_container_status_restarts_total{job=\"integrations/kubernetes/kube-state-metrics\", container=\"$workload\"}[$__rate_interval]))",
@@ -574,7 +574,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fill": 1,
       "fontSize": "100%",
@@ -728,7 +728,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"microbs\", namespace=\"default\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
@@ -742,7 +742,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\"}\n) by (pod)\n",
@@ -756,7 +756,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", namespace=\"$namespace\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
           "format": "table",
@@ -769,7 +769,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "expr": "sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
           "format": "table",
@@ -782,7 +782,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", namespace=\"$namespace\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
           "format": "table",
@@ -828,7 +828,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -860,7 +860,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.1.5-0100a6a",
+      "pluginVersion": "9.2.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -872,7 +872,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"microbs\", namespace=\"default\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
@@ -923,7 +923,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fill": 1,
       "fontSize": "100%",
@@ -1077,7 +1077,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"microbs\", namespace=\"default\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
@@ -1091,7 +1091,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"microbs\", namespace=\"default\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
@@ -1105,7 +1105,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"microbs\", namespace=\"default\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"microbs\", namespace=\"default\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
@@ -1119,7 +1119,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"microbs\", namespace=\"default\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
@@ -1133,7 +1133,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"microbs\", namespace=\"default\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"microbs\", namespace=\"default\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
@@ -1180,7 +1180,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -1212,7 +1212,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.1.5-0100a6a",
+      "pluginVersion": "9.2.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1224,7 +1224,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"microbs\", namespace=\"default\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
@@ -1326,7 +1326,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -1370,7 +1370,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_receive_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
@@ -1420,7 +1420,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -1464,7 +1464,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_transmit_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
@@ -1540,7 +1540,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -1584,7 +1584,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(avg(irate(container_network_receive_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
@@ -1634,7 +1634,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -1678,7 +1678,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(avg(irate(container_network_transmit_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
@@ -1754,7 +1754,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -1798,7 +1798,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_receive_packets_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
@@ -1848,7 +1848,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -1892,7 +1892,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_transmit_packets_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
@@ -1968,7 +1968,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -2012,7 +2012,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_receive_packets_dropped_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
@@ -2062,7 +2062,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -2106,7 +2106,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_transmit_packets_dropped_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
@@ -2160,20 +2160,20 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          "uid": "${DS_MLT_METRICS}"
         },
-        "definition": "label_values(namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\"}, workload)",
+        "definition": "label_values(namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\"}, workload) ",
         "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "workload",
         "options": [],
         "query": {
-          "query": "label_values(namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\"}, workload)",
+          "query": "label_values(namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\"}, workload) ",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,
-        "regex": "",
+        "regex": "^((?!grafana|synthetic-monitoring-private-probe|synthetics|ksm-kube-state-metrics).*)$",
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
@@ -2215,6 +2215,6 @@
   "timezone": "UTC",
   "title": "Service Detail",
   "uid": "KajugoM4z",
-  "version": 7,
+  "version": 2,
   "weekStart": ""
 }

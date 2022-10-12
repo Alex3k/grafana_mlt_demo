@@ -130,7 +130,8 @@ resource "helm_release" "grafana_agents" {
 
   set {
     name  = "tempo.url"
-    value = grafana_cloud_stack.stack.traces_url
+    value = "${regex("https://(tempo-.+.net)", grafana_cloud_stack.stack.traces_url)[0]}:443" # This returns an array, so getting the first element of that 
+
   }
 
   set {
