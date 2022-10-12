@@ -83,6 +83,14 @@ Sadly the Terraform provider doesn't allow you to create recorded queries. We us
 		- From: now-31s
 		- To: now
 	- Count query results: true
+- payment
+	- Query: ```{service="payment"} | logfmt | endpoint = `/process` | status != `200` ```
+	- Name: PaymentProcessErrors1m
+	- Interval: 30 seconds
+	- Relative Time Range: 
+		- From: now-1m
+		- To: now
+	- Count query results: true
 
 ## Step 9) Import Dashboards
 The Grafana Terraform provider allows you to import dashboards, however you can't override the datasources from within Terraform. Somewhat odd... So it's easier for you to important the four manually and then update the datasources accordingly.
