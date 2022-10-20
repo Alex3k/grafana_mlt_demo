@@ -1,0 +1,11 @@
+image:
+  repository: gcr.io/solutions-engineering-248511/akc-k6
+  tag: "3.4.16-amd64"
+
+prometheus:
+    username: foo
+    apikey: foo
+    url: foo
+
+k6:
+    virtual_user_count: 2

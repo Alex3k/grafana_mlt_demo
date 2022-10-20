@@ -9,6 +9,7 @@ This project uses:
 - Grafana Synthetic monitoring
 - Realistic traces including Postgres & Redis
 - Redis/Postgres integrations
+- Grafana K6 for load generation
 
 The other cool thing about the demo is that I have a bunch of “errors” that can be injected into the app to cause issues. This makes demoing investigations super easy and you can investigate it as it happens.
 - Too many postgres connections (logs/metrics/traces)
@@ -47,7 +48,7 @@ Go to terraform/vars.tfvars and update the below variables:
 ## Step 5) Configure Slack
 I have created a workspace called "akc-mlt-demo.slack.com" that you are welcome to come and use. If you do, everything is already configured to post alerts to #mlt-demo-workarea and you can skip the rest of this step. You're welcome to create a new channel and send alerts there by changing `slack_channel_name` within terraform/vars.tfvars. If you want to point the Slack alerts at your own workspace, please make sure you update `slack_channel_name` and `slack_bot_token`.
 
-## Step 6) Deploy most of the things
+## Step 6) Deploy most of the things (except the app itself)
 - Go to the terraform directory
 - Run `terraform init`
 - Run `terraform apply -var-file vars.tfvars` - this will list everything that will be deployed. If you're happy with it type "yes" and enter when prompted
@@ -55,7 +56,7 @@ I have created a workspace called "akc-mlt-demo.slack.com" that you are welcome 
 - If you need to get these outputs again just go into the terraform directory and run `terraform output`
 
 ## Step 7) Deploy the app
-Here we are going to deploy our application and k6 which generates the load for the application. Make sure you are in the root directory of this git repo and run `kubectl apply -f app.yaml`
+Here we are going to deploy our application, make sure you are in the root directory of this git repo and run `kubectl apply -f app.yaml`
 
 ## Step 8) Create the recorded queries
 Sadly the Terraform provider doesn't allow you to create recorded queries. We use these for the Flowchart Plugin as Loki's LogQL support count_over_time but if the filter doesn't return any logs, "no data" is returned. When using count_over_time over "no data" you don't get a numerical 0 as a result. You get "no data". When using this with the flow chart plugin you can't colour the boxes accordingly as there is no data to run the condition over. Quite frustating. As a way around this we can use a recorded query as that periodically counts how many logs have been returned that meet our error filter. Even if no logs are returned, the recorded query returns 0. Exactly the behaviour we need. We need one recording rule per database. To create them, go to explore, put in the respective query below and then click on the button to the right hand side of the query panel that looks like two circles - at the time of writing it was to the left of the copy button. When creating each of the below recorded queries, make sure you are using the `MLT Logs` data source. Also make sure you are writing the Recorded Query to the `MLT Metrics` data source.
@@ -111,6 +112,7 @@ Everything is now deployed! I recommend opening the Service Overview Dashboard a
 - Open the Service Overview page
 - Explain what RED signals are 
 - Explain that this page is built from Synthetic Monitoring & Trace Data and Log Data
+- Explain that the traffic is coming from [K6](https://k6.io/)
 - Show the high level SLIs and explain that these can be anything of value to the customer
 - Explain that the architecture is from the FlowChart plugin and drawn with DrawIO - not automatically inferred. However, this works to our advantage as if it was automagically inferred that means we couldn't build our own custom rules into it as you will see later.
 - Click on Product on the architecture to show how we can use that to deep dive into a given service/database

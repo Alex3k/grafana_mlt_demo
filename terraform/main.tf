@@ -171,6 +171,27 @@ resource "helm_release" "kube-state-metrics" {
   name  = "ksm"
 }
 
+
+resource "helm_release" "k6" {
+  chart = "../helm/k6"
+  name  = "k6"
+
+  set {
+    name  = "prometheus.username"
+    value = grafana_cloud_stack.stack.prometheus_user_id
+  }
+
+  set {
+    name  = "prometheus.apikey"
+    value = grafana_cloud_api_key.metrics_publish.key
+  }
+
+  set {
+    name  = "prometheus.url"
+    value = grafana_cloud_stack.stack.prometheus_remote_write_endpoint
+  }
+}
+
 resource "kubernetes_deployment" "synthetic_monitoring_private_probe" {
   metadata {
     name = "synthetic-monitoring-private-probe"

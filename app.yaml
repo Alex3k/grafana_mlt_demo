@@ -863,45 +863,6 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: synthetics
-  labels:
-    app: ecommerce
-    service: synthetics
-spec:
-  replicas: 1
-  revisionHistoryLimit: 0
-  selector:
-    matchLabels:
-      service: synthetics
-  template:
-    metadata:
-      labels:
-        app: ecommerce
-        service: synthetics
-    spec:
-      containers:
-      - name: synthetics
-        image: gcr.io/solutions-engineering-248511/microbs-ecommerce-synthetics:3.4.11-main
-        imagePullPolicy: IfNotPresent
-        resources:
-          limits:
-            cpu: "2"
-            memory: 512Mi
-          requests:
-            cpu: "1"
-            memory: 128Mi
-        envFrom:
-        - secretRef:
-           name: microbs-secrets
-        env:
-        - name: SERVICE_NAME
-          value: synthetics
-        - name: NUM_VIRTUAL_USERS
-          value: "2"
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
   name: web-gateway
   labels:
     app: ecommerce
