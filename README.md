@@ -146,3 +146,56 @@ To solve it run `kubectl apply -f app.yaml`.
 
 # Tearing everything down and cleaning Up
 Go into the terraform directory and run `terraform destroy -var-file vars.tfvars -auto-approve`. **Everything** will be deleted
+
+# Example Demo Script
+- **SHOW MLT DEMO DASHBOARD**
+- This is a really high level dashboard which is designed to tell us if we are on track with our SLOs and tell us if there is a problem in the application. It indicates where the issue is and allow you to drill down to the respect areas
+- This is an ecommerce microservices application running in Kubernetes
+- We have two SLIs and SLOs
+- Imagine we have a contract with our customers that says your SLA of uptime will be 99.99%. That means you’re allowed 5 minutes of downtime a month and we need to track that. That is what the SLI is doing. It shows us that we have 4 minutes and 10 seconds left within that budget
+- Furthermore, we have made a SLA with our customer that only 500 payments will fail per month, we have 44 remaining of that budget which is quite worrisome hence it’s turned red
+- We are using our Synthetic Monitoring solution to show us our uptime and reachability 
+- We also have three graphs on the right to track our RED Signals.
+- Explain what RED signals are and how they are a proxy for end user experience
+- Finally, we have our architecture diagram
+- This is a high level diagram which was drawn manually using Draw.io
+- The benefit of drawing it manually is that we can abstract low level constructs such as how many different services/containers/components are included within each service as an example
+- The other benefit is that we can define rules to determine when one of those components is broken. 
+- Take product for example, Product turns red if:
+    - Synthetics says it’s offline
+    - There are errors within it’s logs
+    - It’s downstream database is having specific issues
+    - It’s requests latency breach their SLO of 2 seconds
+- An automatically drawn diagram wouldn’t be able to have these kind of rules defined as they come from different data sources - referring back to our big tent story
+- We can also click on this diagram to drill down.
+- **CLICK ON PRODUCT**
+- On this dashboard we have the status of Offline/Online From synthetics
+- We have Latencies and Throughputs from tracing
+- We have logs and error logs from Logs
+- We have pod restarts (which is important as identified by Matt’s demo earlier) from Metrics
+- In addition we have Memory, CPU and Bandwidth metrics to help us identify what’s going on
+- I would note that on the metrics front we are using 0.006% of the CPU. So straight away I can see that I am probably over provisioning this CPU and I can reduce that to save money 
+- I next want to show you how we can jump to traces from logs to see the full life span of a trace
+- **CLICK ON ANY LOG THAT GOES TO /documents, then go to the trace**
+- This page shows us the path of a particular trace, starting at the web gateway, then the API gateway, then the product service and then finally the the database
+- **CLICK ON THE DATABASE TRACE AND EXPAND ATTRIBUTES**
+- Here we can see that we are running the SQL Statement shown (HIGHLIGHT IT) on the Postgres database Products table and User2 is the one running the query. We can also see that Opentelemtry was the library that instrumented it
+- **EXPAND RESOURCE**
+- Here we can see information about the product service and can see it’s a Python application and we can see the pod name, environment, service name and service version. Useful for debugging!
+- I would also note that we can see all the logs for this span by click that button
+- **GO BACK TO THE MLT DEMO OVERVIEW DASHBOARD**
+- **RUN THE /too_many_connections_bug.sh SCRIPT - IT CAN TAKE Up to 1 minute to come through**
+- I have just injected an error into my environment. We are going to live debug it together. We just have to wait a few seconds for Kubernetes to deploy the error
+- **WAIT**
+- We can now see that the Product and Product Data boxes have gone red. It looks like they are unhealthy. Let’s investigate what’s going on
+- **CLICK ON PRODUCT**
+- We can see it’s online
+- We can see latency increasing which means users are having a slower experience
+- We can see throughput is decreasing which either means they are leaving or it’s a byproduct of increased latency
+- We can now see errors, let’s see what the traces tell us
+- **CLICK ON ONE OF THE ERRORS FOR /Documents and open it’s trace and expand Events**
+- We can see that an exception has occurred which says connection is refused to product-data and we can see where that has occurred due to the stack trace
+- Very odd, let’s go and investigate product-data to see what is going on there
+- **GO BACK TO OVERVIEW PAGE AND CLICK ON PRODUCT-DATA**
+- The logs are telling us that there are too many clients connected to the postgres database. We should either increase that configuration value or investigate why they are not closing 
+
