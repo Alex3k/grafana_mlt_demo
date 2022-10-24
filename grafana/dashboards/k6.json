@@ -15,7 +15,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.2.1-2dc128b"
+      "version": "9.2.1-cab7049"
     },
     {
       "type": "panel",
@@ -211,7 +211,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.2.1-2dc128b",
+      "pluginVersion": "9.2.1-cab7049",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -231,7 +231,7 @@
             "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
           },
           "editorMode": "code",
-          "expr": "sum(k6_http_req_failed) by (name)",
+          "expr": "sum(k6_http_req_failed) by (name) > 0",
           "legendFormat": "{{name}}",
           "range": true,
           "refId": "A"
@@ -305,7 +305,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.2.1-2dc128b",
+      "pluginVersion": "9.2.1-cab7049",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -400,7 +400,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.2.1-2dc128b",
+      "pluginVersion": "9.2.1-cab7049",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -570,7 +570,7 @@
           "unit": "ms"
         }
       },
-      "pluginVersion": "9.2.1-2dc128b",
+      "pluginVersion": "9.2.1-cab7049",
       "targets": [
         {
           "datasource": {
@@ -637,7 +637,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.2.1-2dc128b",
+      "pluginVersion": "9.2.1-cab7049",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -652,7 +652,7 @@
             "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
           },
           "editorMode": "code",
-          "expr": "k6_http_req_connecting_p95{}",
+          "expr": "k6_http_req_connecting_p95{} > 0",
           "legendFormat": "{{name}}",
           "range": true,
           "refId": "A"
@@ -726,7 +726,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.2.1-2dc128b",
+      "pluginVersion": "9.2.1-cab7049",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -741,7 +741,7 @@
             "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
           },
           "editorMode": "code",
-          "expr": "k6_http_req_blocked_p95{}",
+          "expr": "k6_http_req_blocked_p95{} > 0",
           "legendFormat": "{{name}}",
           "range": true,
           "refId": "A"
@@ -817,6 +817,6 @@
   "timezone": "browser",
   "title": "k6 Load Testing Results",
   "uid": "uw_BzjI4z",
-  "version": 4,
+  "version": 5,
   "weekStart": ""
 }
