@@ -96,7 +96,7 @@ Sadly the Terraform provider doesn't allow you to create recorded queries. We us
 ## Step 9) Import Dashboards
 The Grafana Terraform provider allows you to import dashboards, however you can't override the datasources from within Terraform. Somewhat odd... So it's easier for you to important the four manually and then update the datasources accordingly.
 
-You can find the dashboards in grafana/dashboards. Please import all four. Leave the UID as it is but update the data sources so they point to the ones beginnging with `MLT`, **not** the ones starting with `grafanacloud`. Please also put the dashboards in the "Ecommerce App" folder
+You can find the dashboards in grafana/dashboards. Please import all of them. Leave the UID as it is but update the data sources so they point to the ones beginnging with `MLT`, **not** the ones starting with `grafanacloud`. Please also put the dashboards in the "Ecommerce App" folder
 
 ## Step 10) Enable your synthetic monitoring check
 Terraform created a bunch of synthetic monitoring checks and left them all as disabled - this is as the app wasn't deployed yet. Not that it is we need to enable them. 
