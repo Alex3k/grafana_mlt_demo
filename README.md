@@ -168,8 +168,7 @@ To solve it run `kubectl apply -f app.yaml`.
 - **CLICK ON PRODUCT**
 - On this dashboard we have the status of Offline/Online From synthetics
 - We have Latencies and Throughputs from tracing
-- We have logs and error logs from Logs
-- We have pod restarts (which is important as identified by Matt’s demo earlier) from Metrics
+- We have logs and error logs 
 - In addition we have Memory, CPU and Bandwidth metrics to help us identify what’s going on
 - I would note that on the metrics front we are using 0.006% of the CPU. So straight away I can see that I am probably over provisioning this CPU and I can reduce that to save money 
 - I next want to show you how we can jump to traces from logs to see the full life span of a trace
