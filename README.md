@@ -1,3 +1,13 @@
+Table of Contents
+- [Introduction](#introduction)
+- [Resources created in GCP](#resources-created-in-gcp)
+- [Deploying the demo](#deploying-the-demo)
+- [Types of errors you can cause](#types-of-errors-you-can-cause)
+- [Demo Story and Examples](#demo-story-and-examples)
+  * [Example Demo Script](#example-demo-script)
+  * [Video of demo by Dan Mihai Dinu](#video-of-demo-by-dan-mihai-dinu)
+- [Tearing everything down and cleaning Up](#tearing-everything-down-and-cleaning-up)
+
 # Introduction
 This project is built around the application Dave Moore built with his [Microbs Project](https://microbs.io/). It deploys mostly the same underlying Ecommerce App with a few tweaks to make injecting real life issues easier.
 
@@ -107,30 +117,16 @@ Terraform created a bunch of synthetic monitoring checks and left them all as di
 ## Step 11) Have fun!
 Everything is now deployed! I recommend opening the Service Overview Dashboard and then explore the demo story below including the types of bugs you can introduce. Give it a few minutes before data starts coming through.
 
-# Demo Story and Flow
-## Step 1) Walk through the normal state
-- Open the Service Overview page
-- Explain what RED signals are 
-- Explain that this page is built from Synthetic Monitoring & Trace Data and Log Data
-- Explain that the traffic is coming from [K6](https://k6.io/)
-- Show the high level SLIs and explain that these can be anything of value to the customer
-- Explain that the architecture is from the FlowChart plugin and drawn with DrawIO - not automatically inferred. However, this works to our advantage as if it was automagically inferred that means we couldn't build our own custom rules into it as you will see later.
-- Click on Product on the architecture to show how we can use that to deep dive into a given service/database
-- Explain this detailed dashboard
-- Look at the Logs panel and click on one for `/documents` and then view the trace
-- Show the path of the request and show that we can see the Postgres SQL statement for this request. Also show that we can see the "Logs for this span" button
-- Then go back to the Overview page
-
-## Step 2) Cause an error
-### Too Many Postgres Connection
+# Types of Errors you can cause
+## Too Many Postgres Connection
 This error opens a bunch of connections to the Postgres database to throw a common bug which is "Too many open connections". This can be triggered by running `variants/too_many_connections_bug.sh` and runs for 4 minutes. Please make sure you are connected to the GKE cluster for this as this script uses kubectl. 
 
 When this is fired, it will take a minute for it to come through. When it does, both the Product Data and Product components turn Red to show they are in a bad state. The Latency increases but not enough to breach the SLO. After a little while a Slack alert will fire. To debug this, click on the Product red box and pick an error to view it's trace. You will see that it can't connect as connections are being refused. Go back to the overview and click on Product-Data to see why. You will see in the error box that it says too many connections. 
 
-### Kill the API Gateway
+## Kill the API Gateway
 This is simple but effective. To do this just run `kubectl delete deploy api-gateway`. This will turn the API-Gateway box red in the Service Overview dashboard and the Downtime budget remaining SLI will start decreasing. Click on the API-Gateway component box and you will see that the state is Offline - this is reported by the synthetic monitoring check. To bring it back online just run `kubectl apply -f app.yaml`.
 
-### Payment Issues
+## Payment Issues
 This causes the `Payment Error Failure Budget remaining this month` SLI to start decreasing. It deploys a buggy version of the payment service which occasionally will throw an error "Failed to connect to payment provider". To trigger this run `kubectl apply -f variants/payment-failures.yaml`. It will take a minute or so for this to actually happen so small talk is your friend when demoing here.
 
 The Payment component will turn red in the services overview dashboard. When you click on it you will notice a bunch of errors, click on one, open the trace and see what is happening. Then click "Logs for this span" to see the error in the logs.
@@ -144,6 +140,8 @@ To debug this you will notice the Product component turning red. Click on it and
 
 To solve it run `kubectl apply -f app.yaml`.
 
+
+# Demo Story and Examples
 ## Example Demo Script 
 - **SHOW MLT DEMO DASHBOARD**
 - This is a really high level dashboard which is designed to tell us if we are on track with our SLOs and tell us if there is a problem in the application. It indicates where the issue is and allow you to drill down to the respect areas
