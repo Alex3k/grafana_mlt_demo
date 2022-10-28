@@ -144,7 +144,7 @@ To debug this you will notice the Product component turning red. Click on it and
 
 To solve it run `kubectl apply -f app.yaml`.
 
-## Example Demo Script
+## Example Demo Script 
 - **SHOW MLT DEMO DASHBOARD**
 - This is a really high level dashboard which is designed to tell us if we are on track with our SLOs and tell us if there is a problem in the application. It indicates where the issue is and allow you to drill down to the respect areas
 - This is an ecommerce microservices application running in Kubernetes
@@ -195,6 +195,8 @@ To solve it run `kubectl apply -f app.yaml`.
 - **GO BACK TO OVERVIEW PAGE AND CLICK ON PRODUCT-DATA**
 - The logs are telling us that there are too many clients connected to the postgres database. We should either increase that configuration value or investigate why they are not closing 
 
+## Video of Demo by Dan Mihai Dinu
+Dan presented this demo at Big Data Week Bucharest and you can see his great walkthrough [here](https://youtu.be/pDu7zu5ymJc?t=764).
 
 
 # Tearing everything down and cleaning Up
