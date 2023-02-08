@@ -32,11 +32,22 @@ The other cool thing about the demo is that I have a bunch of “errors” that 
 - Throw a stack trace caused by a divide by zero error (logs/traces)
 
 # Screenshots
+Healthy Executive Dashboard
 ![alt text](screenshots/NormalExec.png "Healthy Exec Dashboard")
+
+Unhealthy Executive Dashboard
 ![alt text](screenshots/ExecWithError.png "Unhealthy Exec Dashboard")
+
+Healthy SRE Overview
 ![alt text](screenshots/NormalServiceOverview.png "Healthy Service Overview")
+
+Unhealthy SRE Overview
 ![alt text](screenshots/ServiceOverviewWithFailure.png "Unhealthy Service Overview")
+
+Healthy Service Detail
 ![alt text](screenshots/NormalServiceDetail.png "Healthy Service Detail")
+
+Unhealthy Service Detail
 ![alt text](screenshots/ServiceDetailWithError.png "Unhealthy Service Detail")
 
 # Resources created in GCP 
