@@ -2,7 +2,7 @@ terraform {
   required_providers {
     grafana = {
       source  = "grafana/grafana"
-      version = "1.28.0"
+      version = "1.34.0"
     }
   }
 }
@@ -431,6 +431,13 @@ resource "grafana_folder" "ecommerce_app" {
   title    = "Ecommerce App"
 }
 
+
+resource "grafana_data_source" "testdata" {
+  provider            = grafana.stack
+  type                = "testdata"
+  name                = "testdata"
+}
+
 resource "grafana_data_source" "custom_tempo" {
   provider            = grafana.stack
   type                = "tempo"
@@ -508,6 +515,30 @@ resource "grafana_data_source" "custom_prometheus" {
   })
 }
 
+resource "grafana_cloud_plugin_installation" "servicenow" {
+  provider   = grafana.cloud
+  stack_slug = grafana_cloud_stack.stack.slug
+  slug       = "grafana-servicenow-datasource"
+  version    = "2.6.0"
+}
+
+resource "grafana_data_source" "servicenow" {
+  provider            = grafana.stack
+  type                = "grafana-servicenow-datasource"
+  name                = "Servicenow"
+  url                 = var.servicenow_url
+  basic_auth_enabled  = true
+  basic_auth_username = var.servicenow_username
+
+  secure_json_data_encoded = jsonencode({
+    "basicAuthPassword"   = var.servicenow_password
+    "basic_auth_password" = var.servicenow_password
+  })
+
+    depends_on = [
+    grafana_cloud_plugin_installation.servicenow
+  ]
+}
 
 variable "contact_point_high_latency_body" {
   type    = string
@@ -532,6 +563,19 @@ variable "contact_point_too_many_connections_body" {
 EOH
 }
 
+resource "grafana_contact_point" "default_slack" {
+  provider = grafana.stack
+  name     = "Default Slack"
+
+  slack {
+    recipient               = var.slack_channel_name
+    token                   = var.slack_bot_token
+    username                = "Grafana MLT Alerter"
+    title                   = "{{ .CommonLabels.alertname }}"
+    text                    = "Something went bang"
+    disable_resolve_message = true
+  }
+}
 
 resource "grafana_contact_point" "high_latency" {
   provider = grafana.stack
@@ -562,11 +606,52 @@ resource "grafana_contact_point" "too_many_connections" {
   }
 }
 
+resource "grafana_contact_point" "servicenow" {
+  provider = grafana.stack
+  name     = "ServiceNow"
 
-resource "grafana_notification_policy" "high_latency" {
-  provider      = grafana.stack
-  contact_point = grafana_contact_point.high_latency.name
+  webhook {
+    url = var.servicenow_url
+    http_method = "POST"
+    basic_auth_user = var.servicenow_username
+    basic_auth_password = var.servicenow_password
+  }
+}
+
+resource "grafana_notification_policy" "notification_policy" {
   group_by      = ["alertname"]
+  contact_point = grafana_contact_point.grafana_contact_point.name
+
+  group_wait      = "45s"
+  group_interval  = "6m"
+  repeat_interval = "3h"
+
+  policy {
+    group_by = ["alert"]
+    matcher {
+      label = "itsm"
+      match = "="
+      value = "servicenow"
+    }
+    contact_point = grafana_contact_point.servicenow.name
+    continue      = false
+  }
+
+  policy {
+    group_by = ["alertname"]
+    matcher {
+      label = "alertname"
+      match = "="
+      value = "Too Many Open Postgres Clients"
+    }
+    contact_point = grafana_contact_point.too_many_connections.name
+    continue      = false
+
+    group_wait      = "2s"
+    group_interval  = "2s"
+    repeat_interval = "5m"
+  }
+
   policy {
     group_by = ["alertname"]
     matcher {
@@ -583,26 +668,20 @@ resource "grafana_notification_policy" "high_latency" {
   }
 }
 
-resource "grafana_notification_policy" "too_many_connections" {
-  provider      = grafana.stack
-  contact_point = grafana_contact_point.too_many_connections.name
-  group_by      = ["alertname"]
-  policy {
-    group_by = ["alertname"]
-    matcher {
-      label = "alertname"
-      match = "="
-      value = "Too Many Open Postgres Clients"
-    }
-    contact_point = grafana_contact_point.too_many_connections.name
-    continue      = false
 
-    group_wait      = "2s"
-    group_interval  = "2s"
-    repeat_interval = "5m"
+resource "grafana_machine_learning_job" "product_high_latency" {
+  provider      = grafana.stack
+  datasource_type = "prometheus"
+  metric = "productservicelatency"
+  name = "ProductServiceLatency"
+  datasource_id = grafana_data_source.custom_prometheus.id
+  query_params = {
+    "editorMode" = "code"
+    "expr" = "histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=~\"product\"}[10m])) by (le, service_name)) "
+    "range" = "true"
+    "refId" = "A"
   }
 }
-
 
 resource "grafana_rule_group" "high_latency" {
   provider         = grafana.stack
@@ -624,7 +703,7 @@ resource "grafana_rule_group" "high_latency" {
       "summary"          = "High Latency - {{ $labels.service_name }}"
     }
     labels = {
-      "severity" = "3"
+     
     }
     data {
       ref_id         = "A"
@@ -743,10 +822,11 @@ resource "grafana_rule_group" "too_many_connections" {
       "summary"          = "To many open postgres connections"
       "__dashboardUid__" = "wLEXziM4z/postgresql-database"
       "__panelId__"      = "44"
+      "dashboard_url" = "${grafana_cloud_stack.stack.url}/d/wLEXziM4z/postgresql-database"
+      "service" = "product-data"
     }
     labels = {
-      "app"      = "database"
-      "severity" = "3"
+      "itsm" = "servicenow"
     }
     data {
       ref_id         = "A"
@@ -813,4 +893,290 @@ resource "grafana_rule_group" "too_many_connections" {
           EOT
     }
   }
+}
+
+resource "grafana_rule_group" "product_forecast_unusual_latency" {
+  provider         = grafana.stack
+  name             = "Ml Forecast Unusual Latency"
+  folder_uid       = grafana_folder.ecommerce_app.uid
+  interval_seconds = 10
+  org_id           = 1
+  rule {
+    name           = "Unusual Latency"
+    for            = "1m"
+    condition      = "anomalous_value"
+    no_data_state  = "NoData"
+    exec_err_state = "Error"
+    annotations = {
+      "anomalous_actual" = "{{ $values.actual_value}}"
+      "anomalous_predicted" ="{{ $values.predicted_value}}"
+      "anomalous_value" = "{{ $values.anomalous_value}}"
+      "dashboard_url" = "${grafana_cloud_stack.stack.url}/d/ihMHTlZVk/services-overview?orgId=1\u0026refresh=5s"
+      "service" = "product"
+      "grafana_ml_forecast_name" = grafana_machine_learning_job.product_high_latency.name
+      "grafana_ml_forecast_url" = "${grafana_cloud_stack.stack.url}/a/grafana-ml-app/metric-forecast/${grafana_machine_learning_job.product_high_latency.id}"
+      
+    }
+    labels = {
+      "itsm" = "servicenow"
+    }
+    data {
+      ref_id         = "anomalous"
+      datasource_uid = "grafanacloud-ml-metrics"
+      relative_time_range {
+        from = 300
+        to   = 0
+      }
+      model = jsonencode({
+        hide          = false
+        intervalMs    = 1000
+        maxDataPoints = 43200
+        refId         = "anomalous"
+        expr          = "productservicelatency:anomalous"
+      })
+    }
+
+    data {
+      ref_id         = "actual"
+      datasource_uid = "grafanacloud-ml-metrics"
+      relative_time_range {
+        from = 300
+        to   = 0
+      }
+      model = jsonencode({
+        hide          = false
+        intervalMs    = 1000
+        maxDataPoints = 43200
+        refId         = "actual"
+        expr          = "productservicelatency:actual{}"
+      })
+    }
+
+    data {
+      ref_id         = "predicted"
+      datasource_uid = "grafanacloud-ml-metrics"
+      relative_time_range {
+        from = 300
+        to   = 0
+      }
+      model = jsonencode({
+        hide          = false
+        intervalMs    = 1000
+        maxDataPoints = 43200
+        refId         = "actual"
+        expr          = "productservicelatency:predicted{}"
+      })
+    }
+
+    data {
+      ref_id         = "anomalous_value"
+      datasource_uid = "-100"
+      relative_time_range {
+        from = 300
+        to   = 0
+      }
+      model = <<EOT
+          {
+              "conditions": [{
+                "evaluator": {
+                    "params": [0, 0],
+                    "type": "gt"
+                },
+                "operator": {
+                    "type": "and"
+                },
+                "query": {
+                    "params": [  ]
+                },
+                "reducer": {
+                    "params": [],
+                    "type": "avg"
+                },
+                "type": "query"
+              }],
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "-100"
+              },
+              "expression": "anomalous",
+              "hide": false,
+              "intervalMs": 1000,
+              "maxDataPoints": 43200,
+              "reducer": "last",
+              "refId": "anomalous_value",
+              "type": "reduce"
+          }
+          EOT
+    }
+
+    data {
+      ref_id         = "actual_value"
+      datasource_uid = "-100"
+      relative_time_range {
+        from = 300
+        to   = 0
+      }
+      model = <<EOT
+          {
+              "conditions": [{
+                "evaluator": {
+                    "params": [0, 0],
+                    "type": "gt"
+                },
+                "operator": {
+                    "type": "and"
+                },
+                "query": {
+                    "params": [  ]
+                },
+                "reducer": {
+                    "params": [],
+                    "type": "avg"
+                },
+                "type": "query"
+              }],
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "-100"
+              },
+              "expression": "actual",
+              "hide": false,
+              "intervalMs": 1000,
+              "maxDataPoints": 43200,
+              "reducer": "last",
+              "refId": "actual_value",
+              "type": "reduce"
+          }
+          EOT
+    }
+
+    data {
+      ref_id         = "anomalous_value"
+      datasource_uid = "-100"
+      relative_time_range {
+        from = 300
+        to   = 0
+      }
+      model = <<EOT
+          {
+              "conditions": [{
+                "evaluator": {
+                    "params": [0, 0],
+                    "type": "gt"
+                },
+                "operator": {
+                    "type": "and"
+                },
+                "query": {
+                    "params": [  ]
+                },
+                "reducer": {
+                    "params": [],
+                    "type": "avg"
+                },
+                "type": "query"
+              }],
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "-100"
+              },
+              "expression": "anomalous",
+              "hide": false,
+              "intervalMs": 1000,
+              "maxDataPoints": 43200,
+              "reducer": "last",
+              "refId": "anomalous_value",
+              "type": "reduce"
+          }
+          EOT
+    }
+
+    data {
+      ref_id         = "predicted_value"
+      datasource_uid = "-100"
+      relative_time_range {
+        from = 300
+        to   = 0
+      }
+      model = <<EOT
+          {
+              "conditions": [{
+                "evaluator": {
+                    "params": [0, 0],
+                    "type": "gt"
+                },
+                "operator": {
+                    "type": "and"
+                },
+                "query": {
+                    "params": [  ]
+                },
+                "reducer": {
+                    "params": [],
+                    "type": "avg"
+                },
+                "type": "query"
+              }],
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "-100"
+              },
+              "expression": "predicted",
+              "hide": false,
+              "intervalMs": 1000,
+              "maxDataPoints": 43200,
+              "reducer": "last",
+              "refId": "predicted_value",
+              "type": "reduce"
+          }
+          EOT
+    }
+  }
+}
+
+
+resource "grafana_dashboard" "k6" {
+  provider         = grafana.stack
+  config_json = file("../grafana/dashboards/k6.json")
+  folder = grafana_folder.ecommerce_app.id
+  overwrite = true
+}
+
+resource "grafana_dashboard" "postgres" {
+  provider         = grafana.stack
+  config_json = file("../grafana/dashboards/postgres.json")
+  folder = grafana_folder.ecommerce_app.id
+  overwrite = true
+}
+
+resource "grafana_dashboard" "redis" {
+  provider         = grafana.stack
+  config_json = file("../grafana/dashboards/redis.json")
+  folder = grafana_folder.ecommerce_app.id
+  overwrite = true
+}
+
+resource "grafana_dashboard" "service_detail" {
+  provider         = grafana.stack
+  config_json = file("../grafana/dashboards/service_detail.json")
+  folder = grafana_folder.ecommerce_app.id
+  overwrite = true
+}
+
+resource "grafana_dashboard" "service_overview" {
+  provider         = grafana.stack
+  config_json = file("../grafana/dashboards/service_overview.json")
+  folder = grafana_folder.ecommerce_app.id
+  overwrite = true
+}
+
+resource "grafana_dashboard" "exec" {
+  provider         = grafana.stack
+  config_json = file("../grafana/dashboards/exec.json")
+  folder = grafana_folder.ecommerce_app.id
+  overwrite = true
 }

@@ -1,22 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM",
-      "label": "grafanacloud-microbsalexkirtleyclose-prom",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    },
-    {
-      "name": "DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-LOGS",
-      "label": "grafanacloud-microbsalexkirtleyclose-logs",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "loki",
-      "pluginName": "Loki"
-    }
-  ],
   "__elements": {},
   "__requires": [
     {
@@ -90,7 +72,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "MLT Metrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -150,7 +132,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "redis_uptime_in_seconds{instance=\"$instance\"}",
@@ -165,7 +147,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "MLT Metrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -211,7 +193,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "redis_connected_clients{instance=\"$instance\"}",
@@ -226,7 +208,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-LOGS}"
+        "uid": "MLT Logs"
       },
       "gridPos": {
         "h": 6,
@@ -249,7 +231,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-LOGS}"
+            "uid": "MLT Logs"
           },
           "editorMode": "code",
           "expr": "{container=~\"$instance\"}",
@@ -293,7 +275,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "MLT Metrics"
       },
       "description": "Average taken across instances",
       "editable": true,
@@ -347,7 +329,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "expr": "avg(irate(redis_commands_total{instance=~\"$instance\"} [$__rate_interval])) by (cmd)",
           "format": "time_series",
@@ -397,7 +379,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "MLT Metrics"
       },
       "description": "Average taken across instances",
       "editable": true,
@@ -451,7 +433,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "expr": "avg(irate(redis_commands_duration_seconds_total{instance=~\"$instance\"}[$__rate_interval])) by (cmd)\n  /\navg(irate(redis_commands_total{instance=~\"$instance\"}[$__rate_interval])) by (cmd)\n",
           "format": "time_series",
@@ -503,7 +485,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "MLT Metrics"
       },
       "decimals": 2,
       "description": "Hit rate shows the percentage of key space lookups that hit a key.",
@@ -565,7 +547,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "expr": "avg(irate(redis_keyspace_hits_total{instance=~\"$instance\"}[$__rate_interval]) / (irate(redis_keyspace_misses_total{instance=~\"$instance\"}[$__rate_interval]) + irate(redis_keyspace_hits_total{instance=~\"$instance\"}[$__rate_interval]))) by (instance)",
           "format": "time_series",
@@ -581,7 +563,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "expr": "1",
           "interval": "",
@@ -657,7 +639,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "MLT Metrics"
       },
       "description": "Total taken across instances",
       "editable": true,
@@ -719,7 +701,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "expr": "sum(redis_memory_used_bytes{instance=~\"$instance\"})",
           "format": "time_series",
@@ -734,7 +716,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "expr": "sum(redis_memory_max_bytes{instance=~\"$instance\"})",
           "format": "time_series",
@@ -748,7 +730,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "expr": "sum(redis_memory_used_rss_bytes{instance=~\"$instance\"})",
           "interval": "",
@@ -797,7 +779,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "MLT Metrics"
       },
       "editable": true,
       "error": false,
@@ -856,7 +838,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "expr": "redis_memory_fragmentation_ratio{instance=~\"$instance\"}",
           "hide": false,
@@ -910,7 +892,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "MLT Metrics"
       },
       "editable": true,
       "error": false,
@@ -966,7 +948,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "expr": "irate(redis_evicted_keys_total{instance=~\"$instance\"}[$__rate_interval])",
           "format": "time_series",
@@ -1041,7 +1023,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "MLT Metrics"
       },
       "description": "Sum taken across instances",
       "fieldConfig": {
@@ -1089,7 +1071,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "expr": "sum(redis_connected_clients{instance=~\"$instance\"})",
           "format": "time_series",
@@ -1101,7 +1083,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "expr": "sum(redis_blocked_clients{instance=~\"$instance\"})",
           "format": "time_series",
@@ -1150,7 +1132,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "MLT Metrics"
       },
       "description": "Sum taken across instances",
       "editable": true,
@@ -1206,7 +1188,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "expr": "sum (redis_db_keys{instance=~\"$instance\"}) by (db)",
           "format": "time_series",
@@ -1256,7 +1238,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "MLT Metrics"
       },
       "description": "Sum taken across instances",
       "editable": true,
@@ -1308,7 +1290,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "expr": "sum (redis_db_keys{instance=~\"$instance\"}) - sum (redis_db_keys_expiring{instance=~\"$instance\"})",
           "format": "time_series",
@@ -1323,7 +1305,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "expr": "sum(redis_db_keys_expiring{instance=~\"$instance\"})",
           "format": "time_series",
@@ -1373,7 +1355,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "MLT Metrics"
       },
       "description": "This metric will only be non-zero if the instance is a master",
       "fieldConfig": {
@@ -1420,7 +1402,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "expr": "sum(redis_connected_slaves{instance=~\"$instance\"}) by (instance)",
           "interval": "",
@@ -1465,7 +1447,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+        "uid": "MLT Metrics"
       },
       "description": "This metric is only exported if the instance is a slave.",
       "fieldConfig": {
@@ -1512,7 +1494,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+            "uid": "MLT Metrics"
           },
           "expr": "redis_master_last_io_seconds_ago{instance=~\"$instance\"}",
           "interval": "",
@@ -1561,7 +1543,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_GRAFANACLOUD-MICROBSALEXKIRTLEYCLOSE-PROM}"
+          "uid": "MLT Metrics"
         },
         "definition": "label_values(redis_up, instance)",
         "hide": 0,

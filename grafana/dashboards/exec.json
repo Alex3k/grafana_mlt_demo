@@ -1,0 +1,2607 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": 72,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "SRE Dashboard Overview",
+      "tooltip": "SRE Dashboard",
+      "type": "link",
+      "url": "/d/ihMHTlZVk/services-overview?orgId=1&refresh=5s"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 83,
+      "title": "SLI/SLO",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 7,
+        "x": 0,
+        "y": 1
+      },
+      "id": 76,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<h1 style=\"text-align: center;\">Downtime</h1>",
+        "mode": "html"
+      },
+      "pluginVersion": "9.3.6",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 5,
+        "x": 7,
+        "y": 1
+      },
+      "id": 77,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<h1 style=\"text-align: center;\">Payment Failures</h1>",
+        "mode": "html"
+      },
+      "pluginVersion": "9.3.6",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "id": 78,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<h1 style=\"text-align: center;\">Mean Time to Acknowledge</h1>",
+        "mode": "html"
+      },
+      "pluginVersion": "9.3.6",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "id": 88,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<h1 style=\"text-align: center;\">Mean Time to Repair</h1>",
+        "mode": "html"
+      },
+      "pluginVersion": "9.3.6",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "MLT Metrics"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "m"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 2,
+        "x": 0,
+        "y": 3
+      },
+      "id": 49,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "expr": "vector(5)",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Monthly Budget",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "MLT Metrics"
+      },
+      "description": "* 168 = the SLO (2 minutes 48 seconds) in seconds\n*  (sum(count_over_time((probe_success{probe=\"Private Probe\"} == 0)[30d:])) == How many failed probes where there in the last 30 days\n* / 7 == there are 7 services so normalise it back down to a service perspective\n* 10 == the synthetic monitoring checks run every 10 seconds so this takes the above everything which is how many windows failed and converts that to seconds\n",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 168,
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "green",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 2,
+        "y": 3
+      },
+      "id": 42,
+      "maxDataPoints": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "expr": "300 - (sum(count_over_time((probe_success{probe=\"Private Probe\"} == 0)[30d:])) / 7 * 10) or vector(300)",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "timeFrom": "now/M",
+      "title": "Budget Remaining",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "MLT Metrics"
+      },
+      "description": "* 168 = the SLO (2 minutes 48 seconds) in seconds\n*  (sum(count_over_time((probe_success{probe=\"Private Probe\"} == 0)[30d:])) == How many failed probes where there in the last 30 days\n* / 7 == there are 7 services so normalise it back down to a service perspective\n* 10 == the synthetic monitoring checks run every 10 seconds so this takes the above everything which is how many windows failed and converts that to seconds\n",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 168,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.5
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 2,
+        "x": 5,
+        "y": 3
+      },
+      "id": 91,
+      "maxDataPoints": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "expr": "(sum(count_over_time((probe_success{probe=\"Private Probe\"} == 0)[30d:])) / 7 * 10) / 300 or vector(1)",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "timeFrom": "now/M",
+      "title": "Budget Remaining",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "MLT Metrics"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 2,
+        "x": 7,
+        "y": 3
+      },
+      "id": 50,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "expr": "vector(500)",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Monthly Budget",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "MLT Logs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "dark-green",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 9,
+        "y": 3
+      },
+      "id": 51,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "/^RemainingErrors$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "MLT Logs"
+          },
+          "editorMode": "code",
+          "expr": "500 - sum(count_over_time({service=\"payment\"} | logfmt | endpoint = `/process` | status != `200` [30d])) or vector(500)",
+          "legendFormat": "RemainingErrors",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Budget Remaining",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "MLT Metrics"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "m"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 12,
+        "y": 3
+      },
+      "id": 61,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "expr": "vector(25)",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": " Monthly Target",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-servicenow-datasource",
+        "uid": "Servicenow"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 25
+              }
+            ]
+          },
+          "unit": "m"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 15,
+        "y": 3
+      },
+      "id": 58,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-servicenow-datasource",
+            "uid": "Servicenow"
+          },
+          "displayValue": "true",
+          "fields": [
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "state"
+            },
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "number"
+            },
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "opened_at"
+            },
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "x_977123_grafana_0_ack_datetime"
+            }
+          ],
+          "filters": [
+            {
+              "conjunction": "and",
+              "field": "active",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "Active",
+                "element": "active",
+                "internal_type": {
+                  "link": "",
+                  "value": "boolean"
+                },
+                "label": "Active",
+                "name": "active",
+                "sys_name": "Active",
+                "table": "",
+                "value": "active"
+              },
+              "op": "=",
+              "type": "boolean",
+              "value": "True"
+            },
+            {
+              "conjunction": "and",
+              "field": "x_977123_grafana_0_service",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "X_977123_grafana_0_service",
+                "element": "x_977123_grafana_0_service",
+                "internal_type": {
+                  "link": "",
+                  "value": "string"
+                },
+                "label": "Service Name",
+                "name": "x_977123_grafana_0_service",
+                "sys_name": "Service Name",
+                "table": "",
+                "value": "x_977123_grafana_0_service"
+              },
+              "op": "ISNOTEMPTY",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "conjunction": "and",
+              "field": "state",
+              "fieldDesc": {
+                "Choices": [
+                  {
+                    "image": "",
+                    "label": "New",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "New",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "1"
+                  },
+                  {
+                    "image": "",
+                    "label": "In Progress",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "In Progress",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "2"
+                  },
+                  {
+                    "image": "",
+                    "label": "On Hold",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "On Hold",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "3"
+                  },
+                  {
+                    "image": "",
+                    "label": "Resolved",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "Resolved",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "6"
+                  },
+                  {
+                    "image": "",
+                    "label": "Closed",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "Closed",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "7"
+                  },
+                  {
+                    "image": "",
+                    "label": "Canceled",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "Canceled",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "8"
+                  }
+                ],
+                "choice": "true",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "State",
+                "element": "state",
+                "internal_type": {
+                  "link": "",
+                  "value": "integer"
+                },
+                "label": "State",
+                "name": "state",
+                "sys_name": "State",
+                "table": "",
+                "value": "state"
+              },
+              "op": "=",
+              "type": "integer",
+              "value": "2"
+            },
+            {}
+          ],
+          "groupBy": [],
+          "limit": 25,
+          "queryType": "TableAPI",
+          "refId": "A",
+          "sort": [
+            {}
+          ],
+          "stats": [
+            "count"
+          ],
+          "table": "incident",
+          "timeField": "ignore_time"
+        }
+      ],
+      "title": "Current",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "count 1 - High": "High",
+              "count 2 - Medium": "Medium",
+              "count 3 - Low": "Low"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "mode": "reduceRow",
+            "reduce": {
+              "include": [
+                "opened_at",
+                "x_977123_grafana_0_ack_datetime"
+              ],
+              "reducer": "diff"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Duration To Resolve",
+            "binary": {
+              "left": "Difference",
+              "operator": "/",
+              "reducer": "sum",
+              "right": "60000"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Difference": true,
+              "opened_at": true,
+              "resolved_at": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "MLT Metrics"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "m"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 18,
+        "y": 3
+      },
+      "id": 89,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "expr": "vector(25)",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": " Monthly Target",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-servicenow-datasource",
+        "uid": "Servicenow"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 25
+              }
+            ]
+          },
+          "unit": "m"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 21,
+        "y": 3
+      },
+      "id": 90,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-servicenow-datasource",
+            "uid": "Servicenow"
+          },
+          "displayValue": "true",
+          "fields": [
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "state"
+            },
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "number"
+            },
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "opened_at"
+            },
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "resolved_at"
+            }
+          ],
+          "filters": [
+            {
+              "conjunction": "and",
+              "field": "active",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "Active",
+                "element": "active",
+                "internal_type": {
+                  "link": "",
+                  "value": "boolean"
+                },
+                "label": "Active",
+                "name": "active",
+                "sys_name": "Active",
+                "table": "",
+                "value": "active"
+              },
+              "op": "=",
+              "type": "boolean",
+              "value": "True"
+            },
+            {
+              "conjunction": "and",
+              "field": "x_977123_grafana_0_service",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "X_977123_grafana_0_service",
+                "element": "x_977123_grafana_0_service",
+                "internal_type": {
+                  "link": "",
+                  "value": "string"
+                },
+                "label": "Service Name",
+                "name": "x_977123_grafana_0_service",
+                "sys_name": "Service Name",
+                "table": "",
+                "value": "x_977123_grafana_0_service"
+              },
+              "op": "ISNOTEMPTY",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "conjunction": "and",
+              "field": "state",
+              "fieldDesc": {
+                "Choices": [
+                  {
+                    "image": "",
+                    "label": "New",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "New",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "1"
+                  },
+                  {
+                    "image": "",
+                    "label": "In Progress",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "In Progress",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "2"
+                  },
+                  {
+                    "image": "",
+                    "label": "On Hold",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "On Hold",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "3"
+                  },
+                  {
+                    "image": "",
+                    "label": "Resolved",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "Resolved",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "6"
+                  },
+                  {
+                    "image": "",
+                    "label": "Closed",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "Closed",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "7"
+                  },
+                  {
+                    "image": "",
+                    "label": "Canceled",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "Canceled",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "8"
+                  }
+                ],
+                "choice": "true",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "State",
+                "element": "state",
+                "internal_type": {
+                  "link": "",
+                  "value": "integer"
+                },
+                "label": "State",
+                "name": "state",
+                "sys_name": "State",
+                "table": "",
+                "value": "state"
+              },
+              "op": "=",
+              "type": "integer",
+              "value": "6"
+            },
+            {}
+          ],
+          "groupBy": [],
+          "limit": 25,
+          "queryType": "TableAPI",
+          "refId": "A",
+          "sort": [
+            {}
+          ],
+          "stats": [
+            "count"
+          ],
+          "table": "incident",
+          "timeField": "ignore_time"
+        }
+      ],
+      "title": "Current",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "count 1 - High": "High",
+              "count 2 - Medium": "Medium",
+              "count 3 - Low": "Low"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "mode": "reduceRow",
+            "reduce": {
+              "include": [
+                "opened_at",
+                "resolved_at"
+              ],
+              "reducer": "diff"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Duration To Resolve",
+            "binary": {
+              "left": "Difference",
+              "operator": "/",
+              "reducer": "sum",
+              "right": "60000"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Difference": true,
+              "opened_at": true,
+              "resolved_at": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 85,
+      "panels": [],
+      "title": "Service Status",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 81,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<h1 style=\"text-align: center;\">Ecosystem State</h1>",
+        "mode": "html"
+      },
+      "pluginVersion": "9.3.6",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "MLT Metrics"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "links": [
+            {
+              "title": "Service Details",
+              "url": "/d/KajugoM4z/service-detail?orgId=1&refresh=5s&var-workload=product"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "Product"
+                },
+                "1": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "Product Error"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 11
+      },
+      "id": 63,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"product\"}[1m])) by (le)) * 1) > bool 2000 or (probe_success{job=\"ecommerce-product\"}) == bool 0 or {name=\"ProductDBErrors\"} > bool 0",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "ProductError",
+            "mode": "reduceRow",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "MLT Metrics"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "links": [
+            {
+              "title": "Service Details",
+              "url": "/d/KajugoM4z/service-detail?orgId=1&refresh=5s&var-workload=cart"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "Cart"
+                },
+                "1": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "Cart Error"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 4,
+        "y": 11
+      },
+      "id": 64,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"cart\"}[1m])) by (le)) * 1) > bool 2000  or (probe_success{job=\"ecommerce-cart\"}) == bool 0",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "ProductError",
+            "mode": "reduceRow",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "MLT Metrics"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "links": [
+            {
+              "title": "Service Details",
+              "url": "/d/KajugoM4z/service-detail?orgId=1&refresh=5s&var-workload=checkout"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "Checkout"
+                },
+                "1": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "Checkout Error"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 9,
+        "y": 11
+      },
+      "id": 65,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"checkout\"}[1m])) by (le)) * 1) > bool 2000 or (probe_success{job=\"ecommerce-checkout\"}) == bool 0",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "ProductError",
+            "mode": "reduceRow",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "MLT Metrics"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "links": [
+            {
+              "title": "Service Details",
+              "url": "/d/KajugoM4z/service-detail?orgId=1&refresh=5s&var-workload=payment"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "Payment"
+                },
+                "1": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "Payment Error"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 14,
+        "y": 11
+      },
+      "id": 67,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "expr": " (histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"payment\"}[1m])) by (le)) * 1) > bool 2000  or (probe_success{job=\"ecommerce-payment\"}) == bool 0 or sum_over_time(PaymentProcessErrors1m[1m]) > bool 0",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "ProductError",
+            "mode": "reduceRow",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "MLT Metrics"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "links": [
+            {
+              "title": "Service Details",
+              "url": "/d/KajugoM4z/service-detail?orgId=1&refresh=5s&var-workload=content"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "Content"
+                },
+                "1": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "Content Error"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 19,
+        "y": 11
+      },
+      "id": 66,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"content\"}[1m])) by (le)) * 1) > bool 2000  or (probe_success{job=\"ecommerce-content\"}) == bool 0",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "ProductError",
+            "mode": "reduceRow",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
+      "id": 87,
+      "panels": [],
+      "title": "Misc",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 11,
+        "x": 0,
+        "y": 17
+      },
+      "id": 80,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<h1 style=\"text-align: center;\">Incidents</h1>",
+        "mode": "html"
+      },
+      "pluginVersion": "9.3.6",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 13,
+        "x": 11,
+        "y": 17
+      },
+      "id": 93,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<h1 style=\"text-align: center;\">GCP Cost</h1>",
+        "mode": "html"
+      },
+      "pluginVersion": "9.3.6",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "grafana-servicenow-datasource",
+        "uid": "2lBt98AVk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 0,
+        "y": 19
+      },
+      "id": 92,
+      "options": {
+        "displayLabels": [],
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": [
+            "percent"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "asc"
+        }
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-servicenow-datasource",
+            "uid": "2lBt98AVk"
+          },
+          "displayValue": "all",
+          "fields": [
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "x_977123_grafana_0_service"
+            }
+          ],
+          "filters": [
+            {
+              "conjunction": "and",
+              "field": "x_977123_grafana_0_service",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "X_977123_grafana_0_service",
+                "element": "x_977123_grafana_0_service",
+                "internal_type": {
+                  "link": "",
+                  "value": "string"
+                },
+                "label": "Service Name",
+                "name": "x_977123_grafana_0_service",
+                "sys_name": "Service Name",
+                "table": "",
+                "value": "x_977123_grafana_0_service"
+              },
+              "op": "ISNOTEMPTY",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "conjunction": "and",
+              "field": "active",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "Active",
+                "element": "active",
+                "internal_type": {
+                  "link": "",
+                  "value": "boolean"
+                },
+                "label": "Active",
+                "name": "active",
+                "sys_name": "Active",
+                "table": "",
+                "value": "active"
+              },
+              "op": "=",
+              "type": "boolean",
+              "value": "True"
+            },
+            {}
+          ],
+          "groupBy": [
+            "x_977123_grafana_0_service"
+          ],
+          "limit": 25,
+          "queryType": "AggregateAPI",
+          "refId": "A",
+          "sort": [
+            {}
+          ],
+          "stats": [],
+          "table": "incident",
+          "timeField": "ignore_time"
+        }
+      ],
+      "title": "Open Incidents by Service",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "count 1 - High": "High",
+              "count 2 - Medium": "Medium",
+              "count 3 - Low": "Low",
+              "count product": ""
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-servicenow-datasource",
+        "uid": "Servicenow"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 4,
+        "y": 19
+      },
+      "id": 56,
+      "options": {
+        "displayLabels": [
+          "name",
+          "value",
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-servicenow-datasource",
+            "uid": "Servicenow"
+          },
+          "displayValue": "true",
+          "fields": [
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "state"
+            },
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "priority"
+            },
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "urgency"
+            }
+          ],
+          "filters": [
+            {
+              "conjunction": "and",
+              "field": "active",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "Active",
+                "element": "active",
+                "internal_type": {
+                  "link": "",
+                  "value": "boolean"
+                },
+                "label": "Active",
+                "name": "active",
+                "sys_name": "Active",
+                "table": "",
+                "value": "active"
+              },
+              "op": "=",
+              "type": "boolean",
+              "value": "True"
+            },
+            {
+              "conjunction": "and",
+              "field": "x_977123_grafana_0_service",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "X_977123_grafana_0_service",
+                "element": "x_977123_grafana_0_service",
+                "internal_type": {
+                  "link": "",
+                  "value": "string"
+                },
+                "label": "Service Name",
+                "name": "x_977123_grafana_0_service",
+                "sys_name": "Service Name",
+                "table": "",
+                "value": "x_977123_grafana_0_service"
+              },
+              "op": "ISNOTEMPTY",
+              "type": "string",
+              "value": ""
+            },
+            {}
+          ],
+          "groupBy": [
+            "urgency"
+          ],
+          "limit": 25,
+          "queryType": "AggregateAPI",
+          "refId": "A",
+          "sort": [
+            {}
+          ],
+          "stats": [
+            "count"
+          ],
+          "table": "incident",
+          "timeField": "ignore_time"
+        }
+      ],
+      "title": "Open Incidents by Urgency",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "count 1 - High": "High",
+              "count 2 - Medium": "Medium",
+              "count 3 - Low": "Low"
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-servicenow-datasource",
+        "uid": "Servicenow"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 3,
+        "x": 8,
+        "y": 19
+      },
+      "id": 57,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-servicenow-datasource",
+            "uid": "Servicenow"
+          },
+          "displayValue": "true",
+          "fields": [
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "state"
+            }
+          ],
+          "filters": [
+            {
+              "conjunction": "and",
+              "field": "active",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "Active",
+                "element": "active",
+                "internal_type": {
+                  "link": "",
+                  "value": "boolean"
+                },
+                "label": "Active",
+                "name": "active",
+                "sys_name": "Active",
+                "table": "",
+                "value": "active"
+              },
+              "op": "=",
+              "type": "boolean",
+              "value": "True"
+            },
+            {
+              "conjunction": "and",
+              "field": "x_977123_grafana_0_service",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "X_977123_grafana_0_service",
+                "element": "x_977123_grafana_0_service",
+                "internal_type": {
+                  "link": "",
+                  "value": "string"
+                },
+                "label": "Service Name",
+                "name": "x_977123_grafana_0_service",
+                "sys_name": "Service Name",
+                "table": "",
+                "value": "x_977123_grafana_0_service"
+              },
+              "op": "ISNOTEMPTY",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "conjunction": "and",
+              "field": "escalation",
+              "fieldDesc": {
+                "Choices": [
+                  {
+                    "image": "",
+                    "label": "Normal",
+                    "missing": false,
+                    "parameters": {
+                      "name": "task"
+                    },
+                    "rawLabel": "Normal",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "0"
+                  },
+                  {
+                    "image": "",
+                    "label": "Moderate",
+                    "missing": false,
+                    "parameters": {
+                      "name": "task"
+                    },
+                    "rawLabel": "Moderate",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "1"
+                  },
+                  {
+                    "image": "",
+                    "label": "High",
+                    "missing": false,
+                    "parameters": {
+                      "name": "task"
+                    },
+                    "rawLabel": "High",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "2"
+                  },
+                  {
+                    "image": "",
+                    "label": "Overdue",
+                    "missing": false,
+                    "parameters": {
+                      "name": "task"
+                    },
+                    "rawLabel": "Overdue",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "3"
+                  }
+                ],
+                "choice": "true",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "Escalation",
+                "element": "escalation",
+                "internal_type": {
+                  "link": "",
+                  "value": "integer"
+                },
+                "label": "Escalation",
+                "name": "escalation",
+                "sys_name": "Escalation",
+                "table": "",
+                "value": "escalation"
+              },
+              "op": "=",
+              "type": "integer",
+              "value": "3"
+            },
+            {}
+          ],
+          "groupBy": [],
+          "limit": 25,
+          "queryType": "AggregateAPI",
+          "refId": "A",
+          "sort": [
+            {}
+          ],
+          "stats": [
+            "count"
+          ],
+          "table": "incident",
+          "timeField": "ignore_time"
+        }
+      ],
+      "title": "Overdue Incidents",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "count 1 - High": "High",
+              "count 2 - Medium": "Medium",
+              "count 3 - Low": "Low"
+            }
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "testdata",
+        "uid": "testdata"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 3,
+        "x": 11,
+        "y": 19
+      },
+      "id": 96,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "csvContent": "Cost\n95",
+          "datasource": {
+            "type": "testdata",
+            "uid": "testdata"
+          },
+          "refId": "A",
+          "scenarioId": "csv_content"
+        }
+      ],
+      "title": "Total Cost",
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "testdata",
+        "uid": "testdata"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 2,
+        "x": 14,
+        "y": 19
+      },
+      "id": 97,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "csvContent": "Cost\n-4",
+          "datasource": {
+            "type": "testdata",
+            "uid": "testdata"
+          },
+          "refId": "A",
+          "scenarioId": "csv_content"
+        }
+      ],
+      "title": "Change from Last Month",
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "testdata",
+        "uid": "testdata"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cost"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 19
+      },
+      "id": 95,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "csvContent": "Service,Cost\nGKE,50\nVM,25\nBigQuery,20",
+          "datasource": {
+            "type": "testdata",
+            "uid": "testdata"
+          },
+          "refId": "A",
+          "scenarioId": "csv_content"
+        }
+      ],
+      "title": "Cost per service",
+      "transparent": true,
+      "type": "barchart"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Exec Overview",
+  "uid": "40UDVP0Vk",
+  "version": 22,
+  "weekStart": ""
+}

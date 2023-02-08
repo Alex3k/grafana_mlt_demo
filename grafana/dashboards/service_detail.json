@@ -1,73 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_MLT_METRICS",
-      "label": "MLT Metrics",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    },
-    {
-      "name": "DS_MLT_LOGS",
-      "label": "MLT Logs",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "loki",
-      "pluginName": "Loki"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "9.2.0"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph (old)",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "logs",
-      "name": "Logs",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "loki",
-      "name": "Loki",
-      "version": "1.0.0"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "table-old",
-      "name": "Table (old)",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -91,7 +22,7 @@
       {
         "datasource": {
           "type": "loki",
-          "uid": "${DS_MLT_LOGS}"
+          "uid": "MLT Logs"
         },
         "enable": true,
         "expr": "{job=\"integrations/kubernetes/eventhandler\", cluster=\"$cluster\", namespace=\"$namespace\"} |~ \"(?i)kind=$type\" |~ \"name=$workload.*\" | logfmt",
@@ -112,14 +43,39 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
-  "links": [],
+  "id": 46,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Exec Overview Dashboard",
+      "tooltip": "",
+      "type": "link",
+      "url": "/d/40UDVP0Vk/exec-overview?orgId=1&refresh=5s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "SRE Overview Dashboard",
+      "tooltip": "",
+      "type": "link",
+      "url": "/d/ihMHTlZVk/services-overview?orgId=1&refresh=5s"
+    }
+  ],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MLT_METRICS}"
+        "uid": "MLT Metrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -161,7 +117,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 4,
+        "w": 2,
         "x": 0,
         "y": 0
       },
@@ -180,12 +136,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.2.0",
+      "pluginVersion": "9.3.6",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "probe_success{job=\"ecommerce-$workload\"} ",
@@ -199,8 +155,786 @@
     },
     {
       "datasource": {
+        "type": "grafana-servicenow-datasource",
+        "uid": "Servicenow"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 2,
+        "y": 0
+      },
+      "id": 36,
+      "options": {
+        "displayMode": "lcd",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-servicenow-datasource",
+            "uid": "Servicenow"
+          },
+          "displayValue": "true",
+          "fields": [
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "state"
+            },
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "priority"
+            },
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "urgency"
+            }
+          ],
+          "filters": [
+            {
+              "conjunction": "and",
+              "field": "x_977123_grafana_0_service",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "X_977123_grafana_0_service",
+                "element": "x_977123_grafana_0_service",
+                "internal_type": {
+                  "link": "",
+                  "value": "string"
+                },
+                "label": "Service Name",
+                "name": "x_977123_grafana_0_service",
+                "sys_name": "Service Name",
+                "table": "",
+                "value": "x_977123_grafana_0_service"
+              },
+              "op": "=",
+              "type": "string",
+              "value": "$workload"
+            },
+            {
+              "conjunction": "and",
+              "field": "active",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "Active",
+                "element": "active",
+                "internal_type": {
+                  "link": "",
+                  "value": "boolean"
+                },
+                "label": "Active",
+                "name": "active",
+                "sys_name": "Active",
+                "table": "",
+                "value": "active"
+              },
+              "op": "=",
+              "type": "boolean",
+              "value": "True"
+            },
+            {}
+          ],
+          "groupBy": [
+            "urgency"
+          ],
+          "limit": 25,
+          "queryType": "AggregateAPI",
+          "refId": "A",
+          "sort": [
+            {}
+          ],
+          "stats": [
+            "count"
+          ],
+          "table": "incident",
+          "timeField": "ignore_time"
+        }
+      ],
+      "title": "Open Incidents by Urgency",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "count 2 - Medium": "Medium",
+              "count 3 - Low": "Low"
+            }
+          }
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "grafana-servicenow-datasource",
+        "uid": "Servicenow"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "noValue": "No Data",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 25
+              }
+            ]
+          },
+          "unit": "m"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 2,
+        "x": 6,
+        "y": 0
+      },
+      "id": 39,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-servicenow-datasource",
+            "uid": "Servicenow"
+          },
+          "displayValue": "true",
+          "fields": [
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "state"
+            },
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "number"
+            },
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "opened_at"
+            },
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "resolved_at"
+            }
+          ],
+          "filters": [
+            {
+              "conjunction": "and",
+              "field": "active",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "Active",
+                "element": "active",
+                "internal_type": {
+                  "link": "",
+                  "value": "boolean"
+                },
+                "label": "Active",
+                "name": "active",
+                "sys_name": "Active",
+                "table": "",
+                "value": "active"
+              },
+              "op": "=",
+              "type": "boolean",
+              "value": "True"
+            },
+            {
+              "conjunction": "and",
+              "field": "x_977123_grafana_0_service",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "X_977123_grafana_0_service",
+                "element": "x_977123_grafana_0_service",
+                "internal_type": {
+                  "link": "",
+                  "value": "string"
+                },
+                "label": "Service Name",
+                "name": "x_977123_grafana_0_service",
+                "sys_name": "Service Name",
+                "table": "",
+                "value": "x_977123_grafana_0_service"
+              },
+              "op": "=",
+              "type": "string",
+              "value": "$workload"
+            },
+            {
+              "conjunction": "and",
+              "field": "state",
+              "fieldDesc": {
+                "Choices": [
+                  {
+                    "image": "",
+                    "label": "New",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "New",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "1"
+                  },
+                  {
+                    "image": "",
+                    "label": "In Progress",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "In Progress",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "2"
+                  },
+                  {
+                    "image": "",
+                    "label": "On Hold",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "On Hold",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "3"
+                  },
+                  {
+                    "image": "",
+                    "label": "Resolved",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "Resolved",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "6"
+                  },
+                  {
+                    "image": "",
+                    "label": "Closed",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "Closed",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "7"
+                  },
+                  {
+                    "image": "",
+                    "label": "Canceled",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "Canceled",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "8"
+                  }
+                ],
+                "choice": "true",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "State",
+                "element": "state",
+                "internal_type": {
+                  "link": "",
+                  "value": "integer"
+                },
+                "label": "State",
+                "name": "state",
+                "sys_name": "State",
+                "table": "",
+                "value": "state"
+              },
+              "op": "=",
+              "type": "integer",
+              "value": "6"
+            },
+            {}
+          ],
+          "groupBy": [],
+          "limit": 25,
+          "queryType": "TableAPI",
+          "refId": "A",
+          "sort": [
+            {}
+          ],
+          "stats": [
+            "count"
+          ],
+          "table": "incident",
+          "timeField": "ignore_time"
+        }
+      ],
+      "title": "Mean Time To Repair",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "count 1 - High": "High",
+              "count 2 - Medium": "Medium",
+              "count 3 - Low": "Low"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "mode": "reduceRow",
+            "reduce": {
+              "include": [
+                "opened_at",
+                "resolved_at"
+              ],
+              "reducer": "diff"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Duration To Resolve",
+            "binary": {
+              "left": "Difference",
+              "operator": "/",
+              "reducer": "sum",
+              "right": "60000"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Difference": true,
+              "opened_at": true,
+              "resolved_at": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-servicenow-datasource",
+        "uid": "Servicenow"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "noValue": "No Data",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 25
+              }
+            ]
+          },
+          "unit": "m"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 2,
+        "x": 8,
+        "y": 0
+      },
+      "id": 38,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-servicenow-datasource",
+            "uid": "Servicenow"
+          },
+          "displayValue": "true",
+          "fields": [
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "state"
+            },
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "number"
+            },
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "opened_at"
+            },
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "x_977123_grafana_0_ack_datetime"
+            }
+          ],
+          "filters": [
+            {
+              "conjunction": "and",
+              "field": "active",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "Active",
+                "element": "active",
+                "internal_type": {
+                  "link": "",
+                  "value": "boolean"
+                },
+                "label": "Active",
+                "name": "active",
+                "sys_name": "Active",
+                "table": "",
+                "value": "active"
+              },
+              "op": "=",
+              "type": "boolean",
+              "value": "True"
+            },
+            {
+              "conjunction": "and",
+              "field": "x_977123_grafana_0_service",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "X_977123_grafana_0_service",
+                "element": "x_977123_grafana_0_service",
+                "internal_type": {
+                  "link": "",
+                  "value": "string"
+                },
+                "label": "Service Name",
+                "name": "x_977123_grafana_0_service",
+                "sys_name": "Service Name",
+                "table": "",
+                "value": "x_977123_grafana_0_service"
+              },
+              "op": "=",
+              "type": "string",
+              "value": "$workload"
+            },
+            {
+              "conjunction": "and",
+              "field": "state",
+              "fieldDesc": {
+                "Choices": [
+                  {
+                    "image": "",
+                    "label": "New",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "New",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "1"
+                  },
+                  {
+                    "image": "",
+                    "label": "In Progress",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "In Progress",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "2"
+                  },
+                  {
+                    "image": "",
+                    "label": "On Hold",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "On Hold",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "3"
+                  },
+                  {
+                    "image": "",
+                    "label": "Resolved",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "Resolved",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "6"
+                  },
+                  {
+                    "image": "",
+                    "label": "Closed",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "Closed",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "7"
+                  },
+                  {
+                    "image": "",
+                    "label": "Canceled",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "Canceled",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "8"
+                  }
+                ],
+                "choice": "true",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "State",
+                "element": "state",
+                "internal_type": {
+                  "link": "",
+                  "value": "integer"
+                },
+                "label": "State",
+                "name": "state",
+                "sys_name": "State",
+                "table": "",
+                "value": "state"
+              },
+              "op": "=",
+              "type": "integer",
+              "value": "2"
+            },
+            {}
+          ],
+          "groupBy": [],
+          "limit": 25,
+          "queryType": "TableAPI",
+          "refId": "A",
+          "sort": [
+            {}
+          ],
+          "stats": [
+            "count"
+          ],
+          "table": "incident",
+          "timeField": "ignore_time"
+        }
+      ],
+      "title": "Mean Time To Acknowledge",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "count 1 - High": "High",
+              "count 2 - Medium": "Medium",
+              "count 3 - Low": "Low"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "mode": "reduceRow",
+            "reduce": {
+              "include": [
+                "opened_at",
+                "x_977123_grafana_0_ack_datetime"
+              ],
+              "reducer": "diff"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Duration To Resolve",
+            "binary": {
+              "left": "Difference",
+              "operator": "/",
+              "reducer": "sum",
+              "right": "60000"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Difference": true,
+              "opened_at": true,
+              "resolved_at": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MLT_METRICS}"
+        "uid": "MLT Metrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -258,8 +992,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 20,
-        "x": 4,
+        "w": 14,
+        "x": 10,
         "y": 0
       },
       "id": 31,
@@ -279,7 +1013,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=~\"$workload\"}[1m])) by (le)) * 1",
@@ -294,7 +1028,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MLT_METRICS}"
+        "uid": "MLT Metrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -352,8 +1086,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 20,
-        "x": 4,
+        "w": 14,
+        "x": 10,
         "y": 4
       },
       "id": 32,
@@ -373,7 +1107,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "sum(rate(traces_spanmetrics_calls_total{service_name=~\"$workload\"}[1m])) ",
@@ -401,7 +1135,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "${DS_MLT_LOGS}"
+        "uid": "MLT Logs"
       },
       "gridPos": {
         "h": 8,
@@ -424,7 +1158,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "${DS_MLT_LOGS}"
+            "uid": "MLT Logs"
           },
           "editorMode": "code",
           "expr": "{cluster=\"microbs\",container=~\"$workload\"} | logfmt != \"healthz\"",
@@ -438,7 +1172,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "${DS_MLT_LOGS}"
+        "uid": "MLT Logs"
       },
       "gridPos": {
         "h": 8,
@@ -461,7 +1195,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "${DS_MLT_LOGS}"
+            "uid": "MLT Logs"
           },
           "editorMode": "code",
           "expr": "{cluster=\"microbs\",container=~\"$workload\"} |~ \"critical|Critical|CRITICAL|error|Error|ERROR|exception|Exception|EXCEPTION|fail|Fail|FAIL|fatal|Fatal|FATAL\"",
@@ -475,7 +1209,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MLT_METRICS}"
+        "uid": "MLT Metrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -554,17 +1288,192 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
-          "expr": "sum(rate(kube_pod_container_status_restarts_total{job=\"integrations/kubernetes/kube-state-metrics\", container=\"$workload\"}[$__rate_interval]))",
-          "legendFormat": "Restart Count",
+          "expr": "sum by(pod) (kube_pod_container_status_restarts_total{job=\"integrations/kubernetes/kube-state-metrics\", container=\"$workload\"})",
+          "legendFormat": "{{pod}}",
           "range": true,
-          "refId": "A"
+          "refId": "Pod"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "expr": "sum(kube_pod_container_status_restarts_total{job=\"integrations/kubernetes/kube-state-metrics\", container=\"$workload\"})",
+          "hide": false,
+          "legendFormat": "Total",
+          "range": true,
+          "refId": "Sum"
         }
       ],
-      "title": "Pod/Container Restarts",
+      "title": "Pod Restarts",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-servicenow-datasource",
+        "uid": "Servicenow"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "x_977123_grafana_0_service"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Service"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "number"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Inc Number"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "number"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "Details",
+                    "url": "https://dev124466.service-now.com/nav_to.do?uri=%2Fincident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3Dcaller_id%253djavascript%253ags.getUserID()%255eactive%253dtrue%255euniversal_requestISEMPTY%255eGOTOnumber%253d${__value.raw}%26sysparm_query_encoded%3Dcaller_id%253djavascript%253ags.getUserID()%255eactive%253dtrue%255euniversal_requestISEMPTY%255eGOTOnumber%253d${__value.raw}%26sysparm_view%3Dess"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
+      "id": 35,
+      "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-servicenow-datasource",
+            "uid": "Servicenow"
+          },
+          "displayValue": "all",
+          "fields": [
+            {
+              "aggregates": [],
+              "name": "number"
+            },
+            {
+              "aggregates": [],
+              "name": "priority"
+            },
+            {
+              "aggregates": [],
+              "name": "urgency"
+            },
+            {
+              "aggregates": [],
+              "name": "short_description"
+            },
+            {
+              "aggregates": [],
+              "name": "opened_at"
+            }
+          ],
+          "filters": [
+            {
+              "conjunction": "and",
+              "field": "x_977123_grafana_0_service",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "X_977123_grafana_0_service",
+                "element": "x_977123_grafana_0_service",
+                "internal_type": {
+                  "link": "",
+                  "value": "string"
+                },
+                "label": "Service Name",
+                "name": "x_977123_grafana_0_service",
+                "sys_name": "Service Name",
+                "table": "",
+                "value": "x_977123_grafana_0_service"
+              },
+              "op": "=",
+              "type": "string",
+              "value": "$workload"
+            },
+            {}
+          ],
+          "groupBy": [],
+          "limit": 25,
+          "queryType": "TableAPI",
+          "refId": "A",
+          "sort": [
+            {}
+          ],
+          "stats": [],
+          "table": "incident",
+          "timeField": "ignore_time"
+        }
+      ],
+      "title": "Service Incidents",
+      "type": "table"
     },
     {
       "aliasColors": {},
@@ -574,7 +1483,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MLT_METRICS}"
+        "uid": "MLT Metrics"
       },
       "fill": 1,
       "fontSize": "100%",
@@ -582,7 +1491,7 @@
         "h": 7,
         "w": 7,
         "x": 0,
-        "y": 21
+        "y": 27
       },
       "id": 2,
       "interval": "1m",
@@ -728,7 +1637,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"microbs\", namespace=\"default\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
@@ -742,7 +1651,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\"}\n) by (pod)\n",
@@ -756,7 +1665,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", namespace=\"$namespace\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
           "format": "table",
@@ -769,7 +1678,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "expr": "sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
           "format": "table",
@@ -782,7 +1691,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", namespace=\"$namespace\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
           "format": "table",
@@ -828,7 +1737,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MLT_METRICS}"
+        "uid": "MLT Metrics"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -836,7 +1745,7 @@
         "h": 7,
         "w": 17,
         "x": 7,
-        "y": 21
+        "y": 27
       },
       "hiddenSeries": false,
       "id": 1,
@@ -860,7 +1769,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.2.0",
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -872,7 +1781,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"microbs\", namespace=\"default\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
@@ -923,7 +1832,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MLT_METRICS}"
+        "uid": "MLT Metrics"
       },
       "fill": 1,
       "fontSize": "100%",
@@ -931,7 +1840,7 @@
         "h": 6,
         "w": 7,
         "x": 0,
-        "y": 28
+        "y": 34
       },
       "id": 4,
       "interval": "1m",
@@ -1077,7 +1986,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"microbs\", namespace=\"default\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
@@ -1091,7 +2000,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"microbs\", namespace=\"default\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
@@ -1105,7 +2014,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"microbs\", namespace=\"default\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"microbs\", namespace=\"default\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
@@ -1119,7 +2028,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"microbs\", namespace=\"default\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
@@ -1133,7 +2042,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"microbs\", namespace=\"default\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"microbs\", namespace=\"default\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
@@ -1180,7 +2089,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MLT_METRICS}"
+        "uid": "MLT Metrics"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -1188,7 +2097,7 @@
         "h": 6,
         "w": 17,
         "x": 7,
-        "y": 28
+        "y": 34
       },
       "hiddenSeries": false,
       "id": 3,
@@ -1212,7 +2121,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.2.0",
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1224,7 +2133,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"microbs\", namespace=\"default\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
@@ -1277,7 +2186,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 34
+        "y": 40
       },
       "id": 18,
       "panels": [],
@@ -1303,7 +2212,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 35
+        "y": 41
       },
       "id": 19,
       "panels": [],
@@ -1326,7 +2235,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MLT_METRICS}"
+        "uid": "MLT Metrics"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -1334,7 +2243,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 36
+        "y": 42
       },
       "hiddenSeries": false,
       "id": 6,
@@ -1358,7 +2267,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.1.5-0100a6a",
+      "pluginVersion": "9.2.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1370,7 +2279,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_receive_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
@@ -1420,7 +2329,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MLT_METRICS}"
+        "uid": "MLT Metrics"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -1428,7 +2337,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 36
+        "y": 42
       },
       "hiddenSeries": false,
       "id": 7,
@@ -1452,7 +2361,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.1.5-0100a6a",
+      "pluginVersion": "9.2.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1464,7 +2373,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_transmit_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
@@ -1517,7 +2426,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 43
+        "y": 49
       },
       "id": 20,
       "panels": [],
@@ -1540,7 +2449,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MLT_METRICS}"
+        "uid": "MLT Metrics"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -1548,7 +2457,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 44
+        "y": 50
       },
       "hiddenSeries": false,
       "id": 8,
@@ -1584,7 +2493,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "(avg(irate(container_network_receive_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
@@ -1634,7 +2543,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MLT_METRICS}"
+        "uid": "MLT Metrics"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -1642,7 +2551,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 44
+        "y": 50
       },
       "hiddenSeries": false,
       "id": 9,
@@ -1678,7 +2587,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "(avg(irate(container_network_transmit_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
@@ -1731,7 +2640,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 51
+        "y": 57
       },
       "id": 21,
       "panels": [],
@@ -1754,7 +2663,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MLT_METRICS}"
+        "uid": "MLT Metrics"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -1762,7 +2671,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 52
+        "y": 58
       },
       "hiddenSeries": false,
       "id": 10,
@@ -1798,7 +2707,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_receive_packets_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
@@ -1848,7 +2757,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MLT_METRICS}"
+        "uid": "MLT Metrics"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -1856,7 +2765,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 52
+        "y": 58
       },
       "hiddenSeries": false,
       "id": 11,
@@ -1892,7 +2801,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_transmit_packets_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
@@ -1945,7 +2854,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 59
+        "y": 65
       },
       "id": 22,
       "panels": [],
@@ -1968,7 +2877,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MLT_METRICS}"
+        "uid": "MLT Metrics"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -1976,7 +2885,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 60
+        "y": 66
       },
       "hiddenSeries": false,
       "id": 12,
@@ -2012,7 +2921,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_receive_packets_dropped_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
@@ -2062,7 +2971,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MLT_METRICS}"
+        "uid": "MLT Metrics"
       },
       "fill": 10,
       "fillGradient": 0,
@@ -2070,7 +2979,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 60
+        "y": 66
       },
       "hiddenSeries": false,
       "id": 13,
@@ -2106,7 +3015,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MLT_METRICS}"
+            "uid": "MLT Metrics"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_transmit_packets_dropped_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
@@ -2157,23 +3066,31 @@
   "templating": {
     "list": [
       {
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": [
+            "product"
+          ],
+          "value": [
+            "product"
+          ]
+        },
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MLT_METRICS}"
+          "uid": "MLT Metrics"
         },
-        "definition": "label_values(namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\"}, workload) ",
+        "definition": "label_values(namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\"}, workload)",
         "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "workload",
         "options": [],
         "query": {
-          "query": "label_values(namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\"}, workload) ",
+          "query": "label_values(namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\"}, workload)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,
-        "regex": "^((?!grafana|synthetic-monitoring-private-probe|synthetics|ksm-kube-state-metrics).*)$",
+        "regex": "",
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
@@ -2215,6 +3132,6 @@
   "timezone": "UTC",
   "title": "Service Detail",
   "uid": "KajugoM4z",
-  "version": 2,
+  "version": 13,
   "weekStart": ""
 }

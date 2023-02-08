@@ -65,3 +65,23 @@ variable "slack_bot_token" {
   nullable = false
 }
 
+variable "service_now_addon_enabled" {
+  type     = bool
+  nullable = false
+  default = false
+}
+
+variable "servicenow_url" {
+  type     = string
+  nullable = false
+}
+
+variable "servicenow_username" {
+  type     = string
+  nullable = false
+}
+
+variable "servicenow_password" {
+  type     = string
+  nullable = false
+}

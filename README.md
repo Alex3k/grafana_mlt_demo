@@ -1,6 +1,7 @@
 Table of Contents
 - [Introduction](#introduction)
 - [Resources created in GCP](#resources-created-in-gcp)
+- [ServiceNow Configuration](#servicenow-configuration)
 - [Deploying the demo](#deploying-the-demo)
 - [Types of errors you can cause](#types-of-errors-you-can-cause)
 - [Demo Story and Examples](#demo-story-and-examples)
@@ -9,9 +10,11 @@ Table of Contents
 - [Tearing everything down and cleaning Up](#tearing-everything-down-and-cleaning-up)
 
 # Introduction
-This project is built around the application Dave Moore built with his [Microbs Project](https://microbs.io/). It deploys mostly the same underlying Ecommerce App with a few tweaks to make injecting real life issues easier.
+This project is built around the application Dave Moore built with his [Microbs Project](https://microbs.io/). It deploys mostly the same underlying Ecommerce App with a few tweaks to make injecting real life issues easier and to make use of the wider Grafana stack.
 
-The dashboards start with a high level [RED](https://grafana.com/files/grafanacon_eu_2018/Tom_Wilkie_GrafanaCon_EU_2018.pdf) dashboard and then through the Architecture Diagram you can dive into details around each service and database. Using Grafana Cloud Logs, Metrics and Traces you can easily correlate the data to find the root cause. 
+The dashboards are hierarchical. Starting with a high level exec overview dashboard and moving down to a SRE Overview dashboard which makes used of [RED signals](https://grafana.com/files/grafanacon_eu_2018/Tom_Wilkie_GrafanaCon_EU_2018.pdf) and then through the Architecture Diagram you can dive into details around each service and database. Using Grafana Cloud Logs, Metrics and Traces you can easily correlate the data to find the root cause. 
+
+ServiceNow is used as an ITSM for this demo and Mean Time to Recover (MTTR) and Mean Time to Acknolwedge (MTTA) are calculated from this live data. Each alert sends an incident over to ServiceNow. I do not pretend to be a ServiceNow expert in any way shape or form. If you have any concerns or advise on how ServiceNow is used please do let me know. I have also disregarded security best practices here for simplicity. 
 
 This project uses:
 - Grafana Kuberenetes Monitoring App
@@ -20,6 +23,8 @@ This project uses:
 - Realistic traces including Postgres & Redis
 - Redis/Postgres integrations
 - Grafana K6 for load generation
+- ServiceNow for Incident Response
+- Grafana Machine Learning Forecasting for smarter alerting
 
 The other cool thing about the demo is that I have a bunch of “errors” that can be injected into the app to cause issues. This makes demoing investigations super easy and you can investigate it as it happens.
 - Too many postgres connections (logs/metrics/traces)
@@ -27,12 +32,96 @@ The other cool thing about the demo is that I have a bunch of “errors” that 
 - Throw a stack trace caused by a divide by zero error (logs/traces)
 
 # Screenshots
-![alt text](screenshots/NormalServiceOverview.png "Normal Service Overview")
-![alt text](screenshots/ServiceOverviewWithFailure.png "Failure Service Overview")
-![alt text](screenshots/ServiceDetail.png "Service Detail")
+![alt text](screenshots/NormalExec.png "Healthy Exec Dashboard")
+![alt text](screenshots/ExecWithError.png "Unhealthy Exec Dashboard")
+![alt text](screenshots/NormalServiceOverview.png "Healthy Service Overview")
+![alt text](screenshots/ServiceOverviewWithFailure.png "Unhealthy Service Overview")
+![alt text](screenshots/NormalServiceDetail.png "Healthy Service Detail")
+![alt text](screenshots/ServiceDetailWithError.png "Unhealthy Service Detail")
 
 # Resources created in GCP 
 - GKE Cluster to deploy everything in
+
+# ServiceNow Configuration
+There are two options here, use the ServiceNow instance I have created to use in the demo or spin up your own. If you want to use mine, please contact me on slack for the credentials
+
+## Using my ServiceNow which is already configured
+Contact me on Slack for the details.
+
+### Setting up your own ServiceNow
+#### Setting up a fresh ServiceNow instance
+- [Set up a free Personal Development Instance](https://developer.servicenow.com/dev.do#!/home)
+- Create an App but don't set any of the fields except Name (I am not really sure what they do)
+- Access the instance by clicking on our profile whilst in developer.servicenow.com and click "Manage Instance password" and take note of the URL, username and password
+- Read the "Using an existing ServiceNow instance" section to continue
+
+#### Using an existing ServiceNow instance
+We need to do a few things to ServiceNow to make it ready for the integration
+1) Creating two fields within the incident table, one for the the service with an issue, the other the date of when an incident went from New to In Progress
+2) A business rule metric to populate the new incident field which holds the date from when an incident went from New to In Progress
+3) A scripted metric that creates an incident for us via a REST API
+
+#### Creating a Business Rule Metric for Mean Time to Acknowledge (MTTA)
+MTTA is the average time it takes for a ticket to go from "Created" to "In Progress". I couldn't find a clean column in the Incident table for this so I created a Business Rule metric. To do this, follow the below steps:
+- On the left hand menu look for the "Incident" heading and click "All" just below that. Choose any existing Incident and open it
+- Next to the incident number at the top of the New Incident Form, click on the burger menu (three horizonal lines), click configure and then click form design
+- In the middle of the page you will see the form design, the top grey bar says "Incident [incident]" and at the far right end is a "+" button, click it to create a new section and name that section "Product Details"
+- On the far left hand side, click the "Field Types" tab above the list of fields, find "Date/Time" and drag it into the new section
+- Click the settings cog icon for that new field. Set the Label to "When Acknowledged" and the Name to "ack_datetime".
+- Click Save at the top right
+- For some reason for me the new field disappears and I need to go to the field tab on the right, search for the field I just created and drag it back in. Do this and then set the field to readonly by clicking on it's cog icon again. *TAKE NOTE OF THE 'NAME' SERVICENOW HAS ASSIGNED THIS FIELD - YOU WILL NEED IT LATER*
+- Click Save again.
+- Open the "Business Rules" app under "Metrics" in the left hand bar within ServiceNow
+- Create a new Business rule
+- Set the Name to "Grafana New to In Progress Duration"
+- Set the table to "Incident"
+- Go to the "When to run tab" and add two conditions with an "AND" condition
+	- Incident State Changes from New 
+	- Incident State Changes to In progress
+- Go to the "Actions" tab
+	- Set "When Acknowledged" "Same As" "Updated" - When Acknowledge if the field we created above
+
+## Creating an Endpoint so we can create an incident from Grafana
+For Grafana to create an incident within ServiceNow, we need ServiceNow to accept a webhook request, process the data in the alert and then save the incident. Because data is fun, we are also going to add an extra field which is "Service Name" so that we can see which service an incident relates to.
+- Follow the steps found in "Creating a Business Rule Metric for Mean Time to Acknowledge (MTTA)" for creating a new field and add it to the same section as your previously created field. This new field will have the label "Service name" and the name "service". Make sure you set it to read only and make sure you get the new name when you add the field back in. If none of this makes sense, please re-read the "Creating a Business Rule Metric for Mean Time to Acknowledge (MTTA)" section.
+- Time to create our REST endpoint. On the left hand side menu search for "Scripted Rest API" under "System Web Services". Create a new one with the name "Create Grafana Incident" and click Submit
+- Open your new endpoint by searching for it in the list of endpoints
+- Take note of the "Base API path" - you will need this later
+- Under the resources tab towards the bottom, click "New"
+	- Set Name to be "create incident"
+	- Set HTTP method to POST
+	- Set the script to be the below blob:
+			(function process( /*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+				var title;
+				var forecast_url;
+				var forecast_name;
+				var dashboard;
+				var anomalous_value;
+				var anomalous_actual;
+				var anomalous_predicted;
+				var service;
+				var requestBody = request.body;
+				var requestData = requestBody.data;
+				gs.info(JSON.stringify(requestData));
+				for (var i = 0; i < requestData.alerts.length; i++) {
+					var inc = new GlideRecord('incident');
+					inc.initialize();
+					title = requestData.title;
+					forecast_url = requestData.alerts[i].annotations.grafana_ml_forecast_url;
+					forecast_name = requestData.alerts[i].annotations.grafana_ml_forecast_name;
+					dashboard = requestData.alerts[i].annotations.dashboard_url;
+					anomalous_value = requestData.alerts[i].annotations.anomalous_value;
+					anomalous_actual = requestData.alerts[i].annotations.anomalous_actual;
+					anomalous_predicted = requestData.alerts[i].annotations.anomalous_predicted;
+					service = requestData.alerts[i].annotations.service;
+					inc.x_977123_grafana_0_service = service;
+					inc.caller_id = 'admin';
+					inc.description = "Grafana ML Generated Incident - " + forecast_name + " Forecast Triggered \n - Anomalous Value: " + anomalous_value + " \n - Anomalous Predicted: " + anomalous_predicted + " \n - Anomalous Actual: " + anomalous_actual + "\n - Forecast URL: " + forecast_url + "\n - Dashboard URL: " + dashboard;
+					inc.short_description = "Grafana Metric Forecast '" + forecast_name + "' Created Incident";
+					inc.insert();
+			}
+		- Replace "x_977123_grafana_0_service" with the field generated by ServiceNow when you created your new "Service Name" field
+		- Click Submit
 
 # Deploying the demo
 ## Step 1) Install required Software
@@ -55,20 +144,25 @@ Go to terraform/vars.tfvars and update the below variables:
 	- stack_slug - this is the name of the Grafana Cloud Stack that is created
 	- grafana_stack_region_slug - For sake of convienience I would recommend leaving this as `us`. If you do change it, make sure you also update `synthetic_monitoring_backend_url` and `synthetic_monitoring_api_url` in accodance with [the docs](https://grafana.com/docs/grafana-cloud/synthetic-monitoring/private-probes/#probe-api-server-url)
 
-## Step 5) Configure Slack
+## Step 5) Create a Grafana Enterprise licence 
+Using your internal knowledge from Grafana Labs, or by talking to someone at Grafana Labs, get hold of an Enterprise licence for your Grafana Cloud stack. This is to enable you to install and use the ServiceNow plugin.
+
+## Step 6) Configure Slack
 I have created a workspace called "akc-mlt-demo.slack.com" that you are welcome to come and use. If you do, everything is already configured to post alerts to #mlt-demo-workarea and you can skip the rest of this step. You're welcome to create a new channel and send alerts there by changing `slack_channel_name` within terraform/vars.tfvars. If you want to point the Slack alerts at your own workspace, please make sure you update `slack_channel_name` and `slack_bot_token`.
 
-## Step 6) Deploy most of the things (except the app itself)
+## Step 7) Deploy most of the things (except the app itself)
 - Go to the terraform directory
 - Run `terraform init`
 - Run `terraform apply -var-file vars.tfvars` - this will list everything that will be deployed. If you're happy with it type "yes" and enter when prompted
 - When terraform finishes, it will display a bunch of outputs. Run the `gke_connection_command` in the terminal to connect to the GKE cluster. Then go open a browser and go to your stack by using the `grafana_url` URL.
 - If you need to get these outputs again just go into the terraform directory and run `terraform output`
+- This will get most of the way through until the ML job and then fail. You need to go into the Grafana Stack, go to the Machine Learning App and click initalise. This is a bug and the team are working on fixing it. Once you have initalised the ML app. Re-run `terraform apply -var-file vars.tfvars`
+- The Machine Learning Forecast needs 100 datapoints in order to be useful, so you will need to wait an hour or so to get enough data for it to be able to fire. In order to gather the data, run the below step. 
 
-## Step 7) Deploy the app
+## Step 8) Deploy the app
 Here we are going to deploy our application, make sure you are in the root directory of this git repo and run `kubectl apply -f app.yaml`. The app deployment is seperate as depending on the variant/bug introduced you might need to revert back to the original app and that is easier running the above command. 
 
-## Step 8) Create the recorded queries
+## Step 9) Create the recorded queries
 Sadly the Terraform provider doesn't allow you to create recorded queries. We use these for the Flowchart Plugin as Loki's LogQL support count_over_time but if the filter doesn't return any logs, "no data" is returned. When using count_over_time over "no data" you don't get a numerical 0 as a result. You get "no data". When using this with the flow chart plugin you can't colour the boxes accordingly as there is no data to run the condition over. Quite frustating. As a way around this we can use a recorded query as that periodically counts how many logs have been returned that meet our error filter. Even if no logs are returned, the recorded query returns 0. Exactly the behaviour we need. We need one recording rule per database. To create them, go to explore, put in the respective query below and then click on the button to the right hand side of the query panel that looks like two circles - at the time of writing it was to the left of the copy button. When creating each of the below recorded queries, make sure you are using the `MLT Logs` data source. Also make sure you are writing the Recorded Query to the `MLT Metrics` data source.
 - product-data
 	- Query: `{cluster="microbs",container=~"product-data"} |~ "critical|Critical|CRITICAL|error|Error|ERROR|exception|Exception|EXCEPTION|fail|Fail|FAIL|fatal|Fatal|FATAL"`
@@ -103,11 +197,6 @@ Sadly the Terraform provider doesn't allow you to create recorded queries. We us
 		- To: now
 	- Count query results: true
 
-## Step 9) Import Dashboards
-The Grafana Terraform provider allows you to import dashboards, however you can't override the datasources from within Terraform. Somewhat odd... So it's easier for you to important the four manually and then update the datasources accordingly.
-
-You can find the dashboards in grafana/dashboards. Please import all of them. Leave the UID as it is but update the data sources so they point to the ones beginnging with `MLT`, **not** the ones starting with `grafanacloud`. Please also put the dashboards in the "Ecommerce App" folder
-
 ## Step 10) Enable your synthetic monitoring check
 Terraform created a bunch of synthetic monitoring checks and left them all as disabled - this is as the app wasn't deployed yet. Not that it is we need to enable them. 
 - Go to Grafana's Synthetic Monitoring App - you may need to click the "Initialize the plugin" button
@@ -133,8 +222,8 @@ The Payment component will turn red in the services overview dashboard. When you
 
 To fix this, just run `kubectl apply -f app.yaml`
 
-## Latency SLO Breach
-Finally, this bug is super simple and not super realistic. What it does is deploys a buggy version of the Product service which runs a long calculation and then divides it by 0 to cause an exception. Unit testing should capture this in reality however it's good as it causes an Latency SLO breach. To run it do `kubectl apply -f variants/basic-bug`.
+## Latency SLO Breach - ML Metric Forecast Demo
+Finally, this bug is super simple and not super realistic but has a cool additional workload. What it does is deploys a buggy version of the Product service which runs a long calculation and then divides it by 0 to cause an exception. Unit testing should capture this in reality however it's good as it causes an Latency SLO breach. To run it do `kubectl apply -f variants/basic-bug`. It also uses an ML Metric Forecast called ProductServiceLatency, if the Latency from the Product service is unusual an alert is triggered which fires an incident over in ServiceNow. This is the only issue that uses ML Metric Forecasts.
 
 To debug this you will notice the Product component turning red. Click on it and see the errors.
 
