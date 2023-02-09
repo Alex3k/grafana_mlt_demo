@@ -540,29 +540,6 @@ resource "grafana_data_source" "servicenow" {
   ]
 }
 
-variable "contact_point_high_latency_body" {
-  type    = string
-  default = <<EOH
-    {{ range .Alerts }} 
-     <{{ .DashboardURL }}?var-services={{ .Labels.service_name }}|{{ .Labels.service_name }}>
-    > SLO: *{{ .Annotations.SLO }}* _(95th percentile)_
-    > SLI: *{{ .Annotations.Value }}* _(95th percentile)_
-    > Investigate: <{{ .DashboardURL }}?var-services={{ .Labels.service_name }}|Service Overview>
-    {{ end }}
-EOH
-}
-
-
-variable "contact_point_too_many_connections_body" {
-  type    = string
-  default = <<EOH
-    {{ range .Alerts }} 
-    > Container: {{ .Annotations.container}}
-    > Investigate: <{{ .DashboardURL }}?orgId=1&refresh=10s&from=now-5m&to=now|Service Overview>
-    {{ end }}  
-EOH
-}
-
 resource "grafana_contact_point" "default_slack" {
   provider = grafana.stack
   name     = "Default Slack"
@@ -570,39 +547,38 @@ resource "grafana_contact_point" "default_slack" {
   slack {
     recipient               = var.slack_channel_name
     token                   = var.slack_bot_token
-    username                = "Grafana MLT Alerter"
+    username                = "Grafana Alerter"
     title                   = "{{ .CommonLabels.alertname }}"
     text                    = "Something went bang"
     disable_resolve_message = true
   }
 }
 
-resource "grafana_contact_point" "high_latency" {
+resource "grafana_contact_point" "slack_servicenow" {
   provider = grafana.stack
-  name     = "Slack Latency"
+  name     = "Slack & Servicenow"
 
   slack {
     recipient               = var.slack_channel_name
     token                   = var.slack_bot_token
-    username                = "Grafana MLT Alerter"
+    username                = "Grafana Alerter"
     title                   = "{{ .CommonLabels.alertname }}"
-    text                    = var.contact_point_too_many_connections_body
-    disable_resolve_message = true
+    text                    = <<EOH
+    {{ range .Alerts }} 
+    > Container: {{ .Annotations.container}}
+    > Investigate: <{{ .DashboardURL }}?orgId=1&refresh=10s&from=now-5m&to=now|Service Overview>
+    {{ end }} 
+EOH
+    disable_resolve_message = false
   }
-}
 
+  webhook {
+    url = var.servicenow_create_incident_endpoint
+    http_method = "POST"
+    basic_auth_user = var.servicenow_username
+    basic_auth_password = var.servicenow_password
+    max_alerts = 0
 
-resource "grafana_contact_point" "too_many_connections" {
-  provider = grafana.stack
-  name     = "Slack Too Many Pg Connections"
-
-  slack {
-    recipient               = var.slack_channel_name
-    token                   = var.slack_bot_token
-    username                = "Grafana MLT Alerter"
-    title                   = "{{ .CommonLabels.alertname }}"
-    text                    = var.contact_point_high_latency_body
-    disable_resolve_message = true
   }
 }
 
@@ -611,20 +587,22 @@ resource "grafana_contact_point" "servicenow" {
   name     = "ServiceNow"
 
   webhook {
-    url = var.servicenow_url
+    url = var.servicenow_create_incident_endpoint
     http_method = "POST"
     basic_auth_user = var.servicenow_username
     basic_auth_password = var.servicenow_password
+    max_alerts = 0
   }
 }
 
 resource "grafana_notification_policy" "notification_policy" {
+  provider = grafana.stack
   group_by      = ["alertname"]
-  contact_point = grafana_contact_point.grafana_contact_point.name
+  contact_point = grafana_contact_point.default_slack.name
 
-  group_wait      = "45s"
-  group_interval  = "6m"
-  repeat_interval = "3h"
+  group_wait      = "30s"
+  group_interval  = "5m"
+  repeat_interval = "4h"
 
   policy {
     group_by = ["alert"]
@@ -644,7 +622,7 @@ resource "grafana_notification_policy" "notification_policy" {
       match = "="
       value = "Too Many Open Postgres Clients"
     }
-    contact_point = grafana_contact_point.too_many_connections.name
+    contact_point = grafana_contact_point.slack_servicenow.name
     continue      = false
 
     group_wait      = "2s"
@@ -659,12 +637,23 @@ resource "grafana_notification_policy" "notification_policy" {
       match = "="
       value = "High Latency"
     }
-    contact_point = grafana_contact_point.high_latency.name
+    contact_point = grafana_contact_point.default_slack.name
     continue      = false
 
     group_wait      = "2s"
     group_interval  = "2s"
     repeat_interval = "5m"
+  }
+
+  policy {
+    group_by = ["alertname"]
+    matcher {
+      label = "alertname"
+      match = "="
+      value = "Service Error Rate by Service"
+    }
+    contact_point = grafana_contact_point.default_slack.name
+    continue      = false
   }
 }
 
@@ -675,9 +664,11 @@ resource "grafana_machine_learning_job" "product_high_latency" {
   metric = "productservicelatency"
   name = "ProductServiceLatency"
   datasource_id = grafana_data_source.custom_prometheus.id
+  interval = 60
+  training_window = 604800
   query_params = {
     "editorMode" = "code"
-    "expr" = "histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=~\"product\"}[10m])) by (le, service_name)) "
+    "expr" = "histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=~\"product\"}[1m])) by (le, service_name)) "
     "range" = "true"
     "refId" = "A"
   }
@@ -807,7 +798,7 @@ resource "grafana_rule_group" "high_latency" {
 
 resource "grafana_rule_group" "too_many_connections" {
   provider         = grafana.stack
-  name             = "db"
+  name             = "Db"
   folder_uid       = grafana_folder.ecommerce_app.uid
   interval_seconds = 10
   org_id           = 1
@@ -826,7 +817,7 @@ resource "grafana_rule_group" "too_many_connections" {
       "service" = "product-data"
     }
     labels = {
-      "itsm" = "servicenow"
+ 
     }
     data {
       ref_id         = "A"
@@ -842,7 +833,7 @@ resource "grafana_rule_group" "too_many_connections" {
         maxDataPoints = 43200
         query_type    = "range"
         refId         = "A"
-        expr          = "count by(k8s_container_name, k8s_pod_name) (rate({k8s_container_name=\"product-data\"} |= `too many clients` [$__interval]))"
+        expr          = "count by(container, k8s_pod_name) (rate({container=\"product-data\"} |= `too many clients` [$__interval]))"
 
       })
     }

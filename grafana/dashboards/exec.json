@@ -1831,7 +1831,7 @@
     {
       "datasource": {
         "type": "grafana-servicenow-datasource",
-        "uid": "2lBt98AVk"
+        "uid": "Servicenow"
       },
       "fieldConfig": {
         "defaults": {
@@ -1885,7 +1885,7 @@
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "2lBt98AVk"
+            "uid": "Servicenow"
           },
           "displayValue": "all",
           "fields": [

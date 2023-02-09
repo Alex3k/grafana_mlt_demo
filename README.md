@@ -18,7 +18,7 @@ ServiceNow is used as an ITSM for this demo and Mean Time to Recover (MTTR) and 
 
 This project uses:
 - Grafana Kuberenetes Monitoring App
-- Alerts for SLIs
+- Alerts for notifying SLO breaches
 - Grafana Synthetic monitoring
 - Realistic traces including Postgres & Redis
 - Redis/Postgres integrations
@@ -29,7 +29,7 @@ This project uses:
 The other cool thing about the demo is that I have a bunch of “errors” that can be injected into the app to cause issues. This makes demoing investigations super easy and you can investigate it as it happens.
 - Too many postgres connections (logs/metrics/traces)
 - Payment Failures (logs/traces) which causes an SLI to trend towards breach
-- Throw a stack trace caused by a divide by zero error (logs/traces)
+- Deploy a bad version of a service to make latency spike (logs/traces)
 
 # Screenshots
 Healthy Executive Dashboard
@@ -59,7 +59,7 @@ There are two options here, use the ServiceNow instance I have created to use in
 ## Using my ServiceNow which is already configured
 Contact me on Slack for the details.
 
-### Setting up your own ServiceNow
+## Setting up your own ServiceNow
 #### Setting up a fresh ServiceNow instance
 - [Set up a free Personal Development Instance](https://developer.servicenow.com/dev.do#!/home)
 - Create an App but don't set any of the fields except Name (I am not really sure what they do)
@@ -151,9 +151,15 @@ To deploy GKE within GCP, you will need to create a GCP service account. I have 
 
 ## Step 4) Update other required variables
 Go to terraform/vars.tfvars and update the below variables:
-	- owner_name - this should be your name in lower case without any spaces. This is used to prefix your name to the GKE cluster. A label called "owner" is also created for that GKE cluster with the value of `owner_name`
-	- stack_slug - this is the name of the Grafana Cloud Stack that is created
-	- grafana_stack_region_slug - For sake of convienience I would recommend leaving this as `us`. If you do change it, make sure you also update `synthetic_monitoring_backend_url` and `synthetic_monitoring_api_url` in accodance with [the docs](https://grafana.com/docs/grafana-cloud/synthetic-monitoring/private-probes/#probe-api-server-url)
+- owner_name: this should be your name in lower case without any spaces. This is used to prefix your name to the GKE cluster. A label called "owner" is also created for that GKE cluster with the value of `owner_name`
+- stack_slug:  this is the name of the Grafana Cloud Stack that is created
+- grafana_stack_region_slug:  For sake of convienience I would recommend leaving this as `us`. If you do change it, make sure you also update `synthetic_monitoring_backend_url` and `synthetic_monitoring_api_url` in accodance with [the docs](https://grafana.com/docs/grafana-cloud/synthetic-monitoring/private-probes/#probe-api-server-url)
+- servicenow_url: The URL pointing to your ServiceNow PDI
+- servicenow_username: The username for ServiceNow
+- servicenow_password: The password for ServiceNow
+- servicenow_create_incident_endpoint: The FQDN for the base api path of the endpoint created in servicenow
+
+https://dev124466.service-now.com/api/x_977123_grafana_0/create_incident
 
 ## Step 5) Create a Grafana Enterprise licence 
 Using your internal knowledge from Grafana Labs, or by talking to someone at Grafana Labs, get hold of an Enterprise licence for your Grafana Cloud stack. This is to enable you to install and use the ServiceNow plugin.
@@ -165,13 +171,15 @@ I have created a workspace called "akc-mlt-demo.slack.com" that you are welcome 
 - Go to the terraform directory
 - Run `terraform init`
 - Run `terraform apply -var-file vars.tfvars` - this will list everything that will be deployed. If you're happy with it type "yes" and enter when prompted
+- This will get most of the way through until the ML job and then fail with an error that looks like `│ Error: status: 400, body: apiKey not set`. You need to go into the Grafana Stack, go to the Machine Learning App and click initalise. This is a bug and the team are working on fixing it. Once you have initalised the ML app. Re-run `terraform apply -var-file vars.tfvars`
+- The Machine Learning Forecast needs 100 datapoints in order to be useful, so you will need to wait an hour or so to get enough data for it to be able to fire. In order to gather the data, run the below step. 
 - When terraform finishes, it will display a bunch of outputs. Run the `gke_connection_command` in the terminal to connect to the GKE cluster. Then go open a browser and go to your stack by using the `grafana_url` URL.
 - If you need to get these outputs again just go into the terraform directory and run `terraform output`
-- This will get most of the way through until the ML job and then fail. You need to go into the Grafana Stack, go to the Machine Learning App and click initalise. This is a bug and the team are working on fixing it. Once you have initalised the ML app. Re-run `terraform apply -var-file vars.tfvars`
-- The Machine Learning Forecast needs 100 datapoints in order to be useful, so you will need to wait an hour or so to get enough data for it to be able to fire. In order to gather the data, run the below step. 
 
 ## Step 8) Deploy the app
 Here we are going to deploy our application, make sure you are in the root directory of this git repo and run `kubectl apply -f app.yaml`. The app deployment is seperate as depending on the variant/bug introduced you might need to revert back to the original app and that is easier running the above command. 
+
+There is currently a bug in the machine learning terraform resource where it incorrectly selects the algorithm for metric forecasts. You may need to open your metric forecast in Grafana, edit the forecast, select the algorithm and click update.
 
 ## Step 9) Create the recorded queries
 Sadly the Terraform provider doesn't allow you to create recorded queries. We use these for the Flowchart Plugin as Loki's LogQL support count_over_time but if the filter doesn't return any logs, "no data" is returned. When using count_over_time over "no data" you don't get a numerical 0 as a result. You get "no data". When using this with the flow chart plugin you can't colour the boxes accordingly as there is no data to run the condition over. Quite frustating. As a way around this we can use a recorded query as that periodically counts how many logs have been returned that meet our error filter. Even if no logs are returned, the recorded query returns 0. Exactly the behaviour we need. We need one recording rule per database. To create them, go to explore, put in the respective query below and then click on the button to the right hand side of the query panel that looks like two circles - at the time of writing it was to the left of the copy button. When creating each of the below recorded queries, make sure you are using the `MLT Logs` data source. Also make sure you are writing the Recorded Query to the `MLT Metrics` data source.

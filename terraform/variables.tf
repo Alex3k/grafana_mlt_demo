@@ -76,6 +76,11 @@ variable "servicenow_url" {
   nullable = false
 }
 
+variable "servicenow_create_incident_endpoint" {
+  type     = string
+  nullable = false
+}
+
 variable "servicenow_username" {
   type     = string
   nullable = false

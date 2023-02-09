@@ -1,4 +1,4 @@
-grafana_cloud_api_key = "eyJrIjoiMDhiMGQ0Y2MyMDE3NGI0ZDIwYjg0NGU0ZGYzZmNhNDc1NmRlODU4ZSIsIm4iOiJkYXNkIiwiaWQiOjY1NjU1MX0="
+grafana_cloud_api_key = ""
 gcp_svc_acc_file_path = "/Users/akc/Desktop/Playground/dr/gcp-svc-acc.json"
 owner_name            = "alexkirtleyclose"
 stack_slug            = "akctest"
@@ -19,5 +19,6 @@ synthetic_monitoring_api_url     = "https://synthetic-monitoring-api.grafana.net
 service_now_addon_enabled = false
 
 servicenow_url = ""
-servicenow_username = ""
+servicenow_create_incident_endpoint = ""
+servicenow_username = "admin"
 servicenow_password = ""
