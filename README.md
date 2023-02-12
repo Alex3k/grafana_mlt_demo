@@ -227,9 +227,9 @@ Everything is now deployed! I recommend opening the Service Overview Dashboard a
 
 # Types of Errors you can cause
 ## Too Many Postgres Connection
-This error opens a bunch of connections to the Postgres database to throw a common bug which is "Too many open connections". This can be triggered by running `variants/too_many_connections_bug.sh` and runs for 4 minutes. Please make sure you are connected to the GKE cluster for this as this script uses kubectl. 
+This error opens a bunch of connections to the Postgres database to throw a common bug which is "Too many open connections" and then creates an incident in ServiceNow. This can be triggered by running `variants/too_many_connections_bug.sh` and runs for 4 minutes. Please make sure you are connected to the GKE cluster for this as this script uses kubectl. 
 
-When this is fired, it will take a minute for it to come through. When it does, both the Product Data and Product components turn Red to show they are in a bad state. The Latency increases but not enough to breach the SLO. After a little while a Slack alert will fire. To debug this, click on the Product red box and pick an error to view it's trace. You will see that it can't connect as connections are being refused. Go back to the overview and click on Product-Data to see why. You will see in the error box that it says too many connections. 
+When this is fired, it will take a minute for it to come through. When it does, both the Product Data and Product components turn Red to show they are in a bad state. The Latency increases but not enough to breach the SLO. After a little while a Slack alert will fire and a ServiceNow Incident will be created. To debug this, click on the Product red box and pick an error to view it's trace. You will see that it can't connect as connections are being refused. Go back to the overview and click on Product-Data to see why. You will see in the error box that it says too many connections. 
 
 ## Kill the API Gateway
 This is simple but effective. To do this just run `kubectl delete deploy api-gateway`. This will turn the API-Gateway box red in the Service Overview dashboard and the Downtime budget remaining SLI will start decreasing. Click on the API-Gateway component box and you will see that the state is Offline - this is reported by the synthetic monitoring check. To bring it back online just run `kubectl apply -f app.yaml`.
@@ -251,15 +251,27 @@ To solve it run `kubectl apply -f app.yaml`.
 
 # Demo Story and Examples
 ## Example Demo Script 
-- **SHOW MLT DEMO DASHBOARD**
-- This is a really high level dashboard which is designed to tell us if we are on track with our SLOs and tell us if there is a problem in the application. It indicates where the issue is and allow you to drill down to the respect areas
-- This is an ecommerce microservices application running in Kubernetes
-- We have two SLIs and SLOs
-- Imagine we have a contract with our customers that says your SLA of uptime will be 99.99%. That means you’re allowed 5 minutes of downtime a month and we need to track that. That is what the SLI is doing. It shows us that we have 4 minutes and 10 seconds left within that budget
-- Furthermore, we have made a SLA with our customer that only 500 payments will fail per month, we have 44 remaining of that budget which is quite worrisome hence it’s turned red
-- We are using our Synthetic Monitoring solution to show us our uptime and reachability 
+- **SHOW EXEC DEMO DASHBOARD**
+
+- In this demo we have a hierachy of information. This dashboard is the highest level summary. We have an SRE Overview dashboard which gives us a bit more technical information, we then have the Service Detail dashboard which gives detail about each service and then a few other dashboards giving very technical detail around Redis, Postgres, etc.
+- This is a really high level dashboard which gives us all the high level detail of our application in a RAG (Red, Amber, Green) format. This exec dashboard includes
+	- A few SLIs and SLOs 
+		- Downtime - How much downtime do we have left out of our 5 min allowable budget (this is 99.99% uptime per month)
+		- Payment Failures - How many payment failures have failed out of our budget of 500
+		- Mean Time To Acknolwedge (MTTA) - The average time it takes us to start at incident ticket
+		- Mean Time To Repair (MTTR) - The average time it takes us to repair issues
+	- The RAG status of each app component
+	- Incident summary data
+	- Cost data from GCP
+- The incident data, MTTR and MTTA are directly generated from ServiceNow information
+- If something is in an error status or has breached the SLO it turns red.
+- This is an ecommerce microservices application running in Kubernetes but at this level of dashboard we don't really care. We just want to know if it's working and adhereing to our SLAs.
+- At the top right there is a button to take you a level down through the SRE Overview Dashboard. 
+- **CLICK ON THE SRE OVERVIEW BUTTON**
+- We are now in the world of an SRE. We now care about the fact that this application is running in Kubernetes and we care that there are two databases (product-data (postgres) and cart-data (redis))
+- In addition to our previous SLOs and SLIs, we now have included the uptime of the API gateway and Web Gateway as these are more technical in nature but critically important. We get this information from our Synthetic Monitoring solution
 - We also have three graphs on the right to track our RED Signals.
-- Explain what RED signals are and how they are a proxy for end user experience
+- **Explain what RED signals are and how they are a proxy for end user experience**
 - Finally, we have our architecture diagram
 - This is a high level diagram which was drawn manually using Draw.io
 - The benefit of drawing it manually is that we can abstract low level constructs such as how many different services/containers/components are included within each service as an example
@@ -273,6 +285,8 @@ To solve it run `kubectl apply -f app.yaml`.
 - We can also click on this diagram to drill down.
 - **CLICK ON PRODUCT**
 - On this dashboard we have the status of Offline/Online From synthetics
+- We have the Product Service specific MTTR and MTTA rather than the overview of the entire system 
+- We can also see all of the open incidents for this service directly from ServiceNow
 - We have Latencies and Throughputs from tracing
 - We have logs and error logs 
 - In addition we have Memory, CPU and Bandwidth metrics to help us identify what’s going on
@@ -285,7 +299,7 @@ To solve it run `kubectl apply -f app.yaml`.
 - **EXPAND RESOURCE**
 - Here we can see information about the product service and can see it’s a Python application and we can see the pod name, environment, service name and service version. Useful for debugging!
 - I would also note that we can see all the logs for this span by click that button
-- **GO BACK TO THE MLT DEMO OVERVIEW DASHBOARD**
+- **GO BACK TO THE SRE OVERVIEW DASHBOARD**
 - **RUN THE /too_many_connections_bug.sh SCRIPT - IT CAN TAKE Up to 1 minute to come through**
 - I have just injected an error into my environment. We are going to live debug it together. We just have to wait a few seconds for Kubernetes to deploy the error
 - **WAIT**
