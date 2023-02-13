@@ -262,7 +262,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/^\\{instance=\"http://api\\-gateway\\.default\\.svc\\.cluster\\.local/\", job=\"ecommerce\\-api\\-gateway\"\\}$/",
           "values": false
         },
         "textMode": "auto"
@@ -275,8 +275,10 @@
             "uid": "MLT Metrics"
           },
           "editorMode": "code",
-          "expr": "300 - (sum(count_over_time((probe_success{probe=\"Private Probe\"} == 0)[30d:])) / 7 * 10) or vector(300)",
-          "range": true,
+          "exemplar": false,
+          "expr": "300 * (avg_over_time(\n  (\n    ceil(\n      # the number of successes across all probes\n      sum by (instance, job) (increase(probe_all_success_sum{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n      /\n      # the total number of times we checked across all probes\n      (sum by (instance, job) (increase(probe_all_success_count{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m])) + 1) # + 1 because we want to make sure it goes to 1, not 2\n    )\n  )\n  [30d:5m]\n)) or vector(300)",
+          "instant": true,
+          "range": false,
           "refId": "A"
         }
       ],
@@ -1831,7 +1833,7 @@
     {
       "datasource": {
         "type": "grafana-servicenow-datasource",
-        "uid": "Servicenow"
+        "uid": "2lBt98AVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -1885,7 +1887,7 @@
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "Servicenow"
+            "uid": "2lBt98AVk"
           },
           "displayValue": "all",
           "fields": [
@@ -2155,8 +2157,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2365,7 +2366,7 @@
     {
       "datasource": {
         "type": "testdata",
-        "uid": "testdata"
+        "uid": "8sCCoYSVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -2377,8 +2378,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -2413,7 +2413,7 @@
           "csvContent": "Cost\n95",
           "datasource": {
             "type": "testdata",
-            "uid": "testdata"
+            "uid": "8sCCoYSVk"
           },
           "refId": "A",
           "scenarioId": "csv_content"
@@ -2426,7 +2426,7 @@
     {
       "datasource": {
         "type": "testdata",
-        "uid": "testdata"
+        "uid": "8sCCoYSVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -2438,8 +2438,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -2474,7 +2473,7 @@
           "csvContent": "Cost\n-4",
           "datasource": {
             "type": "testdata",
-            "uid": "testdata"
+            "uid": "8sCCoYSVk"
           },
           "refId": "A",
           "scenarioId": "csv_content"
@@ -2487,7 +2486,7 @@
     {
       "datasource": {
         "type": "testdata",
-        "uid": "testdata"
+        "uid": "8sCCoYSVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -2519,8 +2518,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2576,7 +2574,7 @@
           "csvContent": "Service,Cost\nGKE,50\nVM,25\nBigQuery,20",
           "datasource": {
             "type": "testdata",
-            "uid": "testdata"
+            "uid": "8sCCoYSVk"
           },
           "refId": "A",
           "scenarioId": "csv_content"
@@ -2602,6 +2600,6 @@
   "timezone": "",
   "title": "Exec Overview",
   "uid": "40UDVP0Vk",
-  "version": 22,
+  "version": 23,
   "weekStart": ""
 }

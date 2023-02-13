@@ -18,6 +18,98 @@
           "type": "dashboard"
         },
         "type": "dashboard"
+      },
+      {
+        "datasource": {
+          "type": "grafana-servicenow-datasource",
+          "uid": "2lBt98AVk"
+        },
+        "enable": false,
+        "iconColor": "red",
+        "mappings": {
+          "id": {
+            "source": "field",
+            "value": "number"
+          },
+          "text": {
+            "source": "field",
+            "value": "short_description"
+          },
+          "time": {
+            "source": "field",
+            "value": "start_date"
+          },
+          "timeEnd": {
+            "source": "field",
+            "value": "end_date"
+          },
+          "title": {
+            "source": "field",
+            "value": "number"
+          }
+        },
+        "name": "Change Requests",
+        "target": {
+          "displayValue": "all",
+          "fields": [
+            {
+              "aggregates": [],
+              "name": "number"
+            },
+            {
+              "aggregates": [],
+              "name": "short_description"
+            },
+            {
+              "aggregates": [],
+              "name": "work_start"
+            },
+            {
+              "aggregates": [],
+              "name": "work_end"
+            }
+          ],
+          "filters": [
+            {
+              "conjunction": "and",
+              "field": "work_start",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "Work_start",
+                "element": "work_start",
+                "internal_type": {
+                  "link": "",
+                  "value": "glide_date_time"
+                },
+                "label": "Actual start date",
+                "name": "work_start",
+                "sys_name": "Actual start date",
+                "table": "",
+                "value": "work_start"
+              },
+              "op": "ONToday",
+              "type": "glide_date_time",
+              "value": "@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
+            },
+            {}
+          ],
+          "groupBy": [],
+          "limit": 25,
+          "queryType": "TableAPI",
+          "refId": "Anno",
+          "sort": [
+            {
+              "field": "work_start",
+              "order": "desc"
+            },
+            {}
+          ],
+          "stats": [],
+          "table": "change_request",
+          "timeField": "ignore_time"
+        }
       }
     ]
   },
@@ -265,7 +357,7 @@
         "type": "prometheus",
         "uid": "MLT Metrics"
       },
-      "description": "* 168 = the SLO (2 minutes 48 seconds) in seconds\n*  (sum(count_over_time((probe_success{probe=\"Private Probe\"} == 0)[30d:])) == How many failed probes where there in the last 30 days\n* / 7 == there are 7 services so normalise it back down to a service perspective\n* 10 == the synthetic monitoring checks run every 10 seconds so this takes the above everything which is how many windows failed and converts that to seconds\n",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -312,7 +404,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/^\\{instance=\"http://api\\-gateway\\.default\\.svc\\.cluster\\.local/\", job=\"ecommerce\\-api\\-gateway\"\\}$/",
           "values": false
         },
         "textMode": "auto"
@@ -325,8 +417,10 @@
             "uid": "MLT Metrics"
           },
           "editorMode": "code",
-          "expr": "300 - (sum(count_over_time((probe_success{probe=\"Private Probe\"} == 0)[30d:])) / 7 * 10) or vector(300)",
-          "range": true,
+          "exemplar": false,
+          "expr": "300 * (avg_over_time(\n  (\n    ceil(\n      # the number of successes across all probes\n      sum by (instance, job) (increase(probe_all_success_sum{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n      /\n      # the total number of times we checked across all probes\n      (sum by (instance, job) (increase(probe_all_success_count{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m])) + 1) # + 1 because we want to make sure it goes to 1, not 2\n    )\n  )\n  [30d:5m]\n)) or vector(300)",
+          "instant": true,
+          "range": false,
           "refId": "A"
         }
       ],
@@ -339,7 +433,7 @@
         "type": "prometheus",
         "uid": "MLT Metrics"
       },
-      "description": "* 168 = the SLO (2 minutes 48 seconds) in seconds\n*  (sum(count_over_time((probe_success{probe=\"Private Probe\"} == 0)[30d:])) == How many failed probes where there in the last 30 days\n* / 7 == there are 7 services so normalise it back down to a service perspective\n* 10 == the synthetic monitoring checks run every 10 seconds so this takes the above everything which is how many windows failed and converts that to seconds\n",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -386,7 +480,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/^\\{instance=\"http://api\\-gateway\\.default\\.svc\\.cluster\\.local/\", job=\"ecommerce\\-api\\-gateway\"\\}$/",
           "values": false
         },
         "textMode": "auto"
@@ -399,7 +493,7 @@
             "uid": "MLT Metrics"
           },
           "editorMode": "code",
-          "expr": "(sum(count_over_time((probe_success{probe=\"Private Probe\"} == 0)[30d:])) / 7 * 10) / 300 or vector(1)",
+          "expr": "(avg_over_time(\n  (\n    ceil(\n      # the number of successes across all probes\n      sum by (instance, job) (increase(probe_all_success_sum{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n      /\n      # the total number of times we checked across all probes\n      (sum by (instance, job) (increase(probe_all_success_count{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m])) + 1) # + 1 because we want to make sure it goes to 1, not 2\n    )\n  )\n  [30d:5m]\n)) or vector(1)",
           "range": true,
           "refId": "A"
         }
@@ -2614,8 +2708,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -2735,8 +2828,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2882,7 +2974,7 @@
     {
       "datasource": {
         "type": "grafana-servicenow-datasource",
-        "uid": "Servicenow"
+        "uid": "2lBt98AVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -2894,8 +2986,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -2929,7 +3020,7 @@
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "Servicenow"
+            "uid": "2lBt98AVk"
           },
           "displayValue": "all",
           "fields": [
@@ -3037,8 +3128,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -3139,8 +3229,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3365,6 +3454,6 @@
   "timezone": "",
   "title": "Services Overview",
   "uid": "ihMHTlZVk",
-  "version": 111,
+  "version": 113,
   "weekStart": ""
 }
