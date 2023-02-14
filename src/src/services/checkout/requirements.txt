@@ -8,3 +8,4 @@ opentelemetry-sdk==1.10.0
 opentelemetry-instrumentation-flask==0.29b0
 opentelemetry-instrumentation-requests==0.29b0
 requests==2.27.1
+protobuf==3.20.*

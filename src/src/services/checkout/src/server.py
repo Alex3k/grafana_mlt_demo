@@ -1,6 +1,7 @@
 # Standard packages
 import json
 import uuid
+import re
 
 # Third-party packages
 import requests
@@ -22,18 +23,35 @@ BASE_URL_API_GATEWAY = "http://{}:{}/api/v1".format(
     config.get('SERVICE_PORT_API_GATEWAY')
 )
 
+
+def get_cart_id(session_id):
+    """
+    Transform the value of a "session_id" cookie to its key in session-store.
+    """
+    logger.info(session_id)
+    matches = re.findall(r'^([^.]*)\.', session_id)
+    logger.info(matches)
+    if matches:
+        return "s:{}".format(matches[0])
+    raise Exception('Cannot find cart')
+
+
 @app.route('/process', methods=['POST',])
 def post_checkout():
     """
     Process an order submission.
     """
     data = request.get_json()
+    session_id = data.get('session_id')
+    cart_id = get_cart_id(session_id)
+    amount = data.get('amount')
+    transaction_id = generate_transaction_id()
 
     # Process the payment
     data_payment = {
-        'amount': data.get('amount'),
+        'amount': amount,
         'card': data.get('billing', {}).get('card', {}),
-        'transaction_id': generate_transaction_id()
+        'transaction_id':transaction_id
     }
     url = "{}/payment/process".format(BASE_URL_API_GATEWAY)
     response = requests.post(url, json=data_payment)
@@ -41,11 +59,12 @@ def post_checkout():
         span = trace.get_current_span()
         span.set_attribute('event.outcome', 'failure')
         span.set_status(Status(StatusCode.ERROR))
+        logger.info(f"session_id={session_id},cart_id={cart_id},action=process_payment,status=failed,amount={amount},transaction_id={transaction_id}")
         return jsonify({ 'message': 'failure' }), response.status_code
 
     # Clear the cart
     data_cart = {
-        'session_id': data.get('session_id')
+        'session_id': session_id
     }
     url="{}/cart".format(BASE_URL_API_GATEWAY)
     response = requests.delete(url, json=data_cart)
@@ -53,7 +72,9 @@ def post_checkout():
         span = trace.get_current_span()
         span.set_attribute('event.outcome', 'failure')
         span.set_status(Status(StatusCode.ERROR))
+        logger.info(f"session_id={session_id},cart_id={cart_id},action=process_payment,status=failed,amount={amount},transaction_id={transaction_id}")
         return jsonify({ 'message': 'failure' }), response.status_code
+    logger.info(f"session_id={session_id},cart_id={cart_id},action=process_payment,status=success,amount={amount},transaction_id={transaction_id}")
     return jsonify({ 'message': 'success' })
 
 @app.route('/')

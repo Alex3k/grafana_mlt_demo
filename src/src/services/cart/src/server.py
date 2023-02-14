@@ -58,6 +58,8 @@ def get_cart_products():
     session_id = request.get_json().get('session_id')
     cart_id = get_cart_id(session_id)
     reply = get_cart(cart_id)
+    logger.info(f"session_id={session_id},cart_id={cart_id},action=list_cart")
+
     return jsonify({ 'message': 'success', 'data': reply })
 
 @app.route('/', methods=['DELETE',])
@@ -68,6 +70,7 @@ def delete_cart():
     session_id = request.get_json().get('session_id')
     cart_id = get_cart_id(session_id)
     reply = clear_cart(cart_id)
+    logger.info(f"session_id={session_id},cart_id={cart_id},action=delete_cart")
     return jsonify({ 'message': 'success', 'data': reply })
 
 
@@ -79,6 +82,8 @@ def put_cart_product(product_id, quantity):
     session_id = request.get_json().get('session_id')
     cart_id = get_cart_id(session_id)
     reply = set_cart_item(cart_id, product_id, quantity)
+    logger.info(f"session_id={session_id},cart_id={cart_id},action=add_cart_item,product_id={product_id},quantity={quantity}")
+
     return jsonify({ 'message': 'success', 'data': reply })
 
 @app.route('/<product_id>', methods=['DELETE',])
@@ -89,6 +94,7 @@ def delete_cart_product(product_id):
     session_id = request.get_json().get('session_id')
     cart_id = get_cart_id(session_id)
     reply = remove_cart_item(cart_id, product_id)
+    logger.info(f"session_id={session_id},cart_id={cart_id},action=remove_cart_item,product_id={product_id}")
     return jsonify({ 'message': 'success', 'data': reply })
 
 @app.route('/')

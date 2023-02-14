@@ -170,7 +170,7 @@ spec:
     spec:
       containers:
       - name: cart
-        image: gcr.io/solutions-engineering-248511/microbs-ecommerce-cart:3.4.11-main
+        image: gcr.io/solutions-engineering-248511/akc-cart:3.4.13
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -374,7 +374,7 @@ spec:
     spec:
       containers:
       - name: checkout
-        image: gcr.io/solutions-engineering-248511/microbs-ecommerce-checkout:3.4.11-main
+        image: gcr.io/solutions-engineering-248511/akc-checkout:3.4.13
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
