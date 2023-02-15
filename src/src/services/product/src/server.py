@@ -1,6 +1,7 @@
 # Standard packages
 import json
 import os
+import math
 
 # Third-party packages
 import psycopg2
@@ -9,7 +10,10 @@ from flask import jsonify, request
 from opentelemetry.instrumentation.psycopg2 import Psycopg2Instrumentor
 
 # Service packages
-from common import app, config, logger
+from common import app, config, logger,feature_flags
+
+def basic_bug():
+    return math.factorial(1000000) / 0 # Slow process followed by an error
 
 # Configure Postgres
 Psycopg2Instrumentor().instrument()
@@ -56,6 +60,10 @@ def get_products():
     """
     Get products.
     """
+
+    if feature_flags["product_super_fast_mode"] is True:
+        basic_bug()
+
     with postgres() as connection:
         cursor = connection.cursor()
         ids = (request.get_json() or [])

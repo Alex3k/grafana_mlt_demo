@@ -32,6 +32,9 @@ config['SERVICE_VERSION'] = os.environ.get('SERVICE_VERSION') or ''
 config['OTLP_RECEIVER_HOST'] = os.environ.get('OTLP_RECEIVER_HOST') or 'localhost'
 config['OTLP_RECEIVER_PORT'] = os.environ.get('OTLP_RECEIVER_PORT') or 4317
 
+feature_flags = {
+    "product_super_fast_mode": os.environ.get('FEATURE_FLAG_PRODUCT_SUPER_FAST_MODE') == "true" 
+}
 
 ####  Tracing  #################################################################
 
@@ -92,6 +95,10 @@ class LogfmtFormatter(logging.Formatter):
             ( 'level', log.levelname.lower() ),
             ( 'msg', log.getMessage() ),
         ]
+
+        for flag in feature_flags.items():
+            log_formatted.append((f"feature_flag_{flag[0]}", flag[1] ))
+
         for key, value in getattr(log, 'tags', []):
             log_formatted.append(( key, value ))
         if trace.get_current_span().is_recording():

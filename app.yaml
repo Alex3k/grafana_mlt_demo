@@ -603,7 +603,7 @@ spec:
     spec:
       containers:
       - name: product
-        image: gcr.io/solutions-engineering-248511/microbs-ecommerce-product:3.4.11-main
+        image: gcr.io/solutions-engineering-248511/akc-product:3.4.21
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -650,6 +650,8 @@ spec:
               fieldPath: metadata.name
         - name: OTEL_RESOURCE_ATTRIBUTES
           value: k8s.app=$(K8S_APP),k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.ip=$(K8S_POD_IP),k8s.pod.name=$(K8S_POD_NAME)
+        - name: FEATURE_FLAG_PRODUCT_SUPER_FAST_MODE
+          value: "false"
 ---
 apiVersion: v1
 kind: Service

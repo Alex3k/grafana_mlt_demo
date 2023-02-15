@@ -6,8 +6,13 @@ https://opentelemetry-python.readthedocs.io/en/latest/examples/fork-process-mode
 def post_fork(server, worker):
     
     # Service packages
-    from common import config, logger
-    
+    from common import config, logger, feature_flags
+
+    if feature_flags["product_super_fast_mode"] is True:
+        logger.info("product_super_fast_mode is enabled")
+    else:
+        logger.info("product_super_fast_mode is disabled")
+            
     # Configure tracing
     from opentelemetry import trace
     from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter

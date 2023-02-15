@@ -10,3 +10,4 @@ opentelemetry-instrumentation-psycopg2==0.29b0
 opentelemetry-instrumentation-requests==0.29b0
 psycopg2==2.9.3
 requests==2.27.1
+protobuf==3.20.*
