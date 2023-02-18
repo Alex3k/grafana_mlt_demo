@@ -141,12 +141,25 @@ def response_hook(span, status, response_headers):
             ( 'method', request.method ),
             ( 'path', request.path ),
             ( 'status', status.split(' ')[0] ),
+            ( 'user_agent', request.headers.get('User-Agent') ),
+            ( 'device_country', request.headers.get('X-Device-Country') ),
+            ( 'device_id', request.headers.get('X-Device-ID') ),
+            ( 'forwarded_for', request.headers.get('X-Forwarded-For') ),
+            ( 'customer_tier', request.headers.get('X-Customer-Tier') )
         ]
     })
 
+# Add extra attributes to the span
+def request_hook(span, environ):
+    if span and span.is_recording():
+        if environ.get('HTTP_X_FORWARDED_FOR') is not None:
+            span.set_attribute('http.request.header.x_forwarded_for', environ.get('HTTP_X_FORWARDED_FOR'))
+        if environ.get('HTTP_X_CUSTOMER_TIER') is not None:
+            span.set_attribute('enduser.tier', environ.get('HTTP_X_CUSTOMER_TIER'))
+
 # Instantiate application
 app = Flask(config.get('SERVICE_NAME'))
-FlaskInstrumentor().instrument_app(app, response_hook=response_hook)
+FlaskInstrumentor().instrument_app(app, request_hook=request_hook, response_hook=response_hook)
 
 # Enable CORS
 cors = CORS(app, resources={r'*': {'origins': '*'}})
