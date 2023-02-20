@@ -12,9 +12,9 @@ import ReactDOM from 'react-dom';
 import { Route } from 'react-router-dom';
 import App from './components/app';
 
-const VERSION = process.env.SERVICE_VERSION;
+const VERSION = "3.4.22";
 const NAME = 'frontend';
-const COLLECTOR_URL = process.env.FARO_ENDPOINT;
+const COLLECTOR_URL = "http://35.224.5.38:12121/collect";
 
 const history = createBrowserHistory();
 

@@ -306,7 +306,7 @@ data:
                 http:
                   cors:
                     allowed_origins:
-                      - http://*
+                      - http://34.29.94.7/
                     max_age: 7200
     integrations:
       app_agent_receiver_configs:
@@ -321,7 +321,7 @@ data:
             port: 12121
             api_key: 'secret' # optional, if set, client will be required to provide it via x-api-key header
             cors_allowed_origins:
-              - 'https://*'
+              - 'http://*'
           logs_labels: 
             app: frontend # static value
             kind: # value will be taken from log items. exception, log, measurement, etc

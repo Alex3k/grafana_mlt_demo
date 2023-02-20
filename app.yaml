@@ -833,7 +833,7 @@ spec:
     spec:
       containers:
       - name: web-gateway
-        image: us.gcr.io/field-engineering-grafana/akc-web-gateway:3.4.145
+        image: us.gcr.io/field-engineering-grafana/akc-web-gateway:3.4.22
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -855,9 +855,9 @@ spec:
         - name: SERVICE_PORT_SESSION_DATA
           value: "6379"
         - name: SERVICE_VERSION
-          value: "3.4.15"
+          value: "3.4.22"
         - name: FARO_ENDPOINT
-          value: "https://35.224.5.38:12121/collect"
+          value: "http://35.224.5.38:12121/collect"
         - name: SERVICE_NAME
           valueFrom:
             fieldRef:

@@ -3,6 +3,7 @@ FROM node:17 AS build-react
 WORKDIR /service
 COPY ./services/web-gateway/src/public ./src/public
 COPY ./services/web-gateway/package.json .
+COPY ./services/web-gateway/.env .
 
 ARG DEPLOYMENT_ENVIRONMENT
 ARG SERVICE_NAME

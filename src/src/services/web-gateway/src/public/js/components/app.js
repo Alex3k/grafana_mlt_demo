@@ -1,5 +1,6 @@
 // Third party components
 import React from 'react';
+import { FaroRoute } from '@grafana/faro-react';
 import { BrowserRouter, Router, Switch } from 'react-router-dom';
 
 // App components
