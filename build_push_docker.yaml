@@ -15,10 +15,58 @@ SLOW_PAYMENTS_VERSION="1.5"
 
 cd src/src/services/synthetics
 
+docker build --platform linux/amd64 -t gcr.io/solutions-engineering-248511/akc-mltdemo-k6:$K6_VERSION -f Dockerfile . 
+docker push gcr.io/solutions-engineering-248511/akc-mltdemo-k6:$K6_VERSION
+docker tag gcr.io/solutions-engineering-248511/akc-mltdemo-k6:$K6_VERSION us.gcr.io/field-engineering-grafana/akc-mltdemo-k6:$K6_VERSION
+docker push us.gcr.io/field-engineering-grafana/akc-mltdemo-k6:$K6_VERSION
+
 cd ../..
 
 docker build --platform linux/amd64 -t gcr.io/solutions-engineering-248511/akc-web-gateway:$WEB_GATEWAY_VERSION -f services/web-gateway/Dockerfile . 
 docker push gcr.io/solutions-engineering-248511/akc-web-gateway:$WEB_GATEWAY_VERSION
 docker tag gcr.io/solutions-engineering-248511/akc-web-gateway:$WEB_GATEWAY_VERSION us.gcr.io/field-engineering-grafana/akc-web-gateway:$WEB_GATEWAY_VERSION
 docker push us.gcr.io/field-engineering-grafana/akc-web-gateway:$WEB_GATEWAY_VERSION
+
+
+docker build --platform linux/amd64 -t gcr.io/solutions-engineering-248511/akc-api-gateway:$API_GATEWAY_VERSION -f services/api-gateway/Dockerfile . 
+docker push gcr.io/solutions-engineering-248511/akc-api-gateway:$API_GATEWAY_VERSION
+docker tag gcr.io/solutions-engineering-248511/akc-api-gateway:$API_GATEWAY_VERSION us.gcr.io/field-engineering-grafana/akc-api-gateway:$API_GATEWAY_VERSION
+docker push us.gcr.io/field-engineering-grafana/akc-api-gateway:$API_GATEWAY_VERSION
+
+
+docker build --platform linux/amd64 -t gcr.io/solutions-engineering-248511/akc-content:$CONTENT_VERSION -f services/content/Dockerfile . 
+docker push gcr.io/solutions-engineering-248511/akc-content:$CONTENT_VERSION
+docker tag gcr.io/solutions-engineering-248511/akc-content:$CONTENT_VERSION us.gcr.io/field-engineering-grafana/akc-content:$CONTENT_VERSION
+docker push us.gcr.io/field-engineering-grafana/akc-content:$CONTENT_VERSION
+
+docker build --platform linux/amd64 -t gcr.io/solutions-engineering-248511/akc-product:$PRODUCT_VERSION -f services/product/Dockerfile . 
+docker push gcr.io/solutions-engineering-248511/akc-product:$PRODUCT_VERSION
+docker tag gcr.io/solutions-engineering-248511/akc-product:$PRODUCT_VERSION us.gcr.io/field-engineering-grafana/akc-product:$PRODUCT_VERSION
+docker push us.gcr.io/field-engineering-grafana/akc-product:$PRODUCT_VERSION
+
+
+docker build --platform linux/amd64 -t gcr.io/solutions-engineering-248511/akc-cart:$CART_VERSION -f services/cart/Dockerfile . 
+docker push gcr.io/solutions-engineering-248511/akc-cart:$CART_VERSION
+docker tag gcr.io/solutions-engineering-248511/akc-cart:$CART_VERSION us.gcr.io/field-engineering-grafana/akc-cart:$CART_VERSION
+docker push us.gcr.io/field-engineering-grafana/akc-cart:$CART_VERSION
+
+docker build --platform linux/amd64 -t gcr.io/solutions-engineering-248511/akc-checkout:$CHECKOUT_VERSION -f services/checkout/Dockerfile . 
+docker push gcr.io/solutions-engineering-248511/akc-checkout:$CHECKOUT_VERSION
+docker tag gcr.io/solutions-engineering-248511/akc-checkout:$CHECKOUT_VERSION us.gcr.io/field-engineering-grafana/akc-checkout:$CHECKOUT_VERSION
+docker push us.gcr.io/field-engineering-grafana/akc-checkout:$CHECKOUT_VERSION
+
+docker build --platform linux/amd64 -t gcr.io/solutions-engineering-248511/akc-payment:$PAYMENT_VERSION -f services/payment/Dockerfile . 
+docker push gcr.io/solutions-engineering-248511/akc-payment:$PAYMENT_VERSION
+docker tag gcr.io/solutions-engineering-248511/akc-payment:$PAYMENT_VERSION us.gcr.io/field-engineering-grafana/akc-payment:$PAYMENT_VERSION
+docker push us.gcr.io/field-engineering-grafana/akc-payment:$PAYMENT_VERSION
+
+docker build --platform linux/amd64 -t gcr.io/solutions-engineering-248511/akc-payment-failure:$PAYMENT_FAILURES_VERSION -f variants/payment-failures/Dockerfile . 
+docker push gcr.io/solutions-engineering-248511/akc-payment-failure:$PAYMENT_FAILURES_VERSION
+docker tag gcr.io/solutions-engineering-248511/akc-payment-failure:$PAYMENT_FAILURES_VERSION us.gcr.io/field-engineering-grafana/akc-payment-failure:$PAYMENT_FAILURES_VERSION
+docker push us.gcr.io/field-engineering-grafana/akc-payment-failure:$PAYMENT_FAILURES_VERSION
+
+docker build --platform linux/amd64 -t gcr.io/solutions-engineering-248511/akc-slow-payment:$SLOW_PAYMENTS_VERSION -f variants/slow-payments/Dockerfile . 
+docker push gcr.io/solutions-engineering-248511/akc-slow-payment:$SLOW_PAYMENTS_VERSION
+docker tag gcr.io/solutions-engineering-248511/akc-slow-payment:$SLOW_PAYMENTS_VERSION us.gcr.io/field-engineering-grafana/akc-slow-payment:$SLOW_PAYMENTS_VERSION
+docker push us.gcr.io/field-engineering-grafana/akc-slow-payment:$SLOW_PAYMENTS_VERSION
 
