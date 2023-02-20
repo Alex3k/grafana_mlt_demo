@@ -1,5 +1,6 @@
 // Third party components
 import React from 'react'
+import { FaroRoutes } from '@grafana/faro-react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 // App components
@@ -20,12 +21,12 @@ function App() {
     <Provider>
       <BrowserRouter>
         <Switch>
-          <Route path="/" exact component={HomePage} />
-          <Route path="/cart" exact component={CartPage} />
-          <Route path="/checkout" exact component={CheckoutPage} />
-          <Route path="/confirmation" exact component={ConfirmationPage} />
-          <Route path="/test" exact component={TestPage} />
-          <Route path="*" component={NotFoundPage} />
+          <FaroRoutes><Route path="/" exact component={HomePage} /> </FaroRoutes>
+          <FaroRoutes><Route path="/cart" exact component={CartPage} /></FaroRoutes>
+          <FaroRoutes><Route path="/checkout" exact component={CheckoutPage} /></FaroRoutes>
+          <FaroRoutes><Route path="/confirmation" exact component={ConfirmationPage} /></FaroRoutes>
+          <FaroRoutes><Route path="/test" exact component={TestPage} /></FaroRoutes>
+          <FaroRoutes><Route path="*" component={NotFoundPage} /></FaroRoutes>
         </Switch>
       </BrowserRouter>
     </Provider>
