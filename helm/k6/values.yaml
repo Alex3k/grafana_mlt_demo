@@ -1,11 +1,12 @@
+namespace: mltdemo
 image:
-  repository: gcr.io/solutions-engineering-248511/akc-k6
-  tag: "3.4.16-amd64"
+  repository: us.gcr.io/field-engineering-grafana/akc-mltdemo-k6
+  tag: "3.4.17"
 
 prometheus:
-    username: foo
-    apikey: foo
-    url: foo
+    username: 779510
+    apikey: eyJrIjoiMjIxODhiNWQ1MWE5OGJlNzhjNGJlY2U4ZmRjNjJmNWIzNzcxZjdjYiIsIm4iOiJNZXRyaWNzUHVibGlzaGVyRm9yTUxURGVtbyIsImlkIjo3OTczMzJ9
+    url: https://prometheus-us-central1.grafana.net/api/prom/push
 
 k6:
     virtual_user_count: 2

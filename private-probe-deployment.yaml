@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: synthetic-monitoring-private-probe
+  namespace: mltdemo
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      name: synthetic-monitoring-private-probe
+  template:
+    metadata:
+      labels:
+        name: synthetic-monitoring-private-probe
+    spec:
+      containers:
+      - name: synthetic-monitoring-private-probe
+        image:  grafana/synthetic-monitoring-agent:v0.9.1-0-gc790779
+        imagePullPolicy: IfNotPresent
+        args: ["-verbose", "-api-server-address=synthetic-monitoring-grpc.grafana.net:443", "-api-token=SgRhZe/k+gsMwMMaHrc9kxmc3nGT4LhanSrkewj5FOo8lZnJZeCHSboExSQB/H59dcevPtgHHOTCpf5Ch3KL2jXDZIkNqesCayx4kdONx+FVQxb9G8riHGBdqwrWFcBd0PYDL2KD+N4MKZ9AS6Kho6sgVG03L60dOO2ZLFT5Go4="]
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 4050
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 4050
+        ports:
+        - containerPort: 4050
+          name: "http-metrics"

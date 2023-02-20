@@ -1,21 +1,23 @@
+namespace: mltdemo
+
 image:
   repository: grafana/agent
   tag: "v0.24.2"
 
 tempo:
-    username: foo
-    apikey: foo
-    url: foo
+    username: 385237
+    apikey: eyJrIjoiYTE4MzBjY2Q5ODEzMzIwY2JjZWMxNmU4MDUzMzg2N2E0MDU1M2RiYiIsIm4iOiJha2MtZGF0YXNoaXBwZXIiLCJpZCI6Nzk3MzMyfQ==
+    url: https://tempo-us-central1.grafana.net/tempo
 
 prometheus:
-    username: foo
-    apikey: foo
-    url: foo
+    username: 779510
+    apikey: eyJrIjoiYTE4MzBjY2Q5ODEzMzIwY2JjZWMxNmU4MDUzMzg2N2E0MDU1M2RiYiIsIm4iOiJha2MtZGF0YXNoaXBwZXIiLCJpZCI6Nzk3MzMyfQ==
+    url: https://prometheus-us-central1.grafana.net/api/prom/push
 
 loki:
-    username: foo
-    apikey: foo
-    url: foo
+    username: 388724
+    apikey: eyJrIjoiYTE4MzBjY2Q5ODEzMzIwY2JjZWMxNmU4MDUzMzg2N2E0MDU1M2RiYiIsIm4iOiJha2MtZGF0YXNoaXBwZXIiLCJpZCI6Nzk3MzMyfQ==
+    url: https://logs-prod-017.grafana.net
 
 otel:
   host: otel-collector

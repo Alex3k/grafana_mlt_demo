@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: payment
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: payment
@@ -19,7 +20,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: gcr.io/solutions-engineering-248511/akc-payment-failure:3.4.12
+        image: us.gcr.io/field-engineering-grafana/akc-payment-failure:3.4.12
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:

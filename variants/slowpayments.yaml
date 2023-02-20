@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: payment
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: payment
@@ -20,7 +21,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: gcr.io/solutions-engineering-248511/akc-slow-payment:1.4
+        image: us.gcr.io/field-engineering-grafana/akc-slow-payment:1.4
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:

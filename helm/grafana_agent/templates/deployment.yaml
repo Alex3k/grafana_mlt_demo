@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grafana-agent-traces-metrics
+  namespace: {{ .Values.namespace }}
   labels:
     app: grafana-agent-traces-metrics
     name: grafana-agent-traces-metrics
@@ -80,7 +81,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: grafana-agent-k8s
-  namespace: default
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
@@ -142,6 +143,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: grafana-agent-logs
+  namespace: {{ .Values.namespace }}
   labels:
     app: grafana-agent-logs
     name: grafana-agent-logs
@@ -218,6 +220,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grafana-agent-redis
+  namespace: {{ .Values.namespace }}
   labels:
     app: grafana-agent-redis
     name: grafana-agent-redis

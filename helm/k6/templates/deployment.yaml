@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: k6
+  namespace: {{ .Values.namespace }}
   labels:
     app: ecommerce
     service: k6
@@ -42,3 +43,5 @@ spec:
           value: "{{ .Values.prometheus.username }}"
         - name: K6_PROMETHEUS_PASSWORD
           value: "{{ .Values.prometheus.apikey }}"
+        - name: SERVICE_HOST_WEB_GATEWAY
+          value: "web-gateway.{{ .Values.namespace }}.svc.cluster.local"

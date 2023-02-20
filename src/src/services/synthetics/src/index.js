@@ -9,7 +9,7 @@ import { sleep } from 'k6'
 
  // TODO: Revert default
 const SERVICE_HOST_WEB_GATEWAY = __ENV.SERVICE_HOST_WEB_GATEWAY || 'web-gateway.default.svc.cluster.local'
-const SERVICE_PORT_WEB_GATEWAY = __ENV.SERVICE_HOST_WEB_GATEWAY || 80
+const SERVICE_PORT_WEB_GATEWAY = __ENV.SERVICE_PORT_WEB_GATEWAY || 80
 const BASE_URL = `http://${SERVICE_HOST_WEB_GATEWAY}:${SERVICE_PORT_WEB_GATEWAY}`
 
 // k6 Configuration

@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: product
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: product
@@ -19,7 +20,7 @@ spec:
     spec:
       containers:
       - name: product
-        image: gcr.io/solutions-engineering-248511/akc-product:3.4.21
+        image: us.gcr.io/field-engineering-grafana/akc-product:3.4.21
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:

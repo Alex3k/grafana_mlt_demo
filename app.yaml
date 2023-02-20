@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-gateway
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: api-gateway
@@ -20,7 +21,7 @@ spec:
     spec:
       containers:
       - name: api-gateway
-        image: gcr.io/solutions-engineering-248511/microbs-ecommerce-api-gateway:3.4.11-main
+        image: us.gcr.io/field-engineering-grafana/microbs-ecommerce-api-gateway:3.4.11-main
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -64,6 +65,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: api-gateway
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: api-gateway
@@ -78,6 +80,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-gateway
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: api-gateway
@@ -95,7 +98,7 @@ spec:
     spec:
       containers:
       - name: api-gateway
-        image: gcr.io/solutions-engineering-248511/microbs-ecommerce-api-gateway:3.4.11-main
+        image: us.gcr.io/field-engineering-grafana/microbs-ecommerce-api-gateway:3.4.11-main
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -139,6 +142,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: api-gateway
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: api-gateway
@@ -153,6 +157,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cart
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: cart
@@ -170,7 +175,7 @@ spec:
     spec:
       containers:
       - name: cart
-        image: gcr.io/solutions-engineering-248511/akc-cart:3.4.13
+        image: us.gcr.io/field-engineering-grafana/akc-cart:3.4.13
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -214,6 +219,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cart
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: cart
@@ -228,6 +234,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cart-data
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: cart-data
@@ -246,7 +253,7 @@ spec:
       subdomain: cart-data
       containers:
       - name: cart-data
-        image: gcr.io/solutions-engineering-248511/microbs-ecommerce-cart-data:3.4.11-main
+        image: us.gcr.io/field-engineering-grafana/microbs-ecommerce-cart-data:3.4.11-main
         imagePullPolicy: IfNotPresent
         command:
           - "redis-server"
@@ -276,6 +283,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cart-data-replica
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: cart-data-replica
@@ -294,7 +302,7 @@ spec:
       subdomain: cart-data-replica
       containers:
       - name: cart-data-replica
-        image: gcr.io/solutions-engineering-248511/microbs-ecommerce-cart-data:3.4.11-main
+        image: us.gcr.io/field-engineering-grafana/microbs-ecommerce-cart-data:3.4.11-main
         imagePullPolicy: IfNotPresent
         command:
           - "redis-server"
@@ -329,6 +337,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cart-data
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: cart-data
@@ -343,6 +352,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cart-data-replica
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: cart-data-replica
@@ -357,6 +367,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: checkout
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: checkout
@@ -374,7 +385,7 @@ spec:
     spec:
       containers:
       - name: checkout
-        image: gcr.io/solutions-engineering-248511/akc-checkout:3.4.13
+        image: us.gcr.io/field-engineering-grafana/akc-checkout:3.4.13
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -422,6 +433,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: checkout
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: checkout
@@ -436,6 +448,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: content
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: content
@@ -453,7 +466,7 @@ spec:
     spec:
       containers:
       - name: content
-        image: gcr.io/solutions-engineering-248511/microbs-ecommerce-content:3.4.11-main
+        image: us.gcr.io/field-engineering-grafana/microbs-ecommerce-content:3.4.11-main
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -497,6 +510,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: content
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: content
@@ -511,6 +525,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: payment
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: payment
@@ -528,7 +543,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: gcr.io/solutions-engineering-248511/microbs-ecommerce-payment:3.4.11-main
+        image: us.gcr.io/field-engineering-grafana/microbs-ecommerce-payment:3.4.11-main
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -572,6 +587,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: payment
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: payment
@@ -586,6 +602,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: product
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: product
@@ -603,7 +620,7 @@ spec:
     spec:
       containers:
       - name: product
-        image: gcr.io/solutions-engineering-248511/akc-product:3.4.21
+        image: us.gcr.io/field-engineering-grafana/akc-product:3.4.21
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -657,6 +674,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: product
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: product
@@ -671,6 +689,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: product-data
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: product-data
@@ -688,7 +707,7 @@ spec:
     spec:
       containers:
       - name: product-data
-        image: gcr.io/solutions-engineering-248511/akc-product-data:3.4.14-amd64
+        image: us.gcr.io/field-engineering-grafana/akc-product-data:3.4.14-amd64
         imagePullPolicy: IfNotPresent
         readinessProbe:
           exec:
@@ -723,6 +742,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: product-data
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: product-data
@@ -737,6 +757,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: session-data
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: session-data
@@ -755,7 +776,7 @@ spec:
       subdomain: session-data
       containers:
       - name: session-data
-        image: gcr.io/solutions-engineering-248511/microbs-ecommerce-session-data:3.4.11-main
+        image: us.gcr.io/field-engineering-grafana/microbs-ecommerce-session-data:3.4.11-main
         imagePullPolicy: IfNotPresent
         command:
           - "redis-server"
@@ -785,6 +806,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: session-data-replica
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: session-data-replica
@@ -803,7 +825,7 @@ spec:
       subdomain: session-data-replica
       containers:
       - name: session-data-replica
-        image: gcr.io/solutions-engineering-248511/microbs-ecommerce-session-data:3.4.11-main
+        image: us.gcr.io/field-engineering-grafana/microbs-ecommerce-session-data:3.4.11-main
         imagePullPolicy: IfNotPresent
         command:
           - "redis-server"
@@ -838,6 +860,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: session-data
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: session-data
@@ -852,6 +875,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: session-data-replica
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: session-data-replica
@@ -866,6 +890,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web-gateway
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: web-gateway
@@ -883,7 +908,7 @@ spec:
     spec:
       containers:
       - name: web-gateway
-        image: gcr.io/solutions-engineering-248511/microbs-ecommerce-web-gateway:3.4.11-main
+        image: us.gcr.io/field-engineering-grafana/microbs-ecommerce-web-gateway:3.4.11-main
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -935,6 +960,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: web-gateway
+  namespace: mltdemo
   labels:
     app: ecommerce
     service: web-gateway
@@ -949,6 +975,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: web-gateway-external
+  namespace: mltdemo
   labels:
     app: ecommerce
 spec:
