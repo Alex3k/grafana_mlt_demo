@@ -12,8 +12,8 @@ import ReactDOM from 'react-dom';
 import { Route } from 'react-router-dom';
 import App from './components/app';
 
-const VERSION = "3.4.22";
-const NAME = 'frontend';
+const VERSION = "3.4.23";
+const NAME = 'ecommerce-frontend';
 const COLLECTOR_URL = "http://35.224.5.38:12121/collect";
 
 const history = createBrowserHistory();
