@@ -1,1 +1,1 @@
-FROM redis:6.2.6
+FROM docker.io/library/redis:6.2.6

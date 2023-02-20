@@ -1,6 +1,6 @@
 // Node.js packages
 import dateFormat from 'dateformat'
-import * as faker from '@faker-js/faker'
+import { faker } from '@faker-js/faker'
 import { GenCC } from 'creditcard-generator'
 
 // k6 packages
@@ -21,13 +21,17 @@ export const options = {
 // Utils
 const pause = () => sleep(1 + Math.random() * 2)
 const json = (data) => JSON.stringify(data)
-const jsonParams = () => {
-  return { headers: { 'Content-Type': 'application/json' }}
-}
 const randomUser = () => {
   faker.setLocale('en_US')
   const postalCode = faker.address.zipCode().split('-')[0]
   const user = {
+    tier: faker.helpers.arrayElement(['standard', 'silver', 'gold']),
+    device: {
+      id: faker.datatype.uuid(),
+      user_agent: faker.internet.userAgent(),
+      ip_address: faker.internet.ip(),
+      country: faker.address.countryCode()
+    },
     address: {
       street_1: faker.address.streetAddress(),
       street_2: Math.random() > 0.8 ? faker.address.secondaryAddress() : '',
@@ -50,6 +54,17 @@ const randomUser = () => {
 export default () => {
   const user = randomUser()
 
+  const jsonParams = () => {
+    return { headers: { 
+      'Content-Type': 'application/json',
+      'User-Agent': user.device.user_agent,
+      'X-Customer-Tier': user.tier,
+      'X-Device-Id': user.device.id,
+      'X-Device-Country': user.device.country, // This is random, so unrelated to IP
+      'X-Forwarded-For': user.device.ip_address
+    }}
+  }
+  
   ////  Load home   ////////////////////////////////////////////////////////////
 
   // User request
