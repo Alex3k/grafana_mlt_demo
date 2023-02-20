@@ -1,6 +1,6 @@
 
 # Build
-FROM node:16-slim as build
+FROM docker.io/library/node:16-slim as build
 
 # Requirements for service
 WORKDIR /
@@ -15,7 +15,7 @@ RUN npm install
 RUN npm run build
 
 # Run
-FROM golang:1.17-alpine as xk6
+FROM docker.io/library/golang:1.17-alpine as xk6
 
 RUN go install go.k6.io/xk6/cmd/xk6@latest
 RUN xk6 build --with github.com/grafana/xk6-output-prometheus-remote@latest 
