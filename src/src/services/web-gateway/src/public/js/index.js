@@ -3,17 +3,20 @@ import {
   initializeFaro,
   getWebInstrumentations,
   ReactIntegration,
-  ReactRouterVersion,
+  ReactRouterVersion
 } from '@grafana/faro-react';
 import { TracingInstrumentation } from '@grafana/faro-web-tracing';
+import { createBrowserHistory } from 'history';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createRoutesFromChildren, matchRoutes, Routes, useLocation, useNavigationType } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import App from './components/app';
 
 const VERSION = process.env.SERVICE_VERSION;
 const NAME = 'frontend';
 const COLLECTOR_URL = process.env.FARO_ENDPOINT;
+
+const history = createBrowserHistory();
 
 // Initialize Faro
 initializeFaro({
@@ -22,7 +25,7 @@ initializeFaro({
   instrumentations: [
     // This adds the default instrumentation and also enables the console capture
     ...getWebInstrumentations({
-      captureConsole: true,
+      captureConsole: true
     }),
     // This adds the tracing instrumentation with all the auto-instrumentations
     new TracingInstrumentation(),
@@ -31,25 +34,22 @@ initializeFaro({
       router: {
         version: ReactRouterVersion.V5,
         dependencies: {
-          createRoutesFromChildren,
-          matchRoutes,
-          Routes,
-          useLocation,
-          useNavigationType,
-        },
-      },
-    }),
+          history,
+          Route
+        }
+      }
+    })
   ],
   app: {
     name: NAME,
     version: VERSION,
-    environment: 'prod',
-  },
+    environment: 'prod'
+  }
 });
 
 ReactDOM.render(
   <FaroErrorBoundary>
-    <App />
+    <App history={history} />
   </FaroErrorBoundary>,
   document.getElementById('root')
 );
