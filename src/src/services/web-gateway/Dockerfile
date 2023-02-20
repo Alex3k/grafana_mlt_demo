@@ -3,7 +3,6 @@ FROM node:17 AS build-react
 WORKDIR /service
 COPY ./services/web-gateway/src/public ./src/public
 COPY ./services/web-gateway/package.json .
-COPY ./services/web-gateway/.env .
 
 ARG DEPLOYMENT_ENVIRONMENT
 ARG SERVICE_NAME
@@ -23,6 +22,11 @@ ENV OTEL_RESOURCE_ATTRIBUTES=${OTEL_RESOURCE_ATTRIBUTES}
 ENV OTLP_RECEIVER_HOST=${OTLP_RECEIVER_HOST}
 ENV OTLP_RECEIVER_PORT=${OTLP_RECEIVER_PORT}
 ENV FARO_ENDPOINT=${FARO_ENDPOINT}
+
+RUN touch .env
+RUN echo "FARO_ENDPOINT=${FARO_ENDPOINT}" >> .env
+RUN echo "SERVICE_NAME=${SERVICE_NAME}" >> .env
+RUN echo "SERVICE_VERSION=${SERVICE_VERSION}" >> .env
 
 RUN yarn install
 RUN yarn run build
