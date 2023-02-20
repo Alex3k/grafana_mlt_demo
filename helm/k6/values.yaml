@@ -1,11 +1,11 @@
 namespace: mltdemo
 image:
   repository: us.gcr.io/field-engineering-grafana/akc-mltdemo-k6
-  tag: "3.4.17"
+  tag: "3.4.18"
 
 prometheus:
     username: 779510
-    apikey: eyJrIjoiMjIxODhiNWQ1MWE5OGJlNzhjNGJlY2U4ZmRjNjJmNWIzNzcxZjdjYiIsIm4iOiJNZXRyaWNzUHVibGlzaGVyRm9yTUxURGVtbyIsImlkIjo3OTczMzJ9
+    apikey: eyJrIjoiYTE4MzBjY2Q5ODEzMzIwY2JjZWMxNmU4MDUzMzg2N2E0MDU1M2RiYiIsIm4iOiJha2MtZGF0YXNoaXBwZXIiLCJpZCI6Nzk3MzMyfQ==
     url: https://prometheus-us-central1.grafana.net/api/prom/push
 
 k6:

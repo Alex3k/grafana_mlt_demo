@@ -46,3 +46,20 @@ spec:
     targetPort: 80
   selector:
     name: grafana-agent-k8s
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: grafana-agent-faro
+  name: grafana-agent-faro
+  namespace: {{ .Values.namespace }}
+spec:
+  type: LoadBalancer
+  ports:
+  - name: grafana-agent-faro
+    port: 12121
+    targetPort: 12121
+  selector:
+    name: grafana-agent-faro
+

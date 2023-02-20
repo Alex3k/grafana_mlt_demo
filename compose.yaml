@@ -40,6 +40,7 @@ services:
       - SERVICE_HOST_PRODUCT_DATA=product-data
       - OTLP_RECEIVER_HOST=agent
       - OTLP_RECEIVER_PORT=4317
+      - FEATURE_FLAG_PRODUCT_SUPER_FAST_MODE=false
     depends_on:
       - product-data
 

@@ -279,3 +279,64 @@ spec:
       - configMap:
           name: grafana-agent-redis
         name: grafana-agent-redis
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: grafana-agent-faro
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: grafana-agent-faro
+  serviceName: grafana-agent-faro
+  template:
+    metadata:
+      labels:
+        name: grafana-agent-faro
+    spec:
+      containers:
+      - args:
+        - -config.file=/etc/agent/agent.yaml
+        - -enable-features=integrations-next
+        command:
+        - /bin/agent
+        env:
+        - name: HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        envFrom:
+        - secretRef:
+           name: microbs-secrets
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: IfNotPresent
+        name: grafana-agent-faro
+        ports:
+        - containerPort: 12121
+          name: http-metrics
+        volumeMounts:
+        - mountPath: /var/lib/agent
+          name: agent-wal
+        - mountPath: /etc/agent
+          name: grafana-agent-faro
+      serviceAccount: grafana-agent-faro
+      volumes:
+      - configMap:
+          name: grafana-agent-faro
+        name: grafana-agent-faro
+  updateStrategy:
+    type: RollingUpdate
+  volumeClaimTemplates:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: agent-wal
+      namespace: default
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi

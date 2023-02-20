@@ -103,8 +103,6 @@ data:
   agent.yaml: |
     server:
       log_level: debug
-      http_listen_port: 12345
-
     logs:
       configs:
       - name: integrations
@@ -166,8 +164,6 @@ data:
   agent.yaml: |
     server:
       log_level: debug
-      http_listen_port: 12345
-
     #####  Metrics  ################################################################
     metrics:
       wal_directory: /etc/agent/wal
@@ -197,13 +193,6 @@ data:
           basic_auth:
             username: {{ .Values.tempo.username }}
             password: {{ .Values.tempo.apikey }}
-        load_balancing:
-          exporter:
-            insecure: true
-          resolver:
-            dns:
-              hostname: grafana-agent-traces-metrics-headless.{{ .Values.namespace }}.svc.cluster.local
-              port: 4318
         spanmetrics:
           metrics_instance: integrations
           latency_histogram_buckets: [
@@ -261,7 +250,6 @@ data:
   agent.yaml: |
     server:
       log_level: debug
-      http_listen_port: 12345
     integrations:
       prometheus_remote_write:
       - url: {{ .Values.prometheus.url }}
@@ -275,3 +263,68 @@ data:
         - source_labels: [__address__]
           target_label: instance
           replacement: cart-data
+---
+kind: ConfigMap
+metadata:
+  name: grafana-agent-faro
+  namespace: {{ .Values.namespace }}
+apiVersion: v1
+data:
+  agent.yaml: |
+    metrics:
+      wal_directory: /tmp/wal
+      global: {}
+      configs:
+        - name: default
+          remote_write:
+            - url: {{ .Values.prometheus.url }}
+              basic_auth:
+                username: {{ .Values.prometheus.username }}
+                password: {{ .Values.prometheus.apikey }}
+    logs:
+      positions_directory: /tmp/loki-pos
+      configs:
+        - name: default
+          scrape_configs: []
+          clients:
+            - url: {{ .Values.loki.url }}/loki/api/v1/push
+              basic_auth:
+                username: {{ .Values.loki.username }}
+                password: {{ .Values.loki.apikey }}
+    traces:
+      configs:
+        - name: default
+          remote_write:
+            - endpoint: {{ .Values.tempo.url }}
+              basic_auth:
+                username: {{ .Values.tempo.username }}
+                password: {{ .Values.tempo.apikey }}
+          receivers:
+            otlp:
+              protocols:
+                grpc:
+                http:
+                  cors:
+                    allowed_origins:
+                      - http://*
+                    max_age: 7200
+    integrations:
+      app_agent_receiver_configs:
+        - autoscrape:
+            enable: true
+            metrics_instance: 'default'
+          instance: 'frontend'
+          logs_instance: 'default'
+          traces_instance: 'default'
+          server:
+            host: 0.0.0.0
+            port: 12121
+            api_key: 'secret' # optional, if set, client will be required to provide it via x-api-key header
+            cors_allowed_origins:
+              - 'https://*'
+          logs_labels: 
+            app: frontend # static value
+            kind: # value will be taken from log items. exception, log, measurement, etc
+          logs_send_timeout: 5000
+          sourcemaps:
+            download: true 

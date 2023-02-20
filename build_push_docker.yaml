@@ -1,0 +1,24 @@
+#!/bin/sh
+
+set -e
+
+WEB_GATEWAY_VERSION="3.4.15"
+K6_VERSION="3.4.18"
+API_GATEWAY_VERSION="3.4.14"
+CART_VERSION="3.4.14"
+CHECKOUT_VERSION="3.4.14"
+CONTENT_VERSION="3.4.12"
+PAYMENT_VERSION="3.4.12"
+PRODUCT_VERSION="3.4.22"
+PAYMENT_FAILURES_VERSION="3.4.13"
+SLOW_PAYMENTS_VERSION="1.5"
+
+cd src/src/services/synthetics
+
+cd ../..
+
+docker build --platform linux/amd64 -t gcr.io/solutions-engineering-248511/akc-web-gateway:$WEB_GATEWAY_VERSION -f services/web-gateway/Dockerfile . 
+docker push gcr.io/solutions-engineering-248511/akc-web-gateway:$WEB_GATEWAY_VERSION
+docker tag gcr.io/solutions-engineering-248511/akc-web-gateway:$WEB_GATEWAY_VERSION us.gcr.io/field-engineering-grafana/akc-web-gateway:$WEB_GATEWAY_VERSION
+docker push us.gcr.io/field-engineering-grafana/akc-web-gateway:$WEB_GATEWAY_VERSION
+

@@ -31,6 +31,7 @@ config['SERVICE_PORT_API_GATEWAY'] = os.environ.get('SERVICE_PORT_API_GATEWAY') 
 config['SERVICE_VERSION'] = os.environ.get('SERVICE_VERSION') or ''
 config['OTLP_RECEIVER_HOST'] = os.environ.get('OTLP_RECEIVER_HOST') or 'localhost'
 config['OTLP_RECEIVER_PORT'] = os.environ.get('OTLP_RECEIVER_PORT') or 4317
+config['SERVICE_NAMESPACE'] = os.environ.get('SERVICE_NAMESPACE') or "default"
 
 feature_flags = {
     "product_super_fast_mode": os.environ.get('FEATURE_FLAG_PRODUCT_SUPER_FAST_MODE') == "true" 
