@@ -12,6 +12,7 @@
     "axios": "0.26.0",
     "creditcard-generator": "^0.0.7",
     "dateformat": "^5.0.3",
+    "history": "5.3.0",
     "js-cookie": "3.0.1",
     "react": "17.0.0",
     "react-dom": "17.0.0",
