@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: payment
+  name: cart
   namespace: mltdemo
   labels:
     app: ecommerce
-    service: payment
+    service: cart
 spec:
   replicas: 1
   revisionHistoryLimit: 0
   selector:
     matchLabels:
-      service: payment
+      service: cart
   template:
     metadata:
       labels:
         app: ecommerce
-        service: payment
+        service: cart
     spec:
       containers:
-      - name: payment
-        image: us.gcr.io/field-engineering-grafana/akc-payment-failure:3.4.16
+      - name: cart
+        image: us.gcr.io/field-engineering-grafana/akc-cart:3.4.23
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -29,15 +29,14 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 5
           timeoutSeconds: 5
+        envFrom:
+        - secretRef:
+            name: microbs-secrets
         env:
         - name: SERVICE_NAME
           valueFrom:
             fieldRef:
               fieldPath: metadata.labels['service']
-        - name: SERVICE_VERSION
-          value: 3.4.11-payment-failure
-        - name: PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION
-          value: python
         - name: K8S_APP
           valueFrom:
             fieldRef:
@@ -60,7 +59,5 @@ spec:
               fieldPath: metadata.name
         - name: OTEL_RESOURCE_ATTRIBUTES
           value: k8s.app=$(K8S_APP),k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.ip=$(K8S_POD_IP),k8s.pod.name=$(K8S_POD_NAME)
-        envFrom:
-        - secretRef:
-           name: microbs-secrets
----
+        - name: FEATURE_FLAG_CART_NEW_USER_FLOW
+          value: "true"

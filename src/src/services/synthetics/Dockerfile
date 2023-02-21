@@ -34,4 +34,4 @@ ENV SERVICE_HOST_WEB_GATEWAY=${SERVICE_HOST_WEB_GATEWAY}
 ENV SERVICE_PORT_WEB_GATEWAY=${SERVICE_PORT_WEB_GATEWAY}
 
 
-CMD ["./k6", "run", "./dist/app.bundle.js", "--no-summary", "--no-usage-report", "-q", "-o", "output-prometheus-remote" ]
+CMD ["./k6", "run", "./dist/app.bundle.js", "--no-summary", "--no-usage-report", "-o", "output-prometheus-remote" ]

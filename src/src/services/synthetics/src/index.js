@@ -54,6 +54,13 @@ const randomUser = () => {
 export default () => {
   const user = randomUser()
 
+  // User request
+  console.debug('Load home...')
+  http.get(`${BASE_URL}/`)
+
+  const session_id = (http.cookieJar().cookiesForURL(`${BASE_URL}/`).session_id || ["missing"])[0]
+  console.log(session_id)
+
   const jsonParams = () => {
     return { headers: { 
       'Content-Type': 'application/json',
@@ -61,16 +68,10 @@ export default () => {
       'X-Customer-Tier': user.tier,
       'X-Device-Id': user.device.id,
       'X-Device-Country': user.device.country, // This is random, so unrelated to IP
-      'X-Forwarded-For': user.device.ip_address
+      'X-Forwarded-For': user.device.ip_address,
+      'X-Session-Id': session_id
     }}
   }
-  
-  ////  Load home   ////////////////////////////////////////////////////////////
-
-  // User request
-  console.debug('Load home...')
-  http.get(`${BASE_URL}/`)
-  const session_id = (http.cookieJar().cookiesForURL(`${BASE_URL}/`).session_id || [])[0]
 
   // Browser XHR
   http.post(`${BASE_URL}/api/v1/product/search`, json({ query: '', page: { size: 6 }}), jsonParams())

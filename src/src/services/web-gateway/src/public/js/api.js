@@ -1,6 +1,19 @@
 // Third-party packages
-import axios from 'axios'
-import Cookies from 'js-cookie'
+import { faro } from '@grafana/faro-react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+
+axios.interceptors.response.use((response) => {
+  if (response.status >= 300) {
+    const err = new Error();
+    err.name = `Network error - ${response.status} - ${response.request?.responseURL || '?'}`;
+    err.message = response.data ? JSON.stringify(response.data) : '';
+    err.reason = response.request;
+    faro.api?.pushError(err);
+  }
+
+  return response;
+});
 
 const getSessionId = () => decodeURIComponent(Cookies.get('session_id'))
 

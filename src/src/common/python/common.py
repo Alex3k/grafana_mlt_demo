@@ -34,7 +34,8 @@ config['OTLP_RECEIVER_PORT'] = os.environ.get('OTLP_RECEIVER_PORT') or 4317
 config['SERVICE_NAMESPACE'] = os.environ.get('SERVICE_NAMESPACE') or "default"
 
 feature_flags = {
-    "product_super_fast_mode": os.environ.get('FEATURE_FLAG_PRODUCT_SUPER_FAST_MODE') == "true" 
+    "product_super_fast_mode": os.environ.get('FEATURE_FLAG_PRODUCT_SUPER_FAST_MODE') == "true",
+    "cart_new_user_flow": os.environ.get('FEATURE_FLAG_CART_NEW_USER_FLOW') == "true"
 }
 
 ####  Tracing  #################################################################
@@ -82,7 +83,7 @@ def logfmt(key_value_pairs):
     for key, value in key_value_pairs:
         log_formatted.append(logfmt_key_value(key, value))
     return ' '.join(log_formatted)
-
+ 
 class LogfmtFormatter(logging.Formatter):
 
     def format(self, log):
@@ -146,7 +147,8 @@ def response_hook(span, status, response_headers):
             ( 'device_country', request.headers.get('X-Device-Country') ),
             ( 'device_id', request.headers.get('X-Device-ID') ),
             ( 'forwarded_for', request.headers.get('X-Forwarded-For') ),
-            ( 'customer_tier', request.headers.get('X-Customer-Tier') )
+            ( 'customer_tier', request.headers.get('X-Customer-Tier') ),
+            ( 'session_id', request.headers.get('X-Session-Id') )
         ]
     })
 

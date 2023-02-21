@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: api-gateway
-        image: us.gcr.io/field-engineering-grafana/akc-api-gateway:3.4.14
+        image: us.gcr.io/field-engineering-grafana/akc-api-gateway:3.4.17
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -100,7 +100,7 @@ spec:
     spec:
       containers:
       - name: cart
-        image: us.gcr.io/field-engineering-grafana/akc-cart:3.4.14
+        image: us.gcr.io/field-engineering-grafana/akc-cart:3.4.23
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -139,6 +139,8 @@ spec:
               fieldPath: metadata.name
         - name: OTEL_RESOURCE_ATTRIBUTES
           value: k8s.app=$(K8S_APP),k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.ip=$(K8S_POD_IP),k8s.pod.name=$(K8S_POD_NAME)
+        - name: FEATURE_FLAG_CART_NEW_USER_FLOW
+          value: "false"
 ---
 apiVersion: v1
 kind: Service
@@ -310,7 +312,7 @@ spec:
     spec:
       containers:
       - name: checkout
-        image: us.gcr.io/field-engineering-grafana/akc-checkout:3.4.14
+        image: us.gcr.io/field-engineering-grafana/akc-checkout:3.4.19
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -391,7 +393,7 @@ spec:
     spec:
       containers:
       - name: content
-        image: us.gcr.io/field-engineering-grafana/akc-content:3.4.12
+        image: us.gcr.io/field-engineering-grafana/akc-content:3.4.15
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -468,7 +470,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: us.gcr.io/field-engineering-grafana/akc-payment:3.4.12
+        image: us.gcr.io/field-engineering-grafana/akc-payment:3.4.15
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -545,7 +547,7 @@ spec:
     spec:
       containers:
       - name: product
-        image: us.gcr.io/field-engineering-grafana/akc-product:3.4.22
+        image: us.gcr.io/field-engineering-grafana/akc-product:3.4.25
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -833,7 +835,7 @@ spec:
     spec:
       containers:
       - name: web-gateway
-        image: us.gcr.io/field-engineering-grafana/akc-web-gateway:3.4.26
+        image: us.gcr.io/field-engineering-grafana/akc-web-gateway:3.4.30
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -855,7 +857,7 @@ spec:
         - name: SERVICE_PORT_SESSION_DATA
           value: "6379"
         - name: SERVICE_VERSION
-          value: "3.4.26"
+          value: "3.4.29"
         - name: FARO_ENDPOINT
           value: "http://35.224.5.38:12121/collect"
         - name: SERVICE_NAME

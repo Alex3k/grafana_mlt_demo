@@ -23,7 +23,6 @@ BASE_URL_API_GATEWAY = "http://{}:{}/api/v1".format(
     config.get('SERVICE_PORT_API_GATEWAY')
 )
 
-
 def get_cart_id(session_id):
     """
     Transform the value of a "session_id" cookie to its key in session-store.
@@ -59,7 +58,6 @@ def post_checkout():
         span = trace.get_current_span()
         span.set_attribute('event.outcome', 'failure')
         span.set_status(Status(StatusCode.ERROR))
-        logger.info(f"session_id={session_id},cart_id={cart_id},action=process_payment,status=failed,amount={amount},transaction_id={transaction_id}")
         return jsonify({ 'message': 'failure' }), response.status_code
 
     # Clear the cart
@@ -72,9 +70,7 @@ def post_checkout():
         span = trace.get_current_span()
         span.set_attribute('event.outcome', 'failure')
         span.set_status(Status(StatusCode.ERROR))
-        logger.info(f"session_id={session_id},cart_id={cart_id},action=process_payment,status=failed,amount={amount},transaction_id={transaction_id}")
         return jsonify({ 'message': 'failure' }), response.status_code
-    logger.info(f"session_id={session_id},cart_id={cart_id},action=process_payment,status=success,amount={amount},transaction_id={transaction_id}")
     return jsonify({ 'message': 'success' })
 
 @app.route('/')
