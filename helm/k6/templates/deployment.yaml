@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: k6
-        image:  "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        image:  "{{ .Values.k6.image.repository }}:{{ .Values.k6.image.tag }}"
         imagePullPolicy: IfNotPresent
         resources:
           limits:
@@ -45,3 +45,47 @@ spec:
           value: "{{ .Values.prometheus.apikey }}"
         - name: SERVICE_HOST_WEB_GATEWAY
           value: "web-gateway.{{ .Values.namespace }}.svc.cluster.local"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k6-browser
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: ecommerce
+    service: k6-browser
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      service: k6-browser
+  template:
+    metadata:
+      labels:
+        app: ecommerce
+        service: k6-browser
+    spec:
+      containers:
+      - name: k6-browser
+        image:  "{{ .Values.k6browser.image.repository }}:{{ .Values.k6browser.image.tag  }}"
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: "2"
+            memory: 512Mi
+          requests:
+            cpu: "1"
+            memory: 128Mi
+        envFrom:
+        - secretRef:
+           name: microbs-secrets
+        env:
+        - name: SERVICE_NAME
+          value: k6-browser
+        - name: NUM_VIRTUAL_USERS
+          value: "{{ .Values.k6browser.virtual_user_count }}"
+        - name: FRONTEND_URL
+          value: "{{ .Values.k6browser.frontend_url }}"
+
+

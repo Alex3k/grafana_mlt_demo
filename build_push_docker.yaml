@@ -4,6 +4,7 @@ set -e
 
 WEB_GATEWAY_VERSION="3.4.26"
 K6_VERSION="3.4.18"
+BROWSER_K6_VERSION="1.0.11"
 API_GATEWAY_VERSION="3.4.14"
 CART_VERSION="3.4.14"
 CHECKOUT_VERSION="3.4.14"
@@ -19,6 +20,13 @@ docker build --platform linux/amd64 -t gcr.io/solutions-engineering-248511/akc-m
 docker push gcr.io/solutions-engineering-248511/akc-mltdemo-k6:$K6_VERSION
 docker tag gcr.io/solutions-engineering-248511/akc-mltdemo-k6:$K6_VERSION us.gcr.io/field-engineering-grafana/akc-mltdemo-k6:$K6_VERSION
 docker push us.gcr.io/field-engineering-grafana/akc-mltdemo-k6:$K6_VERSION
+
+cd ../k6-browser
+
+docker build --platform linux/amd64 -t gcr.io/solutions-engineering-248511/akc-mltdemo-k6-browser:$BROWSER_K6_VERSION -f Dockerfile . 
+docker push gcr.io/solutions-engineering-248511/akc-mltdemo-k6-browser:$BROWSER_K6_VERSION
+docker tag gcr.io/solutions-engineering-248511/akc-mltdemo-k6-browser:$BROWSER_K6_VERSION us.gcr.io/field-engineering-grafana/akc-mltdemo-k6-browser:$BROWSER_K6_VERSION
+docker push us.gcr.io/field-engineering-grafana/akc-mltdemo-k6-browser:$BROWSER_K6_VERSION
 
 cd ../..
 

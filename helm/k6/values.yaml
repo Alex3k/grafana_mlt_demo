@@ -1,7 +1,4 @@
 namespace: mltdemo
-image:
-  repository: us.gcr.io/field-engineering-grafana/akc-mltdemo-k6
-  tag: "3.4.18"
 
 prometheus:
     username: 779510
@@ -10,3 +7,13 @@ prometheus:
 
 k6:
     virtual_user_count: 2
+    image:
+      repository: us.gcr.io/field-engineering-grafana/akc-mltdemo-k6
+      tag: "3.4.18"
+
+k6browser:
+    frontend_url: "http://34.29.94.7"
+    virtual_user_count: 2
+    image:
+      repository: us.gcr.io/field-engineering-grafana/akc-mltdemo-k6-browser 
+      tag: "1.0.11"
