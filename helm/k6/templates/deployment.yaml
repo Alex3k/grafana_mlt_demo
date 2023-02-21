@@ -85,7 +85,10 @@ spec:
           value: k6-browser
         - name: NUM_VIRTUAL_USERS
           value: "{{ .Values.k6browser.virtual_user_count }}"
+        - name: K6_DURATION
+          value: "{{ .Values.k6browser.duration }}"
+        - name: K6_VUS
+          value: "{{ .Values.k6browser.virtual_user_count }}"
         - name: FRONTEND_URL
           value: "{{ .Values.k6browser.frontend_url }}"
-
 
