@@ -31,6 +31,9 @@ export default async function () {
 
   await page.setExtraHTTPHeaders(
     { 
+      'Access-Control-Allow-Origin' : "*",
+      'Access-Control-Allow-Headers': 'User-Agent, X-Customer-Tier, X-Device-Id, X-Device-Country, X-Forwarded-For, X-Session-Id',
+      'Access-Control-Allow-Methods': 'POST, PUT, PATCH, GET, DELETE, OPTIONS',
       'User-Agent': user.device.user_agent,
       'X-Customer-Tier': user.tier,
       'X-Device-Id': user.device.id,

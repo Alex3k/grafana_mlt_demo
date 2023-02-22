@@ -41,6 +41,7 @@ def post_checkout():
     Process an order submission.
     """
     data = request.get_json()
+
     session_id = data.get('session_id')
     cart_id = get_cart_id(session_id)
     amount = data.get('amount')
@@ -53,7 +54,7 @@ def post_checkout():
         'transaction_id':transaction_id
     }
     url = "{}/payment/process".format(BASE_URL_API_GATEWAY)
-    response = requests.post(url, json=data_payment)
+    response = requests.post(url, json=data_payment, headers=dict(request.headers.items()))
     if response.status_code != 200:
         span = trace.get_current_span()
         span.set_attribute('event.outcome', 'failure')
@@ -65,7 +66,7 @@ def post_checkout():
         'session_id': session_id
     }
     url="{}/cart".format(BASE_URL_API_GATEWAY)
-    response = requests.delete(url, json=data_cart)
+    response = requests.delete(url, json=data_cart, headers=dict(request.headers.items()))
     if response.status_code != 200:
         span = trace.get_current_span()
         span.set_attribute('event.outcome', 'failure')

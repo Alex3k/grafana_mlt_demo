@@ -17,4 +17,4 @@ k6browser:
     duration: "10000h"
     image:
       repository: us.gcr.io/field-engineering-grafana/akc-mltdemo-k6-browser 
-      tag: "1.0.16"
+      tag: "1.0.17"
