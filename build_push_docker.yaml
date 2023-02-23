@@ -14,7 +14,7 @@ PAYMENT_VERSION="3.4.17"
 PRODUCT_VERSION="3.4.25"
 PAYMENT_FAILURES_VERSION="3.4.16"
 SLOW_PAYMENTS_VERSION="1.8"
-
+K6_CART_ABANDON="1.0"
 
 cd src/src/services/synthetics
 
@@ -79,3 +79,10 @@ docker build --platform linux/amd64 -t gcr.io/solutions-engineering-248511/akc-s
 docker push gcr.io/solutions-engineering-248511/akc-slow-payment:$SLOW_PAYMENTS_VERSION
 docker tag gcr.io/solutions-engineering-248511/akc-slow-payment:$SLOW_PAYMENTS_VERSION us.gcr.io/field-engineering-grafana/akc-slow-payment:$SLOW_PAYMENTS_VERSION
 docker push us.gcr.io/field-engineering-grafana/akc-slow-payment:$SLOW_PAYMENTS_VERSION
+
+cd variants/k6-cart-abandon
+
+docker build --platform linux/amd64 -t gcr.io/solutions-engineering-248511/akc-k6-cart-abandon:$K6_CART_ABANDON -f Dockerfile . 
+docker push gcr.io/solutions-engineering-248511/akc-k6-cart-abandon:$K6_CART_ABANDON
+docker tag gcr.io/solutions-engineering-248511/akc-k6-cart-abandon:$K6_CART_ABANDON us.gcr.io/field-engineering-grafana/akc-k6-cart-abandon:$K6_CART_ABANDON
+docker push us.gcr.io/field-engineering-grafana/akc-k6-cart-abandon:$K6_CART_ABANDON
