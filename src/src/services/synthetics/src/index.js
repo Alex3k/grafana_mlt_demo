@@ -18,6 +18,9 @@ export const options = {
   duration: '36500d',
 }
 
+
+const countryCode = ['US', 'GB', 'GR', 'GL', 'BE', 'NL', 'DE']
+
 // Utils
 const pause = () => sleep(1 + Math.random() * 2)
 const json = (data) => JSON.stringify(data)
@@ -25,12 +28,12 @@ const randomUser = () => {
   faker.setLocale('en_US')
   const postalCode = faker.address.zipCode().split('-')[0]
   const user = {
-    tier: faker.helpers.arrayElement(['standard', 'silver', 'gold']),
+    tier: faker.helpers.arrayElement(['free', 'paid']),
     device: {
       id: faker.datatype.uuid(),
       user_agent: faker.internet.userAgent(),
       ip_address: faker.internet.ip(),
-      country: faker.address.countryCode()
+      country: countryCode[Math.floor(Math.random() * countryCode.length)]
     },
     address: {
       street_1: faker.address.streetAddress(),
@@ -51,31 +54,9 @@ const randomUser = () => {
   return user
 }
 
-export default () => {
-  const user = randomUser()
-
-  // User request
-  console.debug('Load home...')
-  http.get(`${BASE_URL}/`)
-
-  const session_id = (http.cookieJar().cookiesForURL(`${BASE_URL}/`).session_id || ["missing"])[0]
-  console.log(session_id)
-
-  const jsonParams = () => {
-    return { headers: { 
-      'Content-Type': 'application/json',
-      'User-Agent': user.device.user_agent,
-      'X-Customer-Tier': user.tier,
-      'X-Device-Id': user.device.id,
-      'X-Device-Country': user.device.country, // This is random, so unrelated to IP
-      'X-Forwarded-For': user.device.ip_address,
-      'X-Session-Id': session_id
-    }}
-  }
-
+const journey1 = (session_id, params) => {
   // Browser XHR
-  http.post(`${BASE_URL}/api/v1/product/search`, json({ query: '', page: { size: 6 }}), jsonParams())
-  http.post(`${BASE_URL}/api/v1/cart`, json({ session_id: session_id }), jsonParams())
+  http.post(`${BASE_URL}/api/v1/product/search`, json({ query: '', page: { size: 6 }}), params)
   http.get(`${BASE_URL}/api/v1/content/sweet-tea.jpeg`)
   http.get(`${BASE_URL}/api/v1/content/cinnamon-tea.jpeg`)
   http.get(`${BASE_URL}/api/v1/content/coffee.jpeg`)
@@ -89,11 +70,11 @@ export default () => {
 
   // User XHR
   console.debug('Add product to cart...')
-  http.put(`${BASE_URL}/api/v1/cart/f95e2475/1`, json({ session_id: session_id }), jsonParams())
+  http.put(`${BASE_URL}/api/v1/cart/f95e2475/1`, json({ session_id: session_id }), params)
 
   // Browser XHR
-  http.post(`${BASE_URL}/api/v1/cart`, json({ session_id: session_id }), jsonParams())
-  http.post(`${BASE_URL}/api/v1/product/documents`, json([ 'f95e2475' ]), jsonParams())
+  http.post(`${BASE_URL}/api/v1/cart`, json({ session_id: session_id }), params)
+  http.post(`${BASE_URL}/api/v1/product/documents`, json([ 'f95e2475' ]), params)
 
   pause()
 
@@ -104,7 +85,53 @@ export default () => {
   http.get(`${BASE_URL}/cart`)
 
   // Browser XHR
-  http.post(`${BASE_URL}/api/v1/product/documents`, json([ 'f95e2475' ]), jsonParams())
+  http.post(`${BASE_URL}/api/v1/product/documents`, json([ 'f95e2475' ]), params)
+  http.get(`${BASE_URL}/api/v1/content/sweet-tea.jpeg`)
+
+  pause()
+
+  ////  Remove From Cart   //////////////////////////////////////////////////
+
+  // User request
+  console.debug('Delete Cart...')
+  http.delete(`${BASE_URL}/api/v1/cart/f95e2475`, json({ session_id: session_id }), params)
+
+  pause()
+}
+
+
+const journey2 = (session_id, params) => {
+  // Browser XHR
+  http.post(`${BASE_URL}/api/v1/product/search`, json({ query: '', page: { size: 6 }}), params)
+  http.get(`${BASE_URL}/api/v1/content/sweet-tea.jpeg`)
+  http.get(`${BASE_URL}/api/v1/content/cinnamon-tea.jpeg`)
+  http.get(`${BASE_URL}/api/v1/content/coffee.jpeg`)
+  http.get(`${BASE_URL}/api/v1/content/watermelon-juice.jpeg`)
+  http.get(`${BASE_URL}/api/v1/content/mocha-latte.jpeg`)
+  http.get(`${BASE_URL}/api/v1/content/hot-chocolate.jpeg`)
+
+  pause()
+
+  ////  Add product to cart   //////////////////////////////////////////////////
+
+  // User XHR
+  console.debug('Add product to cart...')
+  http.put(`${BASE_URL}/api/v1/cart/f95e2475/1`, json({ session_id: session_id }), params)
+
+  // Browser XHR
+  http.post(`${BASE_URL}/api/v1/cart`, json({ session_id: session_id }), params)
+  http.post(`${BASE_URL}/api/v1/product/documents`, json([ 'f95e2475' ]), params)
+
+  pause()
+
+  ////  View cart  /////////////////////////////////////////////////////////////
+
+  // User request
+  console.debug('View cart...')
+  http.get(`${BASE_URL}/cart`)
+
+  // Browser XHR
+  http.post(`${BASE_URL}/api/v1/product/documents`, json([ 'f95e2475' ]), params)
   http.get(`${BASE_URL}/api/v1/content/sweet-tea.jpeg`)
 
   pause()
@@ -116,8 +143,62 @@ export default () => {
   http.get(`${BASE_URL}/checkout`)
 
   // Browser XHR
-  http.post(`${BASE_URL}/api/v1/cart`, json({ session_id: session_id }), jsonParams())
-  http.post(`${BASE_URL}/api/v1/product/documents`, json([ 'f95e2475' ]), jsonParams())
+  http.post(`${BASE_URL}/api/v1/cart`, json({ session_id: session_id }), params)
+  http.post(`${BASE_URL}/api/v1/product/documents`, json([ 'f95e2475' ]), params)
+
+  http.post(`${BASE_URL}/api/v1/checkout/initiate`, json({}), params)
+
+
+  pause()
+}
+
+const journey3 = (session_id, params, user) => {
+  // Browser XHR
+  http.post(`${BASE_URL}/api/v1/product/search`, json({ query: '', page: { size: 6 }}), params)
+  http.get(`${BASE_URL}/api/v1/content/sweet-tea.jpeg`)
+  http.get(`${BASE_URL}/api/v1/content/cinnamon-tea.jpeg`)
+  http.get(`${BASE_URL}/api/v1/content/coffee.jpeg`)
+  http.get(`${BASE_URL}/api/v1/content/watermelon-juice.jpeg`)
+  http.get(`${BASE_URL}/api/v1/content/mocha-latte.jpeg`)
+  http.get(`${BASE_URL}/api/v1/content/hot-chocolate.jpeg`)
+
+  pause()
+
+  ////  Add product to cart   //////////////////////////////////////////////////
+
+  // User XHR
+  console.debug('Add product to cart...')
+  http.put(`${BASE_URL}/api/v1/cart/f95e2475/1`, json({ session_id: session_id }), params)
+
+  // Browser XHR
+  http.post(`${BASE_URL}/api/v1/cart`, json({ session_id: session_id }), params)
+  http.post(`${BASE_URL}/api/v1/product/documents`, json([ 'f95e2475' ]), params)
+
+  pause()
+
+  ////  View cart  /////////////////////////////////////////////////////////////
+
+  // User request
+  console.debug('View cart...')
+  http.get(`${BASE_URL}/cart`)
+
+  // Browser XHR
+  http.post(`${BASE_URL}/api/v1/product/documents`, json([ 'f95e2475' ]), params)
+  http.get(`${BASE_URL}/api/v1/content/sweet-tea.jpeg`)
+
+  pause()
+
+  ////  Proceed to checkout   //////////////////////////////////////////////////
+
+  // Request
+  console.debug('Proceed to checkout...')
+  http.get(`${BASE_URL}/checkout`)
+
+  // Browser XHR
+  http.post(`${BASE_URL}/api/v1/cart`, json({ session_id: session_id }), params)
+  http.post(`${BASE_URL}/api/v1/product/documents`, json([ 'f95e2475' ]), params)
+  
+  http.post(`${BASE_URL}/api/v1/checkout/initiate`, json({}), params)
 
   pause()
 
@@ -155,11 +236,47 @@ export default () => {
       }
     },
     session_id: session_id
-  }), jsonParams())
+  }), params)
 
   // Browser XHR
-  http.post(`${BASE_URL}/api/v1/cart`, json({ session_id: session_id }), jsonParams())
+  http.post(`${BASE_URL}/api/v1/cart`, json({ session_id: session_id }), params)
 
   pause()
+}
 
+export default () => {
+  const user = randomUser();
+
+  // User request
+  console.debug('Load home...')
+  http.get(`${BASE_URL}/`)
+
+  const session_id = (http.cookieJar().cookiesForURL(`${BASE_URL}/`).session_id || ["missing"])[0]
+  console.log(session_id)
+
+  const params = { 
+    headers: { 
+      'Content-Type': 'application/json',
+      'User-Agent': user.device.user_agent,
+      'X-Customer-Tier': user.tier,
+      'X-Device-Id': user.device.id,
+      'X-Device-Country': user.device.country, // This is random, so unrelated to IP
+      'X-Forwarded-For': user.device.ip_address,
+      'X-Session-Id': session_id
+    }
+  }
+
+  const rollTheDice = Math.random() * 100;
+  console.log(`Rolled the dice: ${rollTheDice}`)
+
+  if (rollTheDice <= 30) {
+    console.log("Journey One")
+    journey1(session_id, params);
+  } else if (rollTheDice > 30 && rollTheDice <= 40) {
+    console.log("Journey Two")
+    journey2(session_id, params);
+  } else {
+    console.log("Journey Three")
+    journey3(session_id, params, user);
+  }
 }

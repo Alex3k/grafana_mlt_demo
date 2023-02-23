@@ -27,13 +27,20 @@ def get_cart_id(session_id):
     """
     Transform the value of a "session_id" cookie to its key in session-store.
     """
-    logger.info(session_id)
     matches = re.findall(r'^([^.]*)\.', session_id)
-    logger.info(matches)
     if matches:
         return "s:{}".format(matches[0])
     raise Exception('Cannot find cart')
 
+
+@app.route('/initiate', methods=['POST',])
+def initiate_checkout():
+    """
+    This is only here to make RUM a lot easier - it literally does nothing but 
+    does add a log line when called with all the details so we can get when someone 
+    opens the checkout page 
+    """
+    return jsonify({ 'message': 'success' })
 
 @app.route('/process', methods=['POST',])
 def post_checkout():
@@ -54,12 +61,61 @@ def post_checkout():
         'transaction_id':transaction_id
     }
     url = "{}/payment/process".format(BASE_URL_API_GATEWAY)
-    response = requests.post(url, json=data_payment, headers=dict(request.headers.items()))
-    if response.status_code != 200:
+
+    try:
+        response = requests.post(url, json=data_payment, headers=dict(request.headers.items()), timeout=3)
+
+        if response.status_code != 200:
+            logger.info(f"payment failed {amount}", extra={
+                'tags': [
+                    ( 'ip', request.environ.get('REMOTE_ADDR') ),
+                    ( 'method', request.method ),
+                    ( 'path', request.path ),
+                    ( 'user_agent', request.headers.get('User-Agent') ),
+                    ( 'device_country', request.headers.get('X-Device-Country') ),
+                    ( 'device_id', request.headers.get('X-Device-ID') ),
+                    ( 'forwarded_for', request.headers.get('X-Forwarded-For') ),
+                    ( 'customer_tier', request.headers.get('X-Customer-Tier') ),
+                    ( 'session_id', request.headers.get('X-Session-Id') )
+                ]
+            })
+            span = trace.get_current_span()
+            span.set_attribute('event.outcome', 'failure')
+            span.set_status(Status(StatusCode.ERROR))
+            return jsonify({ 'message': 'failure' }), response.status_code
+        else:
+            logger.info(f"payment successful {amount}", extra={
+                'tags': [
+                    ( 'ip', request.environ.get('REMOTE_ADDR') ),
+                    ( 'method', request.method ),
+                    ( 'path', request.path ),
+                    ( 'user_agent', request.headers.get('User-Agent') ),
+                    ( 'device_country', request.headers.get('X-Device-Country') ),
+                    ( 'device_id', request.headers.get('X-Device-ID') ),
+                    ( 'forwarded_for', request.headers.get('X-Forwarded-For') ),
+                    ( 'customer_tier', request.headers.get('X-Customer-Tier') ),
+                    ( 'session_id', request.headers.get('X-Session-Id') )
+                ]
+            })
+    except requests.exceptions.Timeout:
+        logger.info(f"payment timedout {amount}", extra={
+            'tags': [
+                ( 'ip', request.environ.get('REMOTE_ADDR') ),
+                ( 'method', request.method ),
+                ( 'path', request.path ),
+                ( 'user_agent', request.headers.get('User-Agent') ),
+                ( 'device_country', request.headers.get('X-Device-Country') ),
+                ( 'device_id', request.headers.get('X-Device-ID') ),
+                ( 'forwarded_for', request.headers.get('X-Forwarded-For') ),
+                ( 'customer_tier', request.headers.get('X-Customer-Tier') ),
+                ( 'session_id', request.headers.get('X-Session-Id') )
+            ]
+        })
+
         span = trace.get_current_span()
         span.set_attribute('event.outcome', 'failure')
         span.set_status(Status(StatusCode.ERROR))
-        return jsonify({ 'message': 'failure' }), response.status_code
+        return jsonify({ 'message': 'failure' }), 408
 
     # Clear the cart
     data_cart = {

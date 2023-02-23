@@ -6,7 +6,7 @@
 # .tfstate files
 **/*.tfstate
 **/*.tfstate.*
-
+**/*/yarn.lock
 # Crash log files
 **/crash.log
 **/crash.*.log

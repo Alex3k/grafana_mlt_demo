@@ -9,7 +9,7 @@ k6:
     virtual_user_count: 2
     image:
       repository: us.gcr.io/field-engineering-grafana/akc-mltdemo-k6
-      tag: "3.4.25"
+      tag: "3.4.31"
 
 k6browser:
     frontend_url: "http://34.29.94.7"
@@ -17,4 +17,4 @@ k6browser:
     duration: "10000h"
     image:
       repository: us.gcr.io/field-engineering-grafana/akc-mltdemo-k6-browser 
-      tag: "1.0.17"
+      tag: "1.0.20"

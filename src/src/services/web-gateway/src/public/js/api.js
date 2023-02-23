@@ -87,6 +87,15 @@ export const checkout = async (data) => {
   })
 }
 
+export const initiateCheckout = async () => {
+  return await axios.request({
+    method: 'post',
+    url: '/api/v1/checkout/initiate',
+    timeout: 4000,
+    validateStatus: (status) => true,
+  })
+}
+
 export const productDocuments = async (ids) => {
   return await axios.request({
     method: 'post',

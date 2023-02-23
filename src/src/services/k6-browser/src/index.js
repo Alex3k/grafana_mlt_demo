@@ -1,24 +1,8 @@
 
 import { sleep } from 'k6';
 import { chromium } from 'k6/experimental/browser';
-import { faker } from '@faker-js/faker'
 
 let addToCartButtons;
-
-const randomUser = () => {
-  faker.setLocale('en_US')
-  const postalCode = faker.address.zipCode().split('-')[0]
-  const user = {
-    tier: faker.helpers.arrayElement(['free', 'paid']),
-    device: {
-      id: faker.datatype.uuid(),
-      user_agent: faker.internet.userAgent(),
-      ip_address: faker.internet.ip(),
-      country: faker.address.countryCode()
-    }
-  }
-  return user
-}
 
 export default async function () {
   const browser = chromium.launch({
@@ -26,22 +10,6 @@ export default async function () {
   });
   const context = browser.newContext();
   const page = context.newPage();
-
-  const user = randomUser();
-
-  await page.setExtraHTTPHeaders(
-    { 
-      'Access-Control-Allow-Origin' : "*",
-      'Access-Control-Allow-Headers': 'User-Agent, X-Customer-Tier, X-Device-Id, X-Device-Country, X-Forwarded-For, X-Session-Id',
-      'Access-Control-Allow-Methods': 'POST, PUT, PATCH, GET, DELETE, OPTIONS',
-      'User-Agent': user.device.user_agent,
-      'X-Customer-Tier': user.tier,
-      'X-Device-Id': user.device.id,
-      'X-Device-Country': user.device.country, // This is random, so unrelated to IP
-      'X-Forwarded-For': user.device.ip_address,
-      'X-Session-Id': faker.datatype.uuid()
-    }
-  )
 
   const rollTheDice = Math.random() * 100;
   console.log(`Rolled the dice: ${rollTheDice}`)

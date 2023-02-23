@@ -312,7 +312,7 @@ spec:
     spec:
       containers:
       - name: checkout
-        image: us.gcr.io/field-engineering-grafana/akc-checkout:3.4.22
+        image: us.gcr.io/field-engineering-grafana/akc-checkout:3.4.30
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -470,7 +470,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: us.gcr.io/field-engineering-grafana/akc-payment:3.4.15
+        image: us.gcr.io/field-engineering-grafana/akc-payment:3.4.17
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -480,6 +480,10 @@ spec:
           periodSeconds: 5
           timeoutSeconds: 5
         env:
+        - name: PAYMENT_TIMEOUT_FOR_COUNTRY
+          value: "false"
+        - name: PAYMENT_TIMEOUT_TARGET_COUNTRY
+          value: "NO_SET_COUNTRY"
         - name: SERVICE_NAME
           valueFrom:
             fieldRef:
@@ -835,7 +839,7 @@ spec:
     spec:
       containers:
       - name: web-gateway
-        image: us.gcr.io/field-engineering-grafana/akc-web-gateway:3.4.30
+        image: us.gcr.io/field-engineering-grafana/akc-web-gateway:3.4.34
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:

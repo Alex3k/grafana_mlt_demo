@@ -21,7 +21,7 @@ import App from './components/app';
 
 const VERSION = "3.4.26";
 const NAME = 'ecommerce-frontend';
-const COLLECTOR_URL = "http://35.224.5.38:12121/collect";
+const COLLECTOR_URL = "http://34.132.96.193:12121/collect";
 
 const history = createBrowserHistory();
 

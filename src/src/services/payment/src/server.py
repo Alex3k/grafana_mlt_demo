@@ -3,6 +3,7 @@ import json
 import random
 import re
 import time
+import os 
 
 # Third-party packages
 from flask import jsonify, request
@@ -43,6 +44,28 @@ def post_payment():
     """
     Process a payment.
     """
+
+    timeoutpayment = os.environ.get('PAYMENT_TIMEOUT_FOR_COUNTRY') == "true"
+    countryToTimeOut = os.environ.get('PAYMENT_TIMEOUT_TARGET_COUNTRY') or "NO_SET_COUNTRY"
+    
+    if timeoutpayment is True:
+        if request.headers.get('X-Device-Country') == countryToTimeOut:
+            logger.info(f"Sleeping for {countryToTimeOut}", extra={
+                'tags': [
+                    ( 'ip', request.environ.get('REMOTE_ADDR') ),
+                    ( 'method', request.method ),
+                    ( 'path', request.path ),
+                    ( 'user_agent', request.headers.get('User-Agent') ),
+                    ( 'device_country', request.headers.get('X-Device-Country') ),
+                    ( 'device_id', request.headers.get('X-Device-ID') ),
+                    ( 'forwarded_for', request.headers.get('X-Forwarded-For') ),
+                    ( 'customer_tier', request.headers.get('X-Customer-Tier') ),
+                    ( 'session_id', request.headers.get('X-Session-Id') )
+                ]
+            })
+            time.sleep(10)
+    
+
     data = request.get_json()
     if not validate_card_number(data.get('card', {}).get('number')):
         span = trace.get_current_span()

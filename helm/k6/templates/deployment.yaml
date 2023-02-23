@@ -1,4 +1,3 @@
-{{- /*
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -47,7 +46,6 @@ spec:
         - name: SERVICE_HOST_WEB_GATEWAY
           value: "web-gateway.{{ .Values.namespace }}.svc.cluster.local"
 ---
-*/}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:

@@ -48,7 +48,7 @@ const CheckoutPage = () => {
   const [billingCardExpiration, setBillingCardExpiration] = useState('')
   const [billingCardSecurityCode, setBillingCardSecurityCode] = useState('')
   const [billingCardPostalCode, setBillingCardPostalCode] = useState('')
-  
+
   const randomUser = () => {
     faker.setLocale('en_US')
     const postalCode = faker.address.zipCode().split('-')[0]
@@ -91,9 +91,15 @@ const CheckoutPage = () => {
     setBillingCardSecurityCode(user.card.security_code)
     setBillingCardPostalCode(user.card.postal_code)
   }
+
+  const initiateCheckout = async (e) => {
+    await api.initiateCheckout()
+  }
+
   
   useEffect(() => {
     randomizeCheckoutForm()
+    initiateCheckout()
   }, [])
 
   var title = 'Checkout'
