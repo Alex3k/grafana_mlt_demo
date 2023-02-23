@@ -312,7 +312,7 @@ spec:
     spec:
       containers:
       - name: checkout
-        image: us.gcr.io/field-engineering-grafana/akc-checkout:3.4.30
+        image: us.gcr.io/field-engineering-grafana/akc-checkout:3.4.31
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:

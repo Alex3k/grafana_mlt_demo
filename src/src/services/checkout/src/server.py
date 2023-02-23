@@ -66,7 +66,7 @@ def post_checkout():
         response = requests.post(url, json=data_payment, headers=dict(request.headers.items()), timeout=3)
 
         if response.status_code != 200:
-            logger.info(f"payment failed {amount}", extra={
+            logger.error(f"payment failed {amount}", extra={
                 'tags': [
                     ( 'ip', request.environ.get('REMOTE_ADDR') ),
                     ( 'method', request.method ),
@@ -98,7 +98,7 @@ def post_checkout():
                 ]
             })
     except requests.exceptions.Timeout:
-        logger.info(f"payment timedout {amount}", extra={
+        logger.error(f"payment timedout {amount}", extra={
             'tags': [
                 ( 'ip', request.environ.get('REMOTE_ADDR') ),
                 ( 'method', request.method ),
