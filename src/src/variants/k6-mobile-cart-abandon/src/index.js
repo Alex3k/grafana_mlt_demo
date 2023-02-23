@@ -18,8 +18,7 @@ export const options = {
   duration: '36500d',
 }
 
-const platform = ['web','mobile']
-
+const countryCode = ['US', 'GB', 'GR', 'GL', 'BE', 'NL', 'DE']
 
 // Utils
 const pause = () => sleep(1 + Math.random() * 2)
@@ -33,8 +32,8 @@ const randomUser = () => {
       id: faker.datatype.uuid(),
       user_agent: faker.internet.userAgent(),
       ip_address: faker.internet.ip(),
-      country: "US",
-      platform: platform[Math.floor(Math.random() * platform.length)]
+      country: countryCode[Math.floor(Math.random() * countryCode.length)],
+      platform: 'mobile'
     },
     address: {
       street_1: faker.address.streetAddress(),

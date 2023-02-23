@@ -57,6 +57,7 @@ def post_payment():
                     ( 'path', request.path ),
                     ( 'user_agent', request.headers.get('User-Agent') ),
                     ( 'device_country', request.headers.get('X-Device-Country') ),
+                    ( 'device_platform', request.headers.get('X-Device-Platform') ),
                     ( 'device_id', request.headers.get('X-Device-ID') ),
                     ( 'forwarded_for', request.headers.get('X-Forwarded-For') ),
                     ( 'customer_tier', request.headers.get('X-Customer-Tier') ),

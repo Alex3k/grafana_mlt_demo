@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: k6-abandon-variant
+  name: k6-mobile-abandon-variant
   namespace: mltdemo
   labels:
     app: ecommerce
-    service: k6-abandon-variant
+    service: k6-mobile-abandon-variant
 spec:
   replicas: 1
   revisionHistoryLimit: 0
   selector:
     matchLabels:
-      service: k6-abandon-variant
+      service: k6-mobile-abandon-variant
   template:
     metadata:
       labels:
         app: ecommerce
-        service: k6-abandon-variant
+        service: k6-mobile-abandon-variant
     spec:
       containers:
-      - name: k6-abandon-variant
-        image:  us.gcr.io/field-engineering-grafana/akc-k6-cart-abandon:1.1
+      - name: k6-mobile-abandon-variant
+        image:  us.gcr.io/field-engineering-grafana/akc-k6-moble-cart-abandon:1.0
         imagePullPolicy: IfNotPresent
         resources:
           limits:
@@ -34,8 +34,8 @@ spec:
            name: microbs-secrets
         env:
         - name: SERVICE_NAME
-          value: "k6-abandon-variant"
+          value: "k6-mobile-abandon-variant"
         - name: NUM_VIRTUAL_USERS
-          value: "30"
+          value: "15"
         - name: SERVICE_HOST_WEB_GATEWAY
           value: "web-gateway.mltdemo.svc.cluster.local"

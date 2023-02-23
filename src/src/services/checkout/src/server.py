@@ -74,6 +74,7 @@ def post_checkout():
                     ( 'user_agent', request.headers.get('User-Agent') ),
                     ( 'device_country', request.headers.get('X-Device-Country') ),
                     ( 'device_id', request.headers.get('X-Device-ID') ),
+                    ( 'device_platform', request.headers.get('X-Device-Platform') ),
                     ( 'forwarded_for', request.headers.get('X-Forwarded-For') ),
                     ( 'customer_tier', request.headers.get('X-Customer-Tier') ),
                     ( 'session_id', request.headers.get('X-Session-Id') )
@@ -92,6 +93,7 @@ def post_checkout():
                     ( 'user_agent', request.headers.get('User-Agent') ),
                     ( 'device_country', request.headers.get('X-Device-Country') ),
                     ( 'device_id', request.headers.get('X-Device-ID') ),
+                    ( 'device_platform', request.headers.get('X-Device-Platform') ),
                     ( 'forwarded_for', request.headers.get('X-Forwarded-For') ),
                     ( 'customer_tier', request.headers.get('X-Customer-Tier') ),
                     ( 'session_id', request.headers.get('X-Session-Id') )
@@ -106,6 +108,7 @@ def post_checkout():
                 ( 'user_agent', request.headers.get('User-Agent') ),
                 ( 'device_country', request.headers.get('X-Device-Country') ),
                 ( 'device_id', request.headers.get('X-Device-ID') ),
+                ( 'device_platform', request.headers.get('X-Device-Platform') ),
                 ( 'forwarded_for', request.headers.get('X-Forwarded-For') ),
                 ( 'customer_tier', request.headers.get('X-Customer-Tier') ),
                 ( 'session_id', request.headers.get('X-Session-Id') )

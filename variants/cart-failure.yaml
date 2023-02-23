@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: cart
-        image: us.gcr.io/field-engineering-grafana/akc-cart:3.4.23
+        image: us.gcr.io/field-engineering-grafana/akc-cart:3.4.24
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:

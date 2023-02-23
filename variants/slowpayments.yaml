@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: us.gcr.io/field-engineering-grafana/akc-slow-payment:1.8
+        image: us.gcr.io/field-engineering-grafana/akc-slow-payment:1.9
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:

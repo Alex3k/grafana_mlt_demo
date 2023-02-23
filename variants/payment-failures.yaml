@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: us.gcr.io/field-engineering-grafana/akc-payment-failure:3.4.16
+        image: us.gcr.io/field-engineering-grafana/akc-payment-failure:3.4.17
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:

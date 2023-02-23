@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: product
-        image: us.gcr.io/field-engineering-grafana/akc-product:3.4.25
+        image: us.gcr.io/field-engineering-grafana/akc-product:3.4.26
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:

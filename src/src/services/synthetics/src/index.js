@@ -20,6 +20,7 @@ export const options = {
 
 
 const countryCode = ['US', 'GB', 'GR', 'GL', 'BE', 'NL', 'DE']
+const platform = ['web','mobile']
 
 // Utils
 const pause = () => sleep(1 + Math.random() * 2)
@@ -31,6 +32,7 @@ const randomUser = () => {
     tier: faker.helpers.arrayElement(['free', 'paid']),
     device: {
       id: faker.datatype.uuid(),
+      platform: platform[Math.floor(Math.random() * platform.length)],
       user_agent: faker.internet.userAgent(),
       ip_address: faker.internet.ip(),
       country: countryCode[Math.floor(Math.random() * countryCode.length)]
@@ -261,6 +263,7 @@ export default () => {
       'X-Customer-Tier': user.tier,
       'X-Device-Id': user.device.id,
       'X-Device-Country': user.device.country, // This is random, so unrelated to IP
+      'X-Device-Platform': user.device.platform,
       'X-Forwarded-For': user.device.ip_address,
       'X-Session-Id': session_id
     }

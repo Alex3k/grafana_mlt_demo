@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: api-gateway
-        image: us.gcr.io/field-engineering-grafana/akc-api-gateway:3.4.17
+        image: us.gcr.io/field-engineering-grafana/akc-api-gateway:3.4.20
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -100,7 +100,7 @@ spec:
     spec:
       containers:
       - name: cart
-        image: us.gcr.io/field-engineering-grafana/akc-cart:3.4.23
+        image: us.gcr.io/field-engineering-grafana/akc-cart:3.4.24
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -312,7 +312,7 @@ spec:
     spec:
       containers:
       - name: checkout
-        image: us.gcr.io/field-engineering-grafana/akc-checkout:3.4.31
+        image: us.gcr.io/field-engineering-grafana/akc-checkout:3.4.32
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -393,7 +393,7 @@ spec:
     spec:
       containers:
       - name: content
-        image: us.gcr.io/field-engineering-grafana/akc-content:3.4.15
+        image: us.gcr.io/field-engineering-grafana/akc-content:3.4.16
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -470,7 +470,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: us.gcr.io/field-engineering-grafana/akc-payment:3.4.17
+        image: us.gcr.io/field-engineering-grafana/akc-payment:3.4.18
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -551,7 +551,7 @@ spec:
     spec:
       containers:
       - name: product
-        image: us.gcr.io/field-engineering-grafana/akc-product:3.4.25
+        image: us.gcr.io/field-engineering-grafana/akc-product:3.4.26
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -839,7 +839,7 @@ spec:
     spec:
       containers:
       - name: web-gateway
-        image: us.gcr.io/field-engineering-grafana/akc-web-gateway:3.4.34
+        image: us.gcr.io/field-engineering-grafana/akc-web-gateway:3.4.35
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
