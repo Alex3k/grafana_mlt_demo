@@ -6,7 +6,7 @@ prometheus:
     url: https://prometheus-us-central1.grafana.net/api/prom/push
 
 k6:
-    virtual_user_count: 2
+    virtual_user_count: 20
     image:
       repository: us.gcr.io/field-engineering-grafana/akc-mltdemo-k6
       tag: "3.4.31"
