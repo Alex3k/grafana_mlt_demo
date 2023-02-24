@@ -35,7 +35,7 @@ spec:
             name: microbs-secrets
         env:
         - name: SLOW_DOWN_CART
-          value: "false"
+          value: "true"
         - name: SERVICE_NAME
           valueFrom:
             fieldRef:
@@ -63,4 +63,4 @@ spec:
         - name: OTEL_RESOURCE_ATTRIBUTES
           value: k8s.app=$(K8S_APP),k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.ip=$(K8S_POD_IP),k8s.pod.name=$(K8S_POD_NAME)
         - name: FEATURE_FLAG_CART_NEW_USER_FLOW
-          value: "true"
+          value: "false"

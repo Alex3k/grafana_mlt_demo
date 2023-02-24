@@ -100,7 +100,7 @@ spec:
     spec:
       containers:
       - name: cart
-        image: us.gcr.io/field-engineering-grafana/akc-cart:3.4.24
+        image: us.gcr.io/field-engineering-grafana/akc-cart:3.4.28
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -113,6 +113,8 @@ spec:
         - secretRef:
             name: microbs-secrets
         env:
+        - name: SLOW_DOWN_CART
+          value: "false"
         - name: SERVICE_NAME
           valueFrom:
             fieldRef:

@@ -2,6 +2,7 @@
 import json
 import os
 import re
+import time 
 
 # Third-party packages
 import redis
@@ -77,8 +78,14 @@ def put_cart_product(product_id, quantity):
     """
     Add a product to a cart.
     """
+
     if feature_flags["cart_new_user_flow"] is True:
         return jsonify({ 'message': 'failure', 'reason': f"Invalid Product ID - {product_id}" , 'service': 'cart', 'method': 'put_cart_product'}), 400
+
+    if os.environ.get('SLOW_DOWN_CART') == "true":
+
+        if request.headers.get('X-Cart-Slow'):
+            time.sleep(5)
 
     session_id = request.get_json().get('session_id')
     cart_id = get_cart_id(session_id)
