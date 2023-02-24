@@ -36,6 +36,6 @@ spec:
         - name: SERVICE_NAME
           value: "k6-abandon-variant"
         - name: NUM_VIRTUAL_USERS
-          value: "30"
+          value: "10"
         - name: SERVICE_HOST_WEB_GATEWAY
           value: "web-gateway.mltdemo.svc.cluster.local"
