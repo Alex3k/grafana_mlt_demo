@@ -239,7 +239,7 @@ spec:
           - "--dir"
           - "/data"
           - "--slaveof"
-          - "cart-data.default.svc.cluster.local"
+          - "cart-data.mltdemo.svc.cluster.local"
           - "6379"
           - "--protected-mode"
           - "no"
@@ -395,7 +395,7 @@ spec:
     spec:
       containers:
       - name: content
-        image: us.gcr.io/field-engineering-grafana/akc-content:3.4.16
+        image: us.gcr.io/field-engineering-grafana/akc-content:3.4.17
         imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
@@ -432,6 +432,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: CONTENT_BASE_PATH
+          value: https://storage.googleapis.com/grafana-gauntlet/apps/ecommerce/main/content/images
         - name: OTEL_RESOURCE_ATTRIBUTES
           value: k8s.app=$(K8S_APP),k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.ip=$(K8S_POD_IP),k8s.pod.name=$(K8S_POD_NAME)
 ---
@@ -766,7 +768,7 @@ spec:
           - "--dir"
           - "/data"
           - "--slaveof"
-          - "session-data.default.svc.cluster.local"
+          - "session-data.mltdemo.svc.cluster.local"
           - "6379"
           - "--protected-mode"
           - "no"

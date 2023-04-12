@@ -22,7 +22,7 @@
       {
         "datasource": {
           "type": "loki",
-          "uid": "MLT Logs"
+          "uid": "grafanacloud-logs"
         },
         "enable": true,
         "expr": "{job=\"integrations/kubernetes/eventhandler\", cluster=\"$cluster\", namespace=\"$namespace\"} |~ \"(?i)kind=$type\" |~ \"name=$workload.*\" | logfmt",
@@ -37,13 +37,24 @@
         },
         "textFormat": "{{kind}}: {{name}} in namespace: {{namespace}} on node: {{sourcehost}}",
         "titleFormat": "{{msg}}"
+      },
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "grafanacloud-logs"
+        },
+        "enable": false,
+        "expr": "{service=\"product\"} |= \"product_super_fast_mode is\" | logfmt |  line_format \"Service: {{.service}} - Pod: {{.pod}} - {{.msg}}\"",
+        "iconColor": "red",
+        "instant": false,
+        "name": "Feature Flags"
       }
     ]
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 46,
+  "id": 32,
   "links": [
     {
       "asDropdown": false,
@@ -75,7 +86,70 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "grafanacloud-prom"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 5,
+        "w": 10,
+        "x": 0,
+        "y": 0
+      },
+      "id": 41,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<img src=\"https://storage.googleapis.com/se_demo_images/acme\" style=\"height=100%;\" /> ",
+        "mode": "html"
+      },
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "grafanacloud-prom"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 5,
+        "w": 14,
+        "x": 10,
+        "y": 0
+      },
+      "id": 45,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "ACME corporation's e-commerce KPI dashboard provides a detailed overview of the company's website's performance by displaying critical metrics related to downtime, payment failures, and response times. The dashboard is designed to give executives and stakeholders real-time visibility into the website's performance and highlight areas that require attention.",
+        "mode": "markdown"
+      },
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
+      "type": "text"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "id": 43,
+      "panels": [],
+      "title": "Service Overview",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "grafanacloud-prom"
       },
       "fieldConfig": {
         "defaults": {
@@ -116,10 +190,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 2,
+        "h": 4,
+        "w": 6,
         "x": 0,
-        "y": 0
+        "y": 6
       },
       "id": 29,
       "options": {
@@ -136,15 +210,15 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "probe_success{job=\"ecommerce-$workload\"} ",
+          "expr": "vector(1)",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -152,6 +226,461 @@
       ],
       "title": "Status",
       "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "noValue": "No Incidents So Far",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 25
+              }
+            ]
+          },
+          "unit": "m"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Monthly Target"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 6,
+        "y": 6
+      },
+      "id": 112,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "grafanacloud-prom"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "vector(25)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Monthly Target",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "grafana-servicenow-datasource",
+            "uid": "lzNqFAJ4z"
+          },
+          "displayValue": "true",
+          "fields": [
+            {
+              "aggregates": [],
+              "name": "number"
+            },
+            {
+              "aggregates": [],
+              "name": "opened_at"
+            },
+            {
+              "aggregates": [],
+              "name": "closed_at"
+            },
+            {
+              "aggregates": [],
+              "name": "state"
+            },
+            {
+              "aggregates": [],
+              "name": "x_977123_grafana_0_service"
+            }
+          ],
+          "filters": [
+            {
+              "conjunction": "and",
+              "field": "x_977123_grafana_0_service",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "X_977123_grafana_0_service",
+                "element": "x_977123_grafana_0_service",
+                "internal_type": {
+                  "link": "",
+                  "value": "string"
+                },
+                "label": "Service Name",
+                "name": "x_977123_grafana_0_service",
+                "sys_name": "Service Name",
+                "table": "",
+                "value": "x_977123_grafana_0_service"
+              },
+              "op": "=",
+              "type": "string",
+              "value": "$workload"
+            },
+            {
+              "conjunction": "and",
+              "field": "state",
+              "fieldDesc": {
+                "Choices": [
+                  {
+                    "image": "",
+                    "label": "New",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "New",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "1"
+                  },
+                  {
+                    "image": "",
+                    "label": "In Progress",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "In Progress",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "2"
+                  },
+                  {
+                    "image": "",
+                    "label": "On Hold",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "On Hold",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "3"
+                  },
+                  {
+                    "image": "",
+                    "label": "Resolved",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "Resolved",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "6"
+                  },
+                  {
+                    "image": "",
+                    "label": "Closed",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "Closed",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "7"
+                  },
+                  {
+                    "image": "",
+                    "label": "Canceled",
+                    "missing": false,
+                    "parameters": {
+                      "name": "incident"
+                    },
+                    "rawLabel": "Canceled",
+                    "reference": false,
+                    "selected": false,
+                    "used": false,
+                    "value": "8"
+                  }
+                ],
+                "choice": "true",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "State",
+                "element": "state",
+                "internal_type": {
+                  "link": "",
+                  "value": "integer"
+                },
+                "label": "State",
+                "name": "state",
+                "sys_name": "State",
+                "table": "",
+                "value": "state"
+              },
+              "op": "=",
+              "type": "integer",
+              "value": "7"
+            },
+            {}
+          ],
+          "groupBy": [],
+          "hide": false,
+          "limit": 250,
+          "queryType": "TableAPI",
+          "refId": "A",
+          "sort": [
+            {}
+          ],
+          "stats": [],
+          "table": "incident",
+          "timeField": "ignore_time"
+        }
+      ],
+      "title": "Mean Time To Repair",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "difference",
+            "binary": {
+              "left": "closed_at",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "opened_at"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Time to Repair",
+            "binary": {
+              "left": "A difference",
+              "operator": "/",
+              "reducer": "sum",
+              "right": "60000"
+            },
+            "mode": "binary",
+            "reduce": {
+              "include": [
+                "difference"
+              ],
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "mode": "reduceFields",
+            "reducers": [
+              "mean"
+            ]
+          }
+        },
+        {
+          "id": "concatenate",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "A · difference": true,
+              "A · number": true,
+              "A · opened_at": true,
+              "A · state": true,
+              "A · x_977123_grafana_0_ack_datetime": true,
+              "A · x_977123_grafana_0_service": true,
+              "Budget · Time": true,
+              "C · difference": true,
+              "C · number": true,
+              "C · opened_at": true,
+              "C · state": true,
+              "C · x_977123_grafana_0_ack_datetime": true,
+              "Duration to Resolve": false,
+              "Monthly Target · Time": true,
+              "difference": true
+            },
+            "indexByName": {},
+            "renameByName": {
+              "A · Time to Repair": "Remaining Budget",
+              "C · Time to Acknowledge": "Time to Acknowledge",
+              "C · Time to Repair": "Time to Repair",
+              "C · difference": "",
+              "C · opened_at": "",
+              "Monthly Target": "Monthly Budget"
+            }
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "grafanacloud-prom"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 60,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 2000
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 14,
+        "x": 10,
+        "y": 6
+      },
+      "id": 31,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "grafanacloud-prom"
+          },
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=~\"$workload\"}[1m])) by (le)) * 1",
+          "legendFormat": "{{ service_name }}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Service Latency",
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -164,6 +693,7 @@
             "mode": "thresholds"
           },
           "mappings": [],
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -182,10 +712,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 4,
-        "x": 2,
-        "y": 0
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 10
       },
       "id": 36,
       "options": {
@@ -200,9 +730,10 @@
           "fields": "",
           "values": false
         },
-        "showUnfilled": true
+        "showUnfilled": true,
+        "valueMode": "color"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
       "targets": [
         {
           "datasource": {
@@ -313,9 +844,10 @@
     },
     {
       "datasource": {
-        "type": "grafana-servicenow-datasource",
-        "uid": "Servicenow"
+        "type": "datasource",
+        "uid": "-- Mixed --"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -323,7 +855,7 @@
           },
           "decimals": 0,
           "mappings": [],
-          "noValue": "No Data",
+          "noValue": "No Incidents So Far",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -339,17 +871,38 @@
           },
           "unit": "m"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Monthly Target"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 4,
         "w": 4,
         "x": 6,
-        "y": 0
+        "y": 10
       },
-      "id": 39,
+      "id": 58,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
@@ -357,475 +910,55 @@
           "calcs": [
             "mean"
           ],
-          "fields": "",
-          "values": false
+          "fields": "/.*/",
+          "values": true
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-servicenow-datasource",
-            "uid": "Servicenow"
-          },
-          "displayValue": "true",
-          "fields": [
-            {
-              "aggregates": [
-                "count"
-              ],
-              "name": "state"
-            },
-            {
-              "aggregates": [
-                "count"
-              ],
-              "name": "number"
-            },
-            {
-              "aggregates": [
-                "count"
-              ],
-              "name": "opened_at"
-            },
-            {
-              "aggregates": [
-                "count"
-              ],
-              "name": "resolved_at"
-            }
-          ],
-          "filters": [
-            {
-              "conjunction": "and",
-              "field": "active",
-              "fieldDesc": {
-                "choice": "",
-                "choice_field": "",
-                "choice_table": "",
-                "description": "Active",
-                "element": "active",
-                "internal_type": {
-                  "link": "",
-                  "value": "boolean"
-                },
-                "label": "Active",
-                "name": "active",
-                "sys_name": "Active",
-                "table": "",
-                "value": "active"
-              },
-              "op": "=",
-              "type": "boolean",
-              "value": "True"
-            },
-            {
-              "conjunction": "and",
-              "field": "x_977123_grafana_0_service",
-              "fieldDesc": {
-                "choice": "",
-                "choice_field": "",
-                "choice_table": "",
-                "description": "X_977123_grafana_0_service",
-                "element": "x_977123_grafana_0_service",
-                "internal_type": {
-                  "link": "",
-                  "value": "string"
-                },
-                "label": "Service Name",
-                "name": "x_977123_grafana_0_service",
-                "sys_name": "Service Name",
-                "table": "",
-                "value": "x_977123_grafana_0_service"
-              },
-              "op": "=",
-              "type": "string",
-              "value": "$workload"
-            },
-            {
-              "conjunction": "and",
-              "field": "state",
-              "fieldDesc": {
-                "Choices": [
-                  {
-                    "image": "",
-                    "label": "New",
-                    "missing": false,
-                    "parameters": {
-                      "name": "incident"
-                    },
-                    "rawLabel": "New",
-                    "reference": false,
-                    "selected": false,
-                    "used": false,
-                    "value": "1"
-                  },
-                  {
-                    "image": "",
-                    "label": "In Progress",
-                    "missing": false,
-                    "parameters": {
-                      "name": "incident"
-                    },
-                    "rawLabel": "In Progress",
-                    "reference": false,
-                    "selected": false,
-                    "used": false,
-                    "value": "2"
-                  },
-                  {
-                    "image": "",
-                    "label": "On Hold",
-                    "missing": false,
-                    "parameters": {
-                      "name": "incident"
-                    },
-                    "rawLabel": "On Hold",
-                    "reference": false,
-                    "selected": false,
-                    "used": false,
-                    "value": "3"
-                  },
-                  {
-                    "image": "",
-                    "label": "Resolved",
-                    "missing": false,
-                    "parameters": {
-                      "name": "incident"
-                    },
-                    "rawLabel": "Resolved",
-                    "reference": false,
-                    "selected": false,
-                    "used": false,
-                    "value": "6"
-                  },
-                  {
-                    "image": "",
-                    "label": "Closed",
-                    "missing": false,
-                    "parameters": {
-                      "name": "incident"
-                    },
-                    "rawLabel": "Closed",
-                    "reference": false,
-                    "selected": false,
-                    "used": false,
-                    "value": "7"
-                  },
-                  {
-                    "image": "",
-                    "label": "Canceled",
-                    "missing": false,
-                    "parameters": {
-                      "name": "incident"
-                    },
-                    "rawLabel": "Canceled",
-                    "reference": false,
-                    "selected": false,
-                    "used": false,
-                    "value": "8"
-                  }
-                ],
-                "choice": "true",
-                "choice_field": "",
-                "choice_table": "",
-                "description": "State",
-                "element": "state",
-                "internal_type": {
-                  "link": "",
-                  "value": "integer"
-                },
-                "label": "State",
-                "name": "state",
-                "sys_name": "State",
-                "table": "",
-                "value": "state"
-              },
-              "op": "=",
-              "type": "integer",
-              "value": "6"
-            },
-            {}
-          ],
-          "groupBy": [],
-          "limit": 25,
-          "queryType": "TableAPI",
-          "refId": "A",
-          "sort": [
-            {}
-          ],
-          "stats": [
-            "count"
-          ],
-          "table": "incident",
-          "timeField": "ignore_time"
-        }
-      ],
-      "title": "Mean Time To Repair",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "count 1 - High": "High",
-              "count 2 - Medium": "Medium",
-              "count 3 - Low": "Low"
-            }
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "mode": "reduceRow",
-            "reduce": {
-              "include": [
-                "opened_at",
-                "resolved_at"
-              ],
-              "reducer": "diff"
-            }
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "Duration To Resolve",
-            "binary": {
-              "left": "Difference",
-              "operator": "/",
-              "reducer": "sum",
-              "right": "60000"
-            },
-            "mode": "binary",
-            "reduce": {
-              "reducer": "sum"
-            },
-            "replaceFields": false
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "Difference": true,
-              "opened_at": true,
-              "resolved_at": true
-            },
-            "indexByName": {},
-            "renameByName": {}
-          }
-        }
-      ],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "MLT Metrics"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "axisSoftMin": 0,
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 25,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "ms"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 14,
-        "x": 10,
-        "y": 0
-      },
-      "id": 31,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "right",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=~\"$workload\"}[1m])) by (le)) * 1",
-          "legendFormat": "{{ service_name }}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Service Latency",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "grafana-servicenow-datasource",
-        "uid": "Servicenow"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 0,
-          "mappings": [],
-          "noValue": "No Data",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 25
-              }
-            ]
-          },
-          "unit": "m"
+          "exemplar": false,
+          "expr": "vector(25)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Monthly Target",
+          "range": false,
+          "refId": "B"
         },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 6,
-        "y": 4
-      },
-      "id": 38,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.3.6",
-      "targets": [
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "Servicenow"
+            "uid": "lzNqFAJ4z"
           },
-          "displayValue": "true",
+          "displayValue": "all",
           "fields": [
             {
-              "aggregates": [
-                "count"
-              ],
-              "name": "state"
-            },
-            {
-              "aggregates": [
-                "count"
-              ],
+              "aggregates": [],
               "name": "number"
             },
             {
-              "aggregates": [
-                "count"
-              ],
+              "aggregates": [],
+              "name": "state"
+            },
+            {
+              "aggregates": [],
               "name": "opened_at"
             },
             {
-              "aggregates": [
-                "count"
-              ],
+              "aggregates": [],
               "name": "x_977123_grafana_0_ack_datetime"
             }
           ],
           "filters": [
             {
               "conjunction": "and",
-              "field": "active",
-              "fieldDesc": {
-                "choice": "",
-                "choice_field": "",
-                "choice_table": "",
-                "description": "Active",
-                "element": "active",
-                "internal_type": {
-                  "link": "",
-                  "value": "boolean"
-                },
-                "label": "Active",
-                "name": "active",
-                "sys_name": "Active",
-                "table": "",
-                "value": "active"
-              },
-              "op": "=",
-              "type": "boolean",
-              "value": "True"
-            },
-            {
-              "conjunction": "and",
               "field": "x_977123_grafana_0_service",
               "fieldDesc": {
                 "choice": "",
@@ -946,22 +1079,21 @@
                 "table": "",
                 "value": "state"
               },
-              "op": "=",
+              "op": "!=",
               "type": "integer",
-              "value": "2"
+              "value": "1"
             },
             {}
           ],
           "groupBy": [],
-          "limit": 25,
+          "hide": false,
+          "limit": 250,
           "queryType": "TableAPI",
-          "refId": "A",
+          "refId": "C",
           "sort": [
             {}
           ],
-          "stats": [
-            "count"
-          ],
+          "stats": [],
           "table": "incident",
           "timeField": "ignore_time"
         }
@@ -969,57 +1101,103 @@
       "title": "Mean Time To Acknowledge",
       "transformations": [
         {
-          "id": "organize",
+          "id": "filterByValue",
           "options": {
-            "excludeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "count 1 - High": "High",
-              "count 2 - Medium": "Medium",
-              "count 3 - Low": "Low"
-            }
+            "filters": [
+              {
+                "config": {
+                  "id": "isNotNull",
+                  "options": {}
+                },
+                "fieldName": "x_977123_grafana_0_ack_datetime"
+              },
+              {
+                "config": {
+                  "id": "greater",
+                  "options": {
+                    "value": 0
+                  }
+                },
+                "fieldName": "Monthly Target"
+              }
+            ],
+            "match": "any",
+            "type": "include"
           }
         },
         {
           "id": "calculateField",
           "options": {
-            "mode": "reduceRow",
-            "reduce": {
-              "include": [
-                "opened_at",
-                "x_977123_grafana_0_ack_datetime"
-              ],
-              "reducer": "diff"
-            }
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "Duration To Resolve",
+            "alias": "difference",
             "binary": {
-              "left": "Difference",
+              "left": "x_977123_grafana_0_ack_datetime",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "opened_at"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Time to Acknowledge",
+            "binary": {
+              "left": "C difference",
               "operator": "/",
               "reducer": "sum",
               "right": "60000"
             },
             "mode": "binary",
             "reduce": {
+              "include": [
+                "difference"
+              ],
               "reducer": "sum"
             },
             "replaceFields": false
           }
         },
         {
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "mode": "reduceFields",
+            "reducers": [
+              "mean"
+            ]
+          }
+        },
+        {
+          "id": "concatenate",
+          "options": {}
+        },
+        {
           "id": "organize",
           "options": {
             "excludeByName": {
-              "Difference": true,
-              "opened_at": true,
-              "resolved_at": true
+              "A · difference": true,
+              "A · number": true,
+              "A · state": true,
+              "C · difference": true,
+              "C · number": true,
+              "C · state": true
             },
-            "indexByName": {},
-            "renameByName": {}
+            "indexByName": {
+              "A · Time to Acknowledge": 4,
+              "A · difference": 2,
+              "A · number": 1,
+              "A · state": 0,
+              "Monthly Target": 3
+            },
+            "renameByName": {
+              "A · Time to Acknowledge": "Time To Acknowledge",
+              "C · Time to Acknowledge": "Remaining Budget",
+              "Monthly Target": "Monthly Budget"
+            }
           }
         }
       ],
@@ -1028,7 +1206,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "grafanacloud-prom"
       },
       "fieldConfig": {
         "defaults": {
@@ -1043,7 +1221,7 @@
             "axisSoftMin": 0,
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 25,
+            "fillOpacity": 60,
             "gradientMode": "opacity",
             "hideFrom": {
               "legend": false,
@@ -1051,7 +1229,7 @@
               "viz": false
             },
             "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineWidth": 3,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -1088,14 +1266,14 @@
         "h": 4,
         "w": 14,
         "x": 10,
-        "y": 4
+        "y": 10
       },
       "id": 32,
       "options": {
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
@@ -1107,7 +1285,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
           "expr": "sum(rate(traces_spanmetrics_calls_total{service_name=~\"$workload\"}[1m])) ",
@@ -1125,60 +1303,23 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 8
+        "y": 14
       },
       "id": 24,
       "panels": [],
-      "title": "Workload Logs",
+      "title": "$workload Workload Logs",
       "type": "row"
     },
     {
       "datasource": {
         "type": "loki",
-        "uid": "MLT Logs"
+        "uid": "grafanacloud-logs"
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
+        "h": 9,
+        "w": 24,
         "x": 0,
-        "y": 9
-      },
-      "id": 26,
-      "options": {
-        "dedupStrategy": "none",
-        "enableLogDetails": true,
-        "prettifyLogMessage": false,
-        "showCommonLabels": false,
-        "showLabels": false,
-        "showTime": false,
-        "sortOrder": "Descending",
-        "wrapLogMessage": false
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "MLT Logs"
-          },
-          "editorMode": "code",
-          "expr": "{cluster=\"microbs\",container=~\"$workload\"} | logfmt != \"healthz\"",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Logs",
-      "type": "logs"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "MLT Logs"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 9
+        "y": 15
       },
       "id": 27,
       "options": {
@@ -1195,12 +1336,13 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "MLT Logs"
+            "uid": "grafanacloud-logs"
           },
           "editorMode": "code",
-          "expr": "{cluster=\"microbs\",container=~\"$workload\"} |~ \"critical|Critical|CRITICAL|error|Error|ERROR|exception|Exception|EXCEPTION|fail|Fail|FAIL|fatal|Fatal|FATAL\"",
+          "expr": "{cluster=\"cloud\",container=~\"$workload\"} |~ \"critical|Critical|CRITICAL|error|Error|ERROR|exception|Exception|EXCEPTION|fail|Fail|FAIL|fatal|Fatal|FATAL\"",
+          "hide": false,
           "queryType": "range",
-          "refId": "A"
+          "refId": "B"
         }
       ],
       "title": "Errors",
@@ -1208,8 +1350,45 @@
     },
     {
       "datasource": {
+        "type": "loki",
+        "uid": "jtxKFAJ4z"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "id": 26,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "{cluster=\"cloud\",container=~\"$workload\"} | logfmt != \"healthz\"",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Logs",
+      "type": "logs"
+    },
+    {
+      "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "grafanacloud-prom"
       },
       "fieldConfig": {
         "defaults": {
@@ -1268,7 +1447,7 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 17
+        "y": 32
       },
       "id": 33,
       "options": {
@@ -1287,10 +1466,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "sum by(pod) (kube_pod_container_status_restarts_total{job=\"integrations/kubernetes/kube-state-metrics\", container=\"$workload\"})",
+          "expr": "sum by(container) (kube_pod_container_status_restarts_total{job=\"integrations/kubernetes/kube-state-metrics\", container=\"$workload\"})",
           "legendFormat": "{{pod}}",
           "range": true,
           "refId": "Pod"
@@ -1298,7 +1477,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
           "expr": "sum(kube_pod_container_status_restarts_total{job=\"integrations/kubernetes/kube-state-metrics\", container=\"$workload\"})",
@@ -1323,7 +1502,9 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
             "inspect": false
           },
           "mappings": [],
@@ -1389,7 +1570,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 21
+        "y": 36
       },
       "id": 35,
       "options": {
@@ -1481,7 +1662,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "grafanacloud-prom"
       },
       "fill": 1,
       "fontSize": "100%",
@@ -1489,7 +1670,7 @@
         "h": 7,
         "w": 7,
         "x": 0,
-        "y": 27
+        "y": 42
       },
       "id": 2,
       "interval": "1m",
@@ -1635,10 +1816,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"microbs\", namespace=\"default\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
+          "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"cloud\", namespace=\"mltdemo\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\"}\n) by (pod)\n",
           "format": "table",
           "instant": true,
           "intervalFactor": 2,
@@ -1649,7 +1830,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
           "expr": "sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\"}\n) by (pod)\n",
@@ -1663,7 +1844,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", namespace=\"$namespace\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
           "format": "table",
@@ -1676,7 +1857,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "expr": "sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
           "format": "table",
@@ -1689,7 +1870,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", namespace=\"$namespace\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
           "format": "table",
@@ -1729,60 +1910,93 @@
       ]
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "grafanacloud-prom"
       },
-      "fill": 10,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 60,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 7,
         "w": 17,
         "x": 7,
-        "y": 27
+        "y": 42
       },
-      "hiddenSeries": false,
       "id": 1,
       "interval": "1m",
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 0,
       "links": [],
-      "nullPointMode": "null as zero",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
       },
-      "percentage": false,
       "pluginVersion": "9.3.6",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"microbs\", namespace=\"default\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
+          "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"cloud\", namespace=\"mltdemo\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\"}\n) by (pod)\n",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -1791,36 +2005,8 @@
           "step": 10
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "CPU Usage",
-      "tooltip": {
-        "shared": false,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "logBase": 1,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
       "aliasColors": {},
@@ -1830,7 +2016,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "grafanacloud-prom"
       },
       "fill": 1,
       "fontSize": "100%",
@@ -1838,7 +2024,7 @@
         "h": 6,
         "w": 7,
         "x": 0,
-        "y": 34
+        "y": 49
       },
       "id": 4,
       "interval": "1m",
@@ -1984,10 +2170,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"microbs\", namespace=\"default\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
+          "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"cloud\", namespace=\"mltdemo\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\"}\n) by (pod)\n",
           "format": "table",
           "instant": true,
           "intervalFactor": 2,
@@ -1998,10 +2184,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"microbs\", namespace=\"default\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
+          "expr": "sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"cloud\", namespace=\"mltdemo\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\"}\n) by (pod)\n",
           "format": "table",
           "instant": true,
           "intervalFactor": 2,
@@ -2012,10 +2198,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"microbs\", namespace=\"default\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"microbs\", namespace=\"default\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
+          "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"cloud\", namespace=\"mltdemo\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"cloud\", namespace=\"mltdemo\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\"}\n) by (pod)\n",
           "format": "table",
           "instant": true,
           "intervalFactor": 2,
@@ -2026,10 +2212,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"microbs\", namespace=\"default\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
+          "expr": "sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"cloud\", namespace=\"mltdemo\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
           "format": "table",
           "instant": true,
           "intervalFactor": 2,
@@ -2040,10 +2226,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"microbs\", namespace=\"default\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"microbs\", namespace=\"default\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
+          "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"cloud\", namespace=\"mltdemo\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"cloud\", namespace=\"mltdemo\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
           "format": "table",
           "instant": true,
           "intervalFactor": 2,
@@ -2081,60 +2267,93 @@
       ]
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "grafanacloud-prom"
       },
-      "fill": 10,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 60,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 6,
         "w": 17,
         "x": 7,
-        "y": 34
+        "y": 49
       },
-      "hiddenSeries": false,
       "id": 3,
       "interval": "1m",
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 0,
       "links": [],
-      "nullPointMode": "null as zero",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
       },
-      "percentage": false,
       "pluginVersion": "9.3.6",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"microbs\", namespace=\"default\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=\"$workload\"}\n) by (pod)\n",
+          "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"cloud\", namespace=\"mltdemo\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\"}\n) by (pod)\n",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -2143,36 +2362,8 @@
           "step": 10
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Memory Usage",
-      "tooltip": {
-        "shared": false,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "bytes",
-          "logBase": 1,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
       "collapsed": false,
@@ -2184,7 +2375,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 40
+        "y": 55
       },
       "id": 18,
       "panels": [],
@@ -2210,7 +2401,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 41
+        "y": 56
       },
       "id": 19,
       "panels": [],
@@ -2227,60 +2418,93 @@
       "type": "row"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "grafanacloud-prom"
       },
-      "fill": 10,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 60,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 42
+        "y": 57
       },
-      "hiddenSeries": false,
       "id": 6,
       "interval": "1m",
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 0,
       "links": [],
-      "nullPointMode": "null as zero",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
       },
-      "percentage": false,
       "pluginVersion": "9.3.6",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "(sum(irate(container_network_receive_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
+          "expr": "(sum(irate(container_network_receive_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"cloud\", namespace=\"mltdemo\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=~\"$workload\"}) by (pod))\n",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -2289,92 +2513,97 @@
           "step": 10
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Receive Bandwidth",
-      "tooltip": {
-        "shared": false,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "Bps",
-          "logBase": 1,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "grafanacloud-prom"
       },
-      "fill": 10,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 60,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 42
+        "y": 57
       },
-      "hiddenSeries": false,
       "id": 7,
       "interval": "1m",
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 0,
       "links": [],
-      "nullPointMode": "null as zero",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
       },
-      "percentage": false,
       "pluginVersion": "9.3.6",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "(sum(irate(container_network_transmit_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
+          "expr": "(sum(irate(container_network_transmit_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"cloud\", namespace=\"mltdemo\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=~\"$workload\"}) by (pod))\n",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -2383,36 +2612,8 @@
           "step": 10
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Transmit Bandwidth",
-      "tooltip": {
-        "shared": false,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "Bps",
-          "logBase": 1,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
       "collapsed": false,
@@ -2424,7 +2625,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 49
+        "y": 64
       },
       "id": 20,
       "panels": [],
@@ -2441,60 +2642,93 @@
       "type": "row"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "grafanacloud-prom"
       },
-      "fill": 10,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 60,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 50
+        "y": 65
       },
-      "hiddenSeries": false,
       "id": 8,
       "interval": "1m",
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 0,
       "links": [],
-      "nullPointMode": "null as zero",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
       },
-      "percentage": false,
       "pluginVersion": "9.3.6",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "(avg(irate(container_network_receive_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
+          "expr": "(avg(irate(container_network_receive_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"cloud\", namespace=\"mltdemo\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=~\"$workload\"}) by (pod))\n",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -2503,92 +2737,97 @@
           "step": 10
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Average Container Bandwidth by Pod: Received",
-      "tooltip": {
-        "shared": false,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "Bps",
-          "logBase": 1,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "grafanacloud-prom"
       },
-      "fill": 10,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 60,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 50
+        "y": 65
       },
-      "hiddenSeries": false,
       "id": 9,
       "interval": "1m",
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 0,
       "links": [],
-      "nullPointMode": "null as zero",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
       },
-      "percentage": false,
       "pluginVersion": "9.3.6",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "(avg(irate(container_network_transmit_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
+          "expr": "(avg(irate(container_network_transmit_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"cloud\", namespace=\"mltdemo\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=~\"$workload\"}) by (pod))\n",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -2597,36 +2836,8 @@
           "step": 10
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Average Container Bandwidth by Pod: Transmitted",
-      "tooltip": {
-        "shared": false,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "Bps",
-          "logBase": 1,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
       "collapsed": false,
@@ -2638,7 +2849,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 57
+        "y": 72
       },
       "id": 21,
       "panels": [],
@@ -2655,60 +2866,93 @@
       "type": "row"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "grafanacloud-prom"
       },
-      "fill": 10,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 60,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 58
+        "y": 73
       },
-      "hiddenSeries": false,
       "id": 10,
       "interval": "1m",
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 0,
       "links": [],
-      "nullPointMode": "null as zero",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
       },
-      "percentage": false,
       "pluginVersion": "9.3.6",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "(sum(irate(container_network_receive_packets_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
+          "expr": "(sum(irate(container_network_receive_packets_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"cloud\", namespace=\"mltdemo\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=~\"$workload\"}) by (pod))\n",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -2717,92 +2961,97 @@
           "step": 10
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Rate of Received Packets",
-      "tooltip": {
-        "shared": false,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "pps",
-          "logBase": 1,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "grafanacloud-prom"
       },
-      "fill": 10,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 60,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 58
+        "y": 73
       },
-      "hiddenSeries": false,
       "id": 11,
       "interval": "1m",
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 0,
       "links": [],
-      "nullPointMode": "null as zero",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
       },
-      "percentage": false,
       "pluginVersion": "9.3.6",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "(sum(irate(container_network_transmit_packets_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
+          "expr": "(sum(irate(container_network_transmit_packets_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"cloud\", namespace=\"mltdemo\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=~\"$workload\"}) by (pod))\n",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -2811,36 +3060,8 @@
           "step": 10
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Rate of Transmitted Packets",
-      "tooltip": {
-        "shared": false,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "pps",
-          "logBase": 1,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
       "collapsed": false,
@@ -2852,7 +3073,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 65
+        "y": 80
       },
       "id": 22,
       "panels": [],
@@ -2869,60 +3090,93 @@
       "type": "row"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "grafanacloud-prom"
       },
-      "fill": 10,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 60,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 66
+        "y": 81
       },
-      "hiddenSeries": false,
       "id": 12,
       "interval": "1m",
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 0,
       "links": [],
-      "nullPointMode": "null as zero",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
       },
-      "percentage": false,
       "pluginVersion": "9.3.6",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "(sum(irate(container_network_receive_packets_dropped_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
+          "expr": "(sum(irate(container_network_receive_packets_dropped_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"cloud\", namespace=\"mltdemo\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=~\"$workload\"}) by (pod))\n",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -2931,92 +3185,97 @@
           "step": 10
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Rate of Received Packets Dropped",
-      "tooltip": {
-        "shared": false,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "pps",
-          "logBase": 1,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "grafanacloud-prom"
       },
-      "fill": 10,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 60,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 66
+        "y": 81
       },
-      "hiddenSeries": false,
       "id": 13,
       "interval": "1m",
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 0,
       "links": [],
-      "nullPointMode": "null as zero",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
       },
-      "percentage": false,
       "pluginVersion": "9.3.6",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "grafanacloud-prom"
           },
           "editorMode": "code",
-          "expr": "(sum(irate(container_network_transmit_packets_dropped_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"microbs\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\", workload=~\"$workload\"}) by (pod))\n",
+          "expr": "(sum(irate(container_network_transmit_packets_dropped_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"cloud\", namespace=\"mltdemo\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=~\"$workload\"}) by (pod))\n",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -3025,40 +3284,13 @@
           "step": 10
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Rate of Transmitted Packets Dropped",
-      "tooltip": {
-        "shared": false,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "pps",
-          "logBase": 1,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     }
   ],
   "refresh": "5s",
-  "schemaVersion": 37,
+  "revision": 1,
+  "schemaVersion": 38,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -3067,24 +3299,24 @@
         "current": {
           "selected": true,
           "text": [
-            "product"
+            "All"
           ],
           "value": [
-            "product"
+            "$__all"
           ]
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "MLT Metrics"
+          "uid": "grafanacloud-prom"
         },
-        "definition": "label_values(namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\"}, workload)",
+        "definition": "label_values(namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\"}, workload)",
         "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "workload",
         "options": [],
         "query": {
-          "query": "label_values(namespace_workload_pod:kube_pod_owner:relabel{cluster=\"microbs\", namespace=\"default\"}, workload)",
+          "query": "label_values(namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\"}, workload)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,
@@ -3099,7 +3331,7 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -3130,6 +3362,6 @@
   "timezone": "UTC",
   "title": "Service Detail",
   "uid": "KajugoM4z",
-  "version": 14,
+  "version": 18,
   "weekStart": ""
 }

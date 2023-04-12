@@ -10,7 +10,7 @@ from flask import jsonify, request, Response
 from common import app, config, logger
 
 # Configure content source
-CONTENT_BASE_PATH = "https://storage.googleapis.com/cdn.microbs.io/apps/ecommerce/main/content/images"
+CONTENT_BASE_PATH = os.environ.get('CONTENT_BASE_PATH') 
 
 
 ####  HTTP Handlers  ###########################################################

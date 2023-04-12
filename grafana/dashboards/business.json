@@ -1,0 +1,2180 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 74,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "SRE Dashboard",
+      "tooltip": "",
+      "type": "link",
+      "url": "/d/ihMHTlZVk/services-overview?orgId=1&refresh=5s"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
+      "flowchartsData": {
+        "flowcharts": [
+          {
+            "allowDrawio": false,
+            "center": true,
+            "csv": "## See more information for the syntax at https://drawio-app.com/import-from-csv-to-drawio/\n##\n## Example CSV. Use ## for comments and # for configuration.\n## The following names are reserved and should not be used (or ignored):\n## id, tooltip, placeholder(s), link and label (see below)\n##\n#\n## Node label with placeholders and HTML.\n## Default is '%name_of_first_column%'.\n#\n# label: %name%<br><i style=\"color:gray;\">%position%</i><br><a href=\"mailto:%email%\">Email</a>\n#\n## Node style (placeholders are replaced once).\n## Default is the current style for nodes.\n#\n# style: label;image=%image%;whiteSpace=wrap;html=1;rounded=1;fillColor=%fill%;strokeColor=%stroke%;\n#\n## Parent style for nodes with child nodes (placeholders are replaced once).\n#\n# parentstyle: swimlane;whiteSpace=wrap;html=1;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;\n#\n## Optional column name that contains a reference to a named style in styles.\n## Default is the current style for nodes.\n#\n# stylename: -\n#\n## JSON for named styles of the form {\"name\": \"style\", \"name\": \"style\"} where style is a cell style with\n## placeholders that are replaced once.\n#\n# styles: -\n#\n## Optional column name that contains a reference to a named label in labels.\n## Default is the current label.\n#\n# labelname: -\n#\n## JSON for named labels of the form {\"name\": \"label\", \"name\": \"label\"} where label is a cell label with\n## placeholders.\n#\n# labels: -\n#\n## Uses the given column name as the identity for cells (updates existing cells).\n## Default is no identity (empty value or -).\n#\n# identity: -\n#\n## Uses the given column name as the parent reference for cells. Default is no parent (empty or -).\n## The identity above is used for resolving the reference so it must be specified.\n#\n# parent: -\n#\n## Adds a prefix to the identity of cells to make sure they do not collide with existing cells (whose\n## IDs are numbers from 0..n, sometimes with a GUID prefix in the context of realtime collaboration).\n## Default is csvimport-.\n#\n# namespace: csvimport-\n#\n## Connections between rows (\"from\": source colum, \"to\": target column).\n## Label, style and invert are optional. Defaults are '', current style and false.\n## If placeholders are used in the style, they are replaced with data from the source.\n## An optional placeholders can be set to target to use data from the target instead.\n## In addition to label, an optional fromlabel and tolabel can be used to name the column\n## that contains the text for the label in the edges source or target (invert ignored).\n## The label is concatenated in the form fromlabel + label + tolabel if all are defined.\n## The target column may contain a comma-separated list of values.\n## Multiple connect entries are allowed.\n#\n# connect: {\"from\": \"manager\", \"to\": \"name\", \"invert\": true, \"label\": \"manages\", \\\n#          \"style\": \"curved=1;endArrow=blockThin;endFill=1;fontSize=11;\"}\n# connect: {\"from\": \"refs\", \"to\": \"id\", \"style\": \"curved=1;fontSize=11;\"}\n#\n## Node x-coordinate. Possible value is a column name. Default is empty. Layouts will\n## override this value.\n#\n# left: \n#\n## Node y-coordinate. Possible value is a column name. Default is empty. Layouts will\n## override this value.\n#\n# top: \n#\n## Node width. Possible value is a number (in px), auto or an @ sign followed by a column\n## name that contains the value for the width. Default is auto.\n#\n# width: auto\n#\n## Node height. Possible value is a number (in px), auto or an @ sign followed by a column\n## name that contains the value for the height. Default is auto.\n#\n# height: auto\n#\n## Padding for autosize. Default is 0.\n#\n# padding: -12\n#\n## Comma-separated list of ignored columns for metadata. (These can be\n## used for connections and styles but will not be added as metadata.)\n#\n# ignore: id,image,fill,stroke,refs,manager\n#\n## Column to be renamed to link attribute (used as link).\n#\n# link: url\n#\n## Spacing between nodes. Default is 40.\n#\n# nodespacing: 40\n#\n## Spacing between levels of hierarchical layouts. Default is 100.\n#\n# levelspacing: 100\n#\n## Spacing between parallel edges. Default is 40. Use 0 to disable.\n#\n# edgespacing: 40\n#\n## Name or JSON of layout. Possible values are auto, none, verticaltree, horizontaltree,\n## verticalflow, horizontalflow, organic, circle or a JSON string as used in Layout, Apply.\n## Default is auto.\n#\n# layout: auto\n#\n## ---- CSV below this line. First line are column names. ----\nname,position,id,location,manager,email,fill,stroke,refs,url,image\nEvan Miller,CFO,emi,Office 1,,me@example.com,#dae8fc,#6c8ebf,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-9-2-128.png\nEdward Morrison,Brand Manager,emo,Office 2,Evan Miller,me@example.com,#d5e8d4,#82b366,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-10-3-128.png\nRon Donovan,System Admin,rdo,Office 3,Evan Miller,me@example.com,#d5e8d4,#82b366,\"emo,tva\",https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-2-128.png\nTessa Valet,HR Director,tva,Office 4,Evan Miller,me@example.com,#d5e8d4,#82b366,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-3-128.png\n",
+            "download": false,
+            "editorTheme": "dark",
+            "editorUrl": "https://www.draw.io",
+            "enableAnim": true,
+            "grid": false,
+            "lock": true,
+            "name": "Main",
+            "scale": true,
+            "tooltip": true,
+            "type": "xml",
+            "url": "http://<YourUrl>/<Your XML/drawio file/api>",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<mxfile host=\"app.diagrams.net\" modified=\"2023-02-23T10:43:52.885Z\" agent=\"5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36\" etag=\"LneDccDOu0TF1-rTT1z1\" version=\"20.8.21\" type=\"google\"><diagram id=\"BUjK-VnAPzTHAQMSDZx5\" name=\"Page-1\">7Ztbc6M2FIB/jR+XQRIIeIwdJ93ObiYzSZvtvnRkkG0aQBTkjZNfX8kIGxBunFnjGLL2g+GIm893LtKRGKFJvL7OSLr8ygIajaAZrEfocgQhtAAWP1LyrCTIRIVkkYVBIQM7wV34QpXQVNJVGNC8diBnLOJhWhf6LEmoz2sykmXsqX7YnEX1u6ZkQTXBnU8iXfoQBnxZSF3o7OS/0XCxLO8MsFe0xKQ8WP2TfEkC9lQRoekITTLGeLEVryc0ktor9VKcd7WndftgGU34QScsH9OQfP3nr+vk8SG7AVcXN9efYHGVHyRaqT+sHpY/lxoQz53KTS4I0xcmLzdOaRbGlNOsKr/dCcdPy5DTu5T48swncYSQLXkciT0gNufhmpaw5X7GOOEhS8SuZ27ao2jCIpZtHgHN577veUKe84w90koLwshDwbalRCSUO1b/jGacrveqDGxBCBOmTDx+9iwOKU+AyLCUvSoDBggYrrrQ084goI0MoI5cVu0BucoWlR0utjfZoRIbitYbyKGekJvPXff05MTVDa9BzkIGgjo5CE9MzuoFOT+gM3d2enIYWIbt1MlhaGBXIwccy3CdU5IDvSAno6Xvn57cJ4DMOjdoa9CQaXZEbPwtvjSz75T4eAbnV3cB//57S34byz4BHclkiSNx//EsE1sLuXWbsWDl81yDmrFVEtBAqf8VWprWzc1XtCwyEoRCmWVbwhIqxRHJ5f+WKLedBLBlogFowbSfidVA4pi6H8EWJNjsiIiety6CQAg+cxoLzWMSS30mszzdaKDJ6J6JYyck411BOjYB4J0bAVsjcEue+6JOEcHeT53xIoytf9Pc9h//nr78CSi6SFuSwmRJ/Ue26o2JWsB6P52+0PUf/Pr+fpyCz+7DOAvWqy8tXaSbVTwTuRKabN4au1c5zfTAXWbjnNO0kYil6CdycCPnUhDY1Gmj5mEHEXysDOvWgwlEttGSZAFugeV2BUuPJ/d0rRs/l8L/sXCVDauKVSIShQvZ2fGFmjaspBJDMUa/UA1xGATyNq0Qd05nHotCAwLW3aUNAOoKAP5gALYllXMB4H4wAJZ1ZgC8DwYA4zMDAA4YGpcq+0JmNLpleajGsDPGOYtbdMpZa5eoOmwtE3y8XsgCtFGUfGHxK9o3dWfTkPl3U5S2JICEcX+pYDTHZCJjj235rbRdhhn11cNSkvPjMPTsRqcLGnomd1sg2nZXEPVu17DdCDQyOXB1Aqd1Iz2T/HKjVyq9sFHmPQM/+mjpCDULf+/tR6Xb/PKjgxnaVrOw8u5+BPVa4bD9SGNwQj9qnfDQA5mm/IXQQlpI1Rw8mZVt5hF0csBQo600BV3jCGbZqhTndaWUcYD4nB1QXKrXBWvlverkwJ75g8OUvBfvXs23zLhBXdEAG8iByDItEQgQ8IDTkdr1MtPA1K4sHBkYudBzXKVVrGNABqp92rC4hrO7hiDTlTfoxaeBYSmH3Aauf2phyTMcU7iHg23PdiyrXAR0rtBaMuvJAzt06rMOZxDZ4RuWZpy5MReE+xLb4XCC+z7F9zO6w+GE91c8Yljx/YA+atfx3TbPrucODyiv9cWanV7F9wMGkj1XfD/je1k5GDCYIcb38ubvGd8dWFchxC3L4k8b39EbFsWfuTUXhPsS39FwBk77FN/T+D6cgdUrHjGs+K733+8ZJ/K8C5+HP+T69Tua5yFLcn0t5GGSPVYgOJAoohETAOUsWHXNZK3tp15gOMiE9Pm1fSvo98+MNdZpTsGlPXW6ma3ZrgusJsC26Rqvs2nPXi3gmLOEK6OA9nGQYBs1Xx5CrsiBZuXT2ZSa2N29zblpq7wUi6b/AQ==</diagram></mxfile>",
+            "zoom": "100%"
+          }
+        ]
+      },
+      "format": "short",
+      "graphId": "flowchart_12",
+      "gridPos": {
+        "h": 11,
+        "w": 19,
+        "x": 0,
+        "y": 0
+      },
+      "id": 12,
+      "newFlag": false,
+      "rulesData": {
+        "rulesData": [
+          {
+            "aggregation": "current",
+            "alias": "BrowseProductSessions",
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 0,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": false,
+            "linkData": [],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 1,
+            "overlayIcon": false,
+            "pattern": "Value #BrowseProductSessions",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [],
+            "shapeProp": "id",
+            "shapeRegEx": true,
+            "stringThresholds": [
+              "/.*/",
+              "/.*/"
+            ],
+            "textData": [
+              {
+                "hidden": false,
+                "pattern": "zexUtGTTBp1I8WBrdxuL-5",
+                "textOn": "wmd",
+                "textPattern": "/$\\.*%/",
+                "textReplace": "content"
+              }
+            ],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [
+              50,
+              80
+            ],
+            "tooltip": false,
+            "tooltipColors": false,
+            "tooltipLabel": "",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "none",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "AddItemsSessions",
+            "colors": [
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 0,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": false,
+            "linkData": [],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 2,
+            "overlayIcon": false,
+            "pattern": "Value #AddItemsSessions",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [],
+            "shapeProp": "id",
+            "shapeRegEx": true,
+            "stringThresholds": [],
+            "textData": [
+              {
+                "hidden": false,
+                "pattern": "zexUtGTTBp1I8WBrdxuL-6",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "content"
+              }
+            ],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [],
+            "tooltip": false,
+            "tooltipColors": false,
+            "tooltipLabel": "",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "none",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "ConversionFromProductToCart",
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 0,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": false,
+            "linkData": [],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 3,
+            "overlayIcon": false,
+            "pattern": "Value #ConversionFromProductToCart",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [],
+            "shapeProp": "id",
+            "shapeRegEx": true,
+            "stringThresholds": [
+              "/.*/",
+              "/.*/"
+            ],
+            "textData": [
+              {
+                "hidden": false,
+                "pattern": "zexUtGTTBp1I8WBrdxuL-14",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "content"
+              }
+            ],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [
+              50,
+              80
+            ],
+            "tooltip": false,
+            "tooltipColors": false,
+            "tooltipLabel": "",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "percentunit",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "TotalSessions",
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 0,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": false,
+            "linkData": [],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 4,
+            "overlayIcon": false,
+            "pattern": "Value #TotalSessions",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [],
+            "shapeProp": "id",
+            "shapeRegEx": true,
+            "stringThresholds": [
+              "/.*/",
+              "/.*/"
+            ],
+            "textData": [
+              {
+                "hidden": false,
+                "pattern": "zexUtGTTBp1I8WBrdxuL-24",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "content"
+              }
+            ],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [
+              50,
+              80
+            ],
+            "tooltip": false,
+            "tooltipColors": false,
+            "tooltipLabel": "",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "none",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "CheckoutSessions",
+            "colors": [
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 0,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": false,
+            "linkData": [],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 5,
+            "overlayIcon": false,
+            "pattern": "Value #CheckoutSessions",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [],
+            "shapeProp": "id",
+            "shapeRegEx": true,
+            "stringThresholds": [],
+            "textData": [
+              {
+                "hidden": false,
+                "pattern": "zexUtGTTBp1I8WBrdxuL-8",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "content"
+              }
+            ],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [],
+            "tooltip": false,
+            "tooltipColors": false,
+            "tooltipLabel": "",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "none",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "PaymentSessions",
+            "colors": [
+              "rgba(245, 54, 54, 0.9)"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 0,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": false,
+            "linkData": [],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 6,
+            "overlayIcon": false,
+            "pattern": "Value #PaymentSessions",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [],
+            "shapeProp": "id",
+            "shapeRegEx": true,
+            "stringThresholds": [],
+            "textData": [
+              {
+                "hidden": false,
+                "pattern": "zexUtGTTBp1I8WBrdxuL-9",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "content"
+              }
+            ],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [],
+            "tooltip": false,
+            "tooltipColors": false,
+            "tooltipLabel": "",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "none",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "CartToCheckoutConversion",
+            "colors": [
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 0,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": false,
+            "linkData": [],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 7,
+            "overlayIcon": false,
+            "pattern": "Value #CartToCheckoutConversion",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [],
+            "shapeProp": "id",
+            "shapeRegEx": true,
+            "stringThresholds": [],
+            "textData": [
+              {
+                "hidden": false,
+                "pattern": "zexUtGTTBp1I8WBrdxuL-19",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "content"
+              }
+            ],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [],
+            "tooltip": false,
+            "tooltipColors": false,
+            "tooltipLabel": "",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "percentunit",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "CheckoutToPayConversion",
+            "colors": [
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 0,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": false,
+            "linkData": [],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 8,
+            "overlayIcon": false,
+            "pattern": "Value #CheckoutToPayConversion",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [],
+            "shapeProp": "id",
+            "shapeRegEx": true,
+            "stringThresholds": [],
+            "textData": [
+              {
+                "hidden": false,
+                "pattern": "zexUtGTTBp1I8WBrdxuL-23",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "content"
+              }
+            ],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [],
+            "tooltip": false,
+            "tooltipColors": false,
+            "tooltipLabel": "",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "percentunit",
+            "valueData": []
+          }
+        ]
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "count (sum by(session_id, service) (count_over_time({app=\"ecommerce\", service=\"product\"} | logfmt | session_id != `` | endpoint=`/documents` | __error__=`` | method=`POST` | endpoint=`/documents` | device_country =~`$country` | device_platform =~`$platform` [$__range]))) ",
+          "hide": false,
+          "legendFormat": "BrowseProductSessions",
+          "queryType": "instant",
+          "refId": "BrowseProductSessions"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "count (sum by(session_id, service) (count_over_time({app=\"ecommerce\", service=\"cart\"} | logfmt | session_id != `` | method=`PUT` | endpoint=`/<product_id>/<quantity>` | device_country =~`$country` | device_platform =~`$platform` [$__range]))) \n",
+          "hide": false,
+          "legendFormat": "AddItemsSessions",
+          "queryType": "instant",
+          "refId": "AddItemsSessions"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "count (sum by(session_id, service) (count_over_time({app=\"ecommerce\", service=\"cart\"} | logfmt | session_id != `` | method=`PUT` | endpoint=`/<product_id>/<quantity>` | device_country =~`$country` | device_platform =~`$platform` [$__range]))) \n/ \ncount (sum by(session_id, service) (count_over_time({app=\"ecommerce\", service=\"product\"} | logfmt | session_id != `` | endpoint=`/documents` | __error__=`` | method=`POST` | endpoint=`/documents` | device_country =~`$country` | device_platform =~`$platform` [$__range]))) \n",
+          "hide": false,
+          "legendFormat": "ConversionFromProductToCart",
+          "queryType": "instant",
+          "refId": "ConversionFromProductToCart"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "count (sum by(session_id) (count_over_time({app=\"ecommerce\"} | logfmt | session_id != `` | __error__=``  | endpoint!=`/healthz`| path !~`/api/v1/content/.*` | device_country =~`$country` | device_platform =~`$platform` [$__range]))) ",
+          "hide": false,
+          "legendFormat": "TotalSessions",
+          "queryType": "instant",
+          "refId": "TotalSessions"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "count (sum by(session_id) (count_over_time({app=\"ecommerce\", service=\"checkout\"} | logfmt | endpoint=`/initiate` | session_id =~ \".+\" | device_country =~`$country` | device_platform =~`$platform` [$__range])))\n",
+          "hide": false,
+          "legendFormat": "CheckoutSessions",
+          "queryType": "instant",
+          "refId": "CheckoutSessions"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "count (sum by(session_id, service) (count_over_time({app=\"ecommerce\", service=\"payment\"} | logfmt | session_id != `` | endpoint=`/process` | method=`POST` | device_country =~`$country` | device_platform =~`$platform` | msg=`POST /process` [$__range])))",
+          "hide": false,
+          "legendFormat": "PaymentSessions",
+          "queryType": "instant",
+          "refId": "PaymentSessions"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "count (sum by(session_id) (count_over_time({app=\"ecommerce\", service=\"checkout\"} | logfmt | endpoint=`/initiate` | session_id =~ \".+\" | device_country =~`$country` | device_platform =~`$platform` [$__range])))\n/\ncount (sum by(session_id, service) (count_over_time({app=\"ecommerce\", service=\"cart\"} | logfmt | session_id != `` | method=`PUT` | endpoint=`/<product_id>/<quantity>` | device_country =~`$country` | device_platform =~`$platform` [$__range]))) \n\n",
+          "hide": false,
+          "legendFormat": "CartToCheckoutConversion",
+          "queryType": "instant",
+          "refId": "CartToCheckoutConversion"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "count (sum by(session_id, service) (count_over_time({app=\"ecommerce\", service=\"payment\"} | logfmt | session_id != `` | endpoint=`/process` | method=`POST` | device_country =~`$country` | device_platform =~`$platform` | msg=`POST /process` [$__range]))) \n/\ncount (sum by(session_id, service) (count_over_time({app=\"ecommerce\", service=\"checkout\"} | logfmt | endpoint=`/initiate` | session_id =~ \".+\" | device_country =~`$country` | device_platform =~`$platform` [$__range]))) \n\n\n\n",
+          "hide": false,
+          "legendFormat": "CheckoutToPayConversion",
+          "queryType": "instant",
+          "refId": "CheckoutToPayConversion"
+        }
+      ],
+      "transformations": [],
+      "transparent": true,
+      "type": "agenty-flowcharting-panel",
+      "valueName": "current",
+      "version": "0.9.0"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "jtxKFAJ4z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 5,
+        "x": 19,
+        "y": 0
+      },
+      "id": 17,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "sum(sum_over_time({service=\"checkout\"} | logfmt | endpoint = `/process` |= `payment successful` | line_format `{{.msg}}` | pattern `payment successful <amount>` | unwrap amount | __error__=\"\" device_country =~`$country` | device_platform =~`$platform` [$__range]))\n",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Revenue",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "jtxKFAJ4z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 28,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
+      "id": 22,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "sum by (device_platform) (sum_over_time({service=\"checkout\"} | logfmt | endpoint = `/process` |= `payment successful` | line_format `{{.msg}}` | pattern `payment successful <amount>` | unwrap amount | __error__=\"\" device_country =~`$country` | device_platform =~`$platform` [$__range]))\n",
+          "legendFormat": "{{device_platform}}",
+          "queryType": "range",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "sum (sum_over_time({service=\"checkout\"} | logfmt | endpoint = `/process` |= `payment successful` | line_format `{{.msg}}` | pattern `payment successful <amount>` | unwrap amount | __error__=\"\" device_country =~`$country` | device_platform =~`$platform` [$__range]))\n",
+          "hide": false,
+          "legendFormat": "Total Revenue",
+          "queryType": "range",
+          "refId": "B"
+        }
+      ],
+      "title": "Revenue Over Time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "jtxKFAJ4z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "red",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "min": 0,
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red"
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 4,
+        "x": 0,
+        "y": 18
+      },
+      "id": 20,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "sum (sum_over_time({service=\"checkout\"} | logfmt | endpoint = `/process` |= `payment timedout` | line_format `{{.msg}}` | pattern `payment timedout <amount>` | unwrap amount | __error__=\"\"  | device_country =~`$country` | device_platform =~`$platform` [$__range]))  or vector(0)\n",
+          "legendFormat": "{{device_country}}",
+          "queryType": "instant",
+          "refId": "Timedout Payments"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "sum  (sum_over_time({service=\"checkout\"} | logfmt | endpoint = `/process` |= `payment failed` | line_format `{{.msg}}` | pattern `payment failed <amount>` | unwrap amount | __error__=\"\"  | device_country =~`$country` | device_platform =~`$platform` [$__range])) or vector(0)\n",
+          "hide": false,
+          "legendFormat": "{{device_country}}",
+          "queryType": "instant",
+          "refId": "Failed Payments"
+        }
+      ],
+      "title": "Revenue Lost From Payment Error",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Total Revenue Lost",
+            "mode": "reduceRow",
+            "reduce": {
+              "include": [
+                "Value #Timedout Payments",
+                "Value #Failed Payments"
+              ],
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": ""
+                  }
+                },
+                "fieldName": "Total Revenue Lost"
+              }
+            ],
+            "match": "any",
+            "type": "exclude"
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "jtxKFAJ4z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "red",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red"
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 20,
+        "x": 4,
+        "y": 18
+      },
+      "id": 19,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {},
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "sum by (device_country) (sum_over_time({service=\"checkout\"} | logfmt | endpoint = `/process` |= `payment timedout` | line_format `{{.msg}}` | pattern `payment timedout <amount>` | unwrap amount | __error__=\"\"  | device_country =~`$country` | device_platform =~`$platform` [$__range]))  or vector(0)\n",
+          "legendFormat": "{{device_country}}",
+          "queryType": "instant",
+          "refId": "Timedout Payments"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "sum by (device_country) (sum_over_time({service=\"checkout\"} | logfmt | endpoint = `/process` |= `payment failed` | line_format `{{.msg}}` | pattern `payment failed <amount>` | unwrap amount | __error__=\"\"  | device_country =~`$country` | device_platform =~`$platform` [$__range])) or vector(0)\n",
+          "hide": false,
+          "legendFormat": "{{device_country}}",
+          "queryType": "instant",
+          "refId": "Failed Payments"
+        }
+      ],
+      "title": "Revenue Lost From Payment Error By Country",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": ""
+                  }
+                },
+                "fieldName": "device_country"
+              }
+            ],
+            "match": "any",
+            "type": "exclude"
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Failed Payments",
+            "mode": "reduceRow",
+            "reduce": {
+              "include": [
+                "Value #Failed Payments",
+                "Value #Timedout Payments"
+              ],
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Value #Failed Payments": true,
+              "Value #Timedout Payments": true
+            },
+            "indexByName": {},
+            "renameByName": {
+              "device_country": "Country"
+            }
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "jtxKFAJ4z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "red",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red"
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 20,
+        "x": 4,
+        "y": 24
+      },
+      "id": 24,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {},
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "sum by (device_platform) (sum_over_time({service=\"checkout\"} | logfmt | endpoint = `/process` |= `payment timedout` | line_format `{{.msg}}` | pattern `payment timedout <amount>` | unwrap amount | __error__=\"\"  | device_country =~`$country` | device_platform =~`$platform` [$__range]))  or vector(0)\n",
+          "legendFormat": "{{device_platform}}",
+          "queryType": "instant",
+          "refId": "Timedout Payments"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "sum by (device_platform) (sum_over_time({service=\"checkout\"} | logfmt | endpoint = `/process` |= `payment failed` | line_format `{{.msg}}` | pattern `payment failed <amount>` | unwrap amount | __error__=\"\"  | device_country =~`$country` | device_platform =~`$platform` [$__range])) or vector(0)\n",
+          "hide": false,
+          "legendFormat": "{{device_platform}}",
+          "queryType": "instant",
+          "refId": "Failed Payments"
+        }
+      ],
+      "title": "Revenue Lost From Payment Error By Device Platform",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": ""
+                  }
+                },
+                "fieldName": "device_country"
+              }
+            ],
+            "match": "any",
+            "type": "exclude"
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Failed Payments",
+            "mode": "reduceRow",
+            "reduce": {
+              "include": [
+                "Value #Failed Payments",
+                "Value #Timedout Payments"
+              ],
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Value #Failed Payments": true,
+              "Value #Timedout Payments": true
+            },
+            "indexByName": {},
+            "renameByName": {
+              "device_country": "Country"
+            }
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "jtxKFAJ4z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 18,
+        "w": 4,
+        "x": 0,
+        "y": 30
+      },
+      "id": 15,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "1- \n\n(\n\n  count (sum by(session_id, service) (count_over_time({app=\"ecommerce\", service=\"payment\"} | logfmt | session_id != `` | endpoint=`/process` | method=`POST` | device_country =~`$country` | device_platform =~`$platform` | msg=`POST /process`  [$__range]))) \n\n/\n  count (sum by(session_id, service) (count_over_time({app=\"ecommerce\", service=\"checkout\"} | logfmt | endpoint=`/initiate` | session_id =~ \".+\" | device_country =~`$country` | device_platform =~`$platform` [$__range]))) \n\n)\n\n\n",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Purchase Abandonment %",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "jtxKFAJ4z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 1,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    10,
+                    10
+                  ],
+                  "fill": "dash"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 3
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 20,
+        "x": 4,
+        "y": 30
+      },
+      "id": 21,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "1- \n(\n   (sum by( device_country) (count_over_time({app=\"ecommerce\", service=\"payment\"} | logfmt | session_id != `` | endpoint=`/process` | method=`POST` | device_country =~`$country`| device_platform =~`$platform` | msg=`POST /process`  [$__range]))) \n\n/\n  (sum by( device_country) (count_over_time({app=\"ecommerce\", service=\"checkout\"} | logfmt | endpoint=`/initiate` | session_id =~ \".+\" | device_country =~`$country`| device_platform =~`$platform` [$__range]))) \n\n)",
+          "legendFormat": "{{device_country}}",
+          "queryType": "range",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "1- \n(\n   (sum(count_over_time({app=\"ecommerce\", service=\"payment\"} | logfmt | session_id != `` | endpoint=`/process` | method=`POST` | device_country =~`$country`| device_platform =~`$platform` [$__range]))) \n\n/\n   (sum (count_over_time({app=\"ecommerce\", service=\"checkout\"} | logfmt | endpoint=`/initiate` | session_id =~ \".+\" | device_country =~`$country`| device_platform =~`$platform` [$__range]))) \n\n)",
+          "hide": false,
+          "legendFormat": "Total",
+          "queryType": "range",
+          "refId": "B"
+        }
+      ],
+      "title": "Purchase Abandonment % By Country",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "jtxKFAJ4z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 1,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "custom.lineWidth",
+                "value": 3
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    10,
+                    10
+                  ],
+                  "fill": "dash"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 20,
+        "x": 4,
+        "y": 39
+      },
+      "id": 23,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "1- \n(\n   (sum by( device_platform) (count_over_time({app=\"ecommerce\", service=\"payment\"} | logfmt | session_id != `` | endpoint=`/process` | method=`POST` | device_country =~`$country`| device_platform =~`$platform` | msg=`POST /process`  [$__range]))) \n\n/\n  (sum by( device_platform) (count_over_time({app=\"ecommerce\", service=\"checkout\"} | logfmt | endpoint=`/initiate` | session_id =~ \".+\" | device_country =~`$country`| device_platform =~`$platform` [$__range]))) \n\n)",
+          "legendFormat": "{{device_platform}}",
+          "queryType": "range",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "1- \n(\n  count  (sum by(session_id, device_platform) (count_over_time({app=\"ecommerce\", service=\"payment\"} | logfmt | session_id != `` | endpoint=`/process` | method=`POST` | device_country =~`$country`| device_platform =~`$platform` [$__range]))) \n\n/\n  count  (sum by(session_id, device_platform) (count_over_time({app=\"ecommerce\", service=\"checkout\"} | logfmt | endpoint=`/initiate` | session_id =~ \".+\" | device_country =~`$country`| device_platform =~`$platform` [$__range]))) \n\n)",
+          "hide": false,
+          "legendFormat": "Total",
+          "queryType": "range",
+          "refId": "B"
+        }
+      ],
+      "title": "Purchase Abandonment % By Device Platform",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "jtxKFAJ4z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 16,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 48
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "count by (device_platform) (sum by(session_id, device_platform) (count_over_time({app=\"ecommerce\"} | logfmt | session_id != `` | __error__=``  | endpoint!=`/healthz`| path !~`/api/v1/content/.*` | device_country =~`$country` | device_platform =~`$platform` [$__range])))",
+          "legendFormat": "{{device_platform}}",
+          "queryType": "range",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "count  (sum by(session_id) (count_over_time({app=\"ecommerce\"} | logfmt | session_id != `` | __error__=``  | endpoint!=`/healthz`| path !~`/api/v1/content/.*` | device_country =~`$country` | device_platform =~`$platform` [$__range])))",
+          "hide": false,
+          "legendFormat": "Total Sessions",
+          "queryType": "range",
+          "refId": "B"
+        }
+      ],
+      "title": "Sessions Over Time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "jtxKFAJ4z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 13,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 48
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "sum by (device_platform) (count_over_time({app=\"ecommerce\", service=\"api-gateway\"} | logfmt | endpoint!=`/healthz` | path !~`/api/v1/content/.*` | __error__=`` | device_country =~`$country` | device_platform =~`$platform` [$__range]))",
+          "legendFormat": "{{device_platform}}",
+          "queryType": "range",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "sum (count_over_time({app=\"ecommerce\", service=\"api-gateway\"} | logfmt | endpoint!=`/healthz` | path !~`/api/v1/content/.*` | __error__=`` | device_country =~`$country` | device_platform =~`$platform` [$__range]))",
+          "hide": false,
+          "legendFormat": "Total",
+          "queryType": "range",
+          "refId": "B"
+        }
+      ],
+      "title": "Actions Over Time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "tempo",
+        "uid": "MnUhF014k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 57
+      },
+      "id": 13,
+      "options": {
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Duration"
+          }
+        ]
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "tempo",
+            "uid": "MnUhF014k"
+          },
+          "key": "Q-d1cf61f4-8645-4b56-b9ea-43ecba8c1a5b-0",
+          "limit": 20,
+          "query": "{.service.name=\"ecommerce-frontend\" && .session_id =~ \".+\" && .http.method =~ \".+\"  } ",
+          "queryType": "traceql",
+          "refId": "A"
+        }
+      ],
+      "title": "Trace View",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "jtxKFAJ4z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(245, 54, 54, 0.9)"
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 0
+              },
+              {
+                "color": "rgba(50, 172, 45, 0.97)",
+                "value": 10
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 65
+      },
+      "id": 10,
+      "maxDataPoints": 1,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "count by(device_country) (sum by(session_id, device_country) (count_over_time({app=\"ecommerce\"} | logfmt | session_id != `` | __error__=``  | endpoint!=`/healthz`| path !~`/api/v1/content/.*` | device_country =~`$country` | device_platform =~`$platform` [$__range])))",
+          "legendFormat": "",
+          "queryType": "instant",
+          "refId": "A"
+        }
+      ],
+      "title": "Current Sessions By Country",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "jtxKFAJ4z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(245, 54, 54, 0.9)"
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 0
+              },
+              {
+                "color": "rgba(50, 172, 45, 0.97)",
+                "value": 10
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 24,
+        "x": 0,
+        "y": 70
+      },
+      "id": 9,
+      "maxDataPoints": 1,
+      "options": {
+        "basemap": {
+          "config": {},
+          "name": "Layer 0",
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": true,
+          "showDebug": false,
+          "showMeasure": false,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "blur": 15,
+              "radius": 40,
+              "weight": {
+                "field": "Value #A",
+                "fixed": 1,
+                "max": 1,
+                "min": 0
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "location": {
+              "lookup": "device_country",
+              "mode": "lookup"
+            },
+            "name": "Layer 2",
+            "opacity": 0.7,
+            "tooltip": false,
+            "type": "heatmap"
+          }
+        ],
+        "tooltip": {
+          "mode": "details"
+        },
+        "view": {
+          "allLayers": true,
+          "id": "zero",
+          "lat": 0,
+          "lon": 0,
+          "zoom": 1
+        }
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "jtxKFAJ4z"
+          },
+          "editorMode": "code",
+          "expr": "count by(device_country) (sum by(session_id, device_country) (count_over_time({app=\"ecommerce\"} | logfmt | session_id != `` | __error__=``  | endpoint!=`/healthz`| path !~`/api/v1/content/.*` | device_country =~`$country` | device_platform =~`$platform` [$__range])))",
+          "legendFormat": "",
+          "queryType": "instant",
+          "refId": "A"
+        }
+      ],
+      "title": "Current Sessions By Country",
+      "type": "geomap"
+    }
+  ],
+  "refresh": "5s",
+  "revision": 1,
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": [
+            "US",
+            "GB",
+            "GR",
+            "GL",
+            "BE",
+            "NL",
+            "DE"
+          ],
+          "value": [
+            "US",
+            "GB",
+            "GR",
+            "GL",
+            "BE",
+            "NL",
+            "DE"
+          ]
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Country",
+        "multi": true,
+        "name": "country",
+        "options": [
+          {
+            "selected": true,
+            "text": "US",
+            "value": "US"
+          },
+          {
+            "selected": true,
+            "text": "GB",
+            "value": "GB"
+          },
+          {
+            "selected": true,
+            "text": "GR",
+            "value": "GR"
+          },
+          {
+            "selected": true,
+            "text": "GL",
+            "value": "GL"
+          },
+          {
+            "selected": true,
+            "text": "BE",
+            "value": "BE"
+          },
+          {
+            "selected": true,
+            "text": "NL",
+            "value": "NL"
+          },
+          {
+            "selected": true,
+            "text": "DE",
+            "value": "DE"
+          }
+        ],
+        "query": "US,GB,GR,GL,BE,NL,DE",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": [
+            "web",
+            "mobile"
+          ],
+          "value": [
+            "web",
+            "mobile"
+          ]
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Platform",
+        "multi": true,
+        "name": "platform",
+        "options": [
+          {
+            "selected": true,
+            "text": "web",
+            "value": "web"
+          },
+          {
+            "selected": true,
+            "text": "mobile",
+            "value": "mobile"
+          }
+        ],
+        "query": "web,mobile",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Business",
+  "uid": "aCjfpe14z",
+  "version": 57,
+  "weekStart": ""
+}

@@ -1,8 +1,8 @@
 namespace: mltdemo
 
 prometheus:
-    username: 779510
-    apikey: eyJrIjoiYTE4MzBjY2Q5ODEzMzIwY2JjZWMxNmU4MDUzMzg2N2E0MDU1M2RiYiIsIm4iOiJha2MtZGF0YXNoaXBwZXIiLCJpZCI6Nzk3MzMyfQ==
+    username: REDACTED
+    apikey: REDACTED
     url: https://prometheus-us-central1.grafana.net/api/prom/push
 
 k6:

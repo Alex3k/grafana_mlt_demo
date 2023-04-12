@@ -22,7 +22,7 @@
       {
         "datasource": {
           "type": "grafana-servicenow-datasource",
-          "uid": "2lBt98AVk"
+          "uid": "Servicenow"
         },
         "enable": false,
         "iconColor": "red",
@@ -110,13 +110,26 @@
           "table": "change_request",
           "timeField": "ignore_time"
         }
+      },
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "MLT Logs"
+        },
+        "enable": true,
+        "expr": "{service=\"product\"} |= \"product_super_fast_mode is\" | logfmt |  line_format \"Service: {{.service}} - Pod: {{.pod}} - {{.msg}}\"",
+        "iconColor": "text",
+        "instant": false,
+        "name": "Feature Flags",
+        "textFormat": "",
+        "titleFormat": ""
       }
     ]
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": 21,
+  "id": 29,
   "links": [
     {
       "asDropdown": false,
@@ -129,165 +142,45 @@
       "tooltip": "",
       "type": "link",
       "url": "/d/40UDVP0Vk/exec-overview?orgId=1&refresh=5s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Business Dashboard",
+      "tooltip": "",
+      "type": "link",
+      "url": "/d/aCjfpe14z/business?orgId=1&refresh=5s"
     }
   ],
   "liveNow": false,
   "panels": [
     {
-      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "MLT Metrics"
+      },
+      "description": "",
       "gridPos": {
-        "h": 1,
-        "w": 24,
+        "h": 5,
+        "w": 11,
         "x": 0,
         "y": 0
       },
-      "id": 72,
-      "panels": [],
-      "title": "KPIs",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 6,
-        "x": 0,
-        "y": 1
-      },
-      "id": 63,
+      "id": 82,
       "options": {
         "code": {
           "language": "plaintext",
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "<h1 style=\"text-align: center;\">Downtime</h1>",
+        "content": "<img src=\"https://storage.googleapis.com/se_demo_images/acme\" style=\"height=100%;\" /> ",
         "mode": "html"
       },
-      "pluginVersion": "9.3.6",
-      "type": "text"
-    },
-    {
-      "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 4,
-        "x": 6,
-        "y": 1
-      },
-      "id": 64,
-      "options": {
-        "code": {
-          "language": "plaintext",
-          "showLineNumbers": false,
-          "showMiniMap": false
-        },
-        "content": "<h1 style=\"text-align: center;\">Payment Failures</h1>",
-        "mode": "html"
-      },
-      "pluginVersion": "9.3.6",
-      "type": "text"
-    },
-    {
-      "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 4,
-        "x": 10,
-        "y": 1
-      },
-      "id": 65,
-      "options": {
-        "code": {
-          "language": "plaintext",
-          "showLineNumbers": false,
-          "showMiniMap": false
-        },
-        "content": "<h1 style=\"text-align: center;\">Mean Time to Acknowledge</h1>",
-        "mode": "html"
-      },
-      "pluginVersion": "9.3.6",
-      "type": "text"
-    },
-    {
-      "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 4,
-        "x": 14,
-        "y": 1
-      },
-      "id": 66,
-      "options": {
-        "code": {
-          "language": "plaintext",
-          "showLineNumbers": false,
-          "showMiniMap": false
-        },
-        "content": "<h1 style=\"text-align: center;\">Mean Time to Repair</h1>",
-        "mode": "html"
-      },
-      "pluginVersion": "9.3.6",
-      "type": "text"
-    },
-    {
-      "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 3,
-        "x": 18,
-        "y": 1
-      },
-      "id": 79,
-      "options": {
-        "code": {
-          "language": "plaintext",
-          "showLineNumbers": false,
-          "showMiniMap": false
-        },
-        "content": "<h1 style=\"text-align: center;\">API Gateway</h1>",
-        "mode": "html"
-      },
-      "pluginVersion": "9.3.6",
-      "type": "text"
-    },
-    {
-      "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 3,
-        "x": 21,
-        "y": 1
-      },
-      "id": 80,
-      "options": {
-        "code": {
-          "language": "plaintext",
-          "showLineNumbers": false,
-          "showMiniMap": false
-        },
-        "content": "<h1 style=\"text-align: center;\">Web Gateway</h1>",
-        "mode": "html"
-      },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
       "type": "text"
     },
     {
@@ -295,62 +188,38 @@
         "type": "prometheus",
         "uid": "MLT Metrics"
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "m"
-        },
-        "overrides": []
-      },
+      "description": "",
       "gridPos": {
         "h": 5,
-        "w": 2,
-        "x": 0,
-        "y": 3
+        "w": 13,
+        "x": 11,
+        "y": 0
       },
-      "id": 49,
+      "id": 84,
       "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
         },
-        "textMode": "auto"
+        "content": "ACME corporation's e-commerce KPI dashboard provides a detailed overview of the company's website's performance by displaying critical metrics related to downtime, payment failures, and response times. The dashboard is designed to give executives and stakeholders real-time visibility into the website's performance and highlight areas that require attention.",
+        "mode": "markdown"
       },
-      "pluginVersion": "9.3.6",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "MLT Metrics"
-          },
-          "editorMode": "code",
-          "expr": "vector(5)",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Monthly Budget",
-      "type": "stat"
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
+      "type": "text"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "id": 72,
+      "panels": [],
+      "title": "ACME Corportation Ecommerce service KPIs",
+      "type": "row"
     },
     {
       "datasource": {
@@ -364,52 +233,106 @@
             "mode": "thresholds"
           },
           "mappings": [],
-          "max": 168,
-          "min": 0,
           "thresholds": {
-            "mode": "percentage",
+            "mode": "absolute",
             "steps": [
               {
-                "color": "dark-red",
+                "color": "green",
                 "value": null
               },
               {
-                "color": "yellow",
-                "value": 50
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Remaining Budget"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
               },
               {
-                "color": "green",
-                "value": 100
+                "id": "thresholds",
+                "value": {
+                  "mode": "percentage",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": null
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 50
+                    },
+                    {
+                      "color": "green",
+                      "value": 100
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "max",
+                "value": 168
               }
             ]
           },
-          "unit": "s"
-        },
-        "overrides": []
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Monthly Budget"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "m"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Percentage remaining"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 5,
-        "w": 2,
-        "x": 2,
-        "y": 3
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 6
       },
-      "id": 42,
-      "maxDataPoints": 10,
+      "id": 116,
+      "maxDataPoints": 1,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
+        "colorMode": "background",
+        "graphMode": "none",
         "justifyMode": "auto",
-        "orientation": "auto",
+        "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^\\{instance=\"http://api\\-gateway\\.default\\.svc\\.cluster\\.local/\", job=\"ecommerce\\-api\\-gateway\"\\}$/",
-          "values": false
+          "fields": "",
+          "values": true
         },
-        "textMode": "auto"
+        "textMode": "value_and_name"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
       "targets": [
         {
           "datasource": {
@@ -418,20 +341,52 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "300 * (avg_over_time(\n  (\n    ceil(\n      # the number of successes across all probes\n      sum by (instance, job) (increase(probe_all_success_sum{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n      /\n      # the total number of times we checked across all probes\n      (sum by (instance, job) (increase(probe_all_success_count{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m])) + 1) # + 1 because we want to make sure it goes to 1, not 2\n    )\n  )\n  [30d:5m]\n)) or vector(300)",
+          "expr": "vector(5)",
+          "format": "time_series",
           "instant": true,
+          "interval": "",
+          "legendFormat": "Monthly Budget",
           "range": false,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "300 * (avg_over_time(\n  (\n    ceil(\n      # the number of successes across all probes\n      sum by (instance, job) (increase(probe_all_success_sum{instance=\"http://api-gateway.mltdemo.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n      /\n      # the total number of times we checked across all probes\n      (sum by (instance, job) (increase(probe_all_success_count{instance=\"http://api-gateway.mltdemo.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m])) + 1) # + 1 because we want to make sure it goes to 1, not 2\n    )\n  )\n  [30d:5m]\n))  ",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Remaining Budget",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(avg_over_time(\n  (\n    ceil(\n      # the number of successes across all probes\n      sum by (instance, job) (increase(probe_all_success_sum{instance=\"http://api-gateway.mltdemo.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n      /\n      # the total number of times we checked across all probes\n      (sum by (instance, job) (increase(probe_all_success_count{instance=\"http://api-gateway.mltdemo.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m])) + 1) # + 1 because we want to make sure it goes to 1, not 2\n    )\n  )\n  [30d:5m]\n))",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Percentage remaining",
+          "range": false,
+          "refId": "C"
         }
       ],
-      "timeFrom": "now/M",
-      "title": "Remaining Budget",
+      "title": "Downtime",
       "type": "stat"
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "MLT Metrics"
+        "type": "datasource",
+        "uid": "-- Mixed --"
       },
       "description": "",
       "fieldConfig": {
@@ -440,149 +395,13 @@
             "mode": "thresholds"
           },
           "mappings": [],
-          "max": 168,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "dark-red",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 0.5
-              },
-              {
-                "color": "green",
-                "value": 1
-              }
-            ]
-          },
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 2,
-        "x": 4,
-        "y": 3
-      },
-      "id": 70,
-      "maxDataPoints": 10,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/^\\{instance=\"http://api\\-gateway\\.default\\.svc\\.cluster\\.local/\", job=\"ecommerce\\-api\\-gateway\"\\}$/",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.3.6",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "MLT Metrics"
-          },
-          "editorMode": "code",
-          "expr": "(avg_over_time(\n  (\n    ceil(\n      # the number of successes across all probes\n      sum by (instance, job) (increase(probe_all_success_sum{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n      /\n      # the total number of times we checked across all probes\n      (sum by (instance, job) (increase(probe_all_success_count{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m])) + 1) # + 1 because we want to make sure it goes to 1, not 2\n    )\n  )\n  [30d:5m]\n)) or vector(1)",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "timeFrom": "now/M",
-      "title": "Percentage",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "MLT Metrics"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 2,
-        "x": 6,
-        "y": 3
-      },
-      "id": 50,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.3.6",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "MLT Metrics"
-          },
-          "editorMode": "code",
-          "expr": "vector(500)",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Monthly Budget",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "MLT Logs"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 0,
-          "mappings": [],
-          "max": 100,
+          "max": 500,
           "min": 0,
           "thresholds": {
             "mode": "percentage",
             "steps": [
               {
-                "color": "dark-red",
+                "color": "red",
                 "value": null
               },
               {
@@ -590,120 +409,102 @@
                 "value": 50
               },
               {
-                "color": "dark-green",
-                "value": 100
+                "color": "green",
+                "value": 80
               }
             ]
           },
           "unit": "none"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #B"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Remaining Budget"
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "from": -10000000000,
+                      "result": {
+                        "index": 0,
+                        "text": "0"
+                      },
+                      "to": 0
+                    },
+                    "type": "range"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 5,
-        "w": 2,
-        "x": 8,
-        "y": 3
+        "h": 4,
+        "w": 4,
+        "x": 6,
+        "y": 6
       },
-      "id": 51,
+      "id": 50,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
+        "colorMode": "background",
+        "graphMode": "none",
         "justifyMode": "auto",
-        "orientation": "auto",
+        "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
-            "last"
+            "mean"
           ],
-          "fields": "/^RemainingErrors$/",
+          "fields": "",
           "values": false
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
       "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "vector(500)",
+          "instant": true,
+          "legendFormat": "Monthly Budget",
+          "range": false,
+          "refId": "A"
+        },
         {
           "datasource": {
             "type": "loki",
             "uid": "MLT Logs"
           },
           "editorMode": "code",
-          "expr": "500 - sum(count_over_time({service=\"payment\"} | logfmt | endpoint = `/process` | status != `200` [30d])) or vector(500)",
-          "legendFormat": "RemainingErrors",
-          "queryType": "range",
-          "refId": "A"
+          "expr": "500 - sum(count_over_time({service=\"payment\"} | logfmt | endpoint = `/process` | status != `200` [29d])) or vector(500)",
+          "hide": false,
+          "legendFormat": "Remaining Monthly Budget",
+          "queryType": "instant",
+          "refId": "B"
         }
       ],
-      "title": "Monthly Budget",
+      "title": "Payment Failures",
       "type": "stat"
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "MLT Metrics"
+        "type": "datasource",
+        "uid": "-- Mixed --"
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "m"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 2,
-        "x": 10,
-        "y": 3
-      },
-      "id": 61,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.3.6",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "MLT Metrics"
-          },
-          "editorMode": "code",
-          "expr": "vector(25)",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Monthly Target",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "grafana-servicenow-datasource",
-        "uid": "Servicenow"
-      },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -711,6 +512,7 @@
           },
           "decimals": 0,
           "mappings": [],
+          "noValue": "No Incidents So Far",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -726,17 +528,38 @@
           },
           "unit": "m"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Monthly Target"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 5,
-        "w": 2,
-        "x": 12,
-        "y": 3
+        "h": 4,
+        "w": 4,
+        "x": 10,
+        "y": 6
       },
-      "id": 58,
+      "id": 114,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
@@ -744,94 +567,55 @@
           "calcs": [
             "mean"
           ],
-          "fields": "",
-          "values": false
+          "fields": "/.*/",
+          "values": true
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
       "targets": [
         {
           "datasource": {
-            "type": "grafana-servicenow-datasource",
-            "uid": "Servicenow"
+            "type": "prometheus",
+            "uid": "MLT Metrics"
           },
-          "displayValue": "true",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "vector(25)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Monthly Target",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "grafana-servicenow-datasource",
+            "uid": "lzNqFAJ4z"
+          },
+          "displayValue": "all",
           "fields": [
             {
-              "aggregates": [
-                "count"
-              ],
-              "name": "state"
-            },
-            {
-              "aggregates": [
-                "count"
-              ],
+              "aggregates": [],
               "name": "number"
             },
             {
-              "aggregates": [
-                "count"
-              ],
+              "aggregates": [],
+              "name": "state"
+            },
+            {
+              "aggregates": [],
               "name": "opened_at"
             },
             {
-              "aggregates": [
-                "count"
-              ],
+              "aggregates": [],
               "name": "x_977123_grafana_0_ack_datetime"
             }
           ],
           "filters": [
             {
               "conjunction": "and",
-              "field": "active",
-              "fieldDesc": {
-                "choice": "",
-                "choice_field": "",
-                "choice_table": "",
-                "description": "Active",
-                "element": "active",
-                "internal_type": {
-                  "link": "",
-                  "value": "boolean"
-                },
-                "label": "Active",
-                "name": "active",
-                "sys_name": "Active",
-                "table": "",
-                "value": "active"
-              },
-              "op": "=",
-              "type": "boolean",
-              "value": "True"
-            },
-            {
-              "conjunction": "and",
-              "field": "x_977123_grafana_0_service",
-              "fieldDesc": {
-                "choice": "",
-                "choice_field": "",
-                "choice_table": "",
-                "description": "X_977123_grafana_0_service",
-                "element": "x_977123_grafana_0_service",
-                "internal_type": {
-                  "link": "",
-                  "value": "string"
-                },
-                "label": "Service Name",
-                "name": "x_977123_grafana_0_service",
-                "sys_name": "Service Name",
-                "table": "",
-                "value": "x_977123_grafana_0_service"
-              },
-              "op": "ISNOTEMPTY",
-              "type": "string",
-              "value": ""
-            },
-            {
-              "conjunction": "and",
               "field": "state",
               "fieldDesc": {
                 "Choices": [
@@ -929,80 +713,148 @@
                 "table": "",
                 "value": "state"
               },
-              "op": "=",
+              "op": "!=",
               "type": "integer",
-              "value": "2"
+              "value": "1"
+            },
+            {
+              "conjunction": "and",
+              "field": "x_977123_grafana_0_ack_datetime",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "X_977123_grafana_0_ack_datetime",
+                "element": "x_977123_grafana_0_ack_datetime",
+                "internal_type": {
+                  "link": "",
+                  "value": "glide_date_time"
+                },
+                "label": "When Acknowledged",
+                "name": "x_977123_grafana_0_ack_datetime",
+                "sys_name": "When Acknowledged",
+                "table": "",
+                "value": "x_977123_grafana_0_ack_datetime"
+              },
+              "op": "RELATIVELE",
+              "type": "glide_date_time",
+              "value": "@minute@ago@1"
             },
             {}
           ],
           "groupBy": [],
-          "limit": 25,
+          "hide": false,
+          "limit": 250,
           "queryType": "TableAPI",
-          "refId": "A",
+          "refId": "C",
           "sort": [
             {}
           ],
-          "stats": [
-            "count"
-          ],
+          "stats": [],
           "table": "incident",
           "timeField": "ignore_time"
         }
       ],
-      "title": "Current",
+      "title": "Mean Time To Acknowledge",
       "transformations": [
         {
-          "id": "organize",
+          "id": "filterByValue",
           "options": {
-            "excludeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "count 1 - High": "High",
-              "count 2 - Medium": "Medium",
-              "count 3 - Low": "Low"
-            }
+            "filters": [
+              {
+                "config": {
+                  "id": "isNotNull",
+                  "options": {}
+                },
+                "fieldName": "x_977123_grafana_0_ack_datetime"
+              },
+              {
+                "config": {
+                  "id": "greater",
+                  "options": {
+                    "value": 0
+                  }
+                },
+                "fieldName": "Monthly Target"
+              }
+            ],
+            "match": "any",
+            "type": "include"
           }
         },
         {
           "id": "calculateField",
           "options": {
-            "mode": "reduceRow",
-            "reduce": {
-              "include": [
-                "opened_at",
-                "x_977123_grafana_0_ack_datetime"
-              ],
-              "reducer": "diff"
-            }
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "Duration To Resolve",
+            "alias": "difference",
             "binary": {
-              "left": "Difference",
+              "left": "x_977123_grafana_0_ack_datetime",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "opened_at"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Time to Acknowledge",
+            "binary": {
+              "left": "C difference",
               "operator": "/",
               "reducer": "sum",
               "right": "60000"
             },
             "mode": "binary",
             "reduce": {
+              "include": [
+                "difference"
+              ],
               "reducer": "sum"
             },
             "replaceFields": false
           }
         },
         {
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "mode": "reduceFields",
+            "reducers": [
+              "mean"
+            ]
+          }
+        },
+        {
+          "id": "concatenate",
+          "options": {}
+        },
+        {
           "id": "organize",
           "options": {
             "excludeByName": {
-              "Difference": true,
-              "opened_at": true,
-              "resolved_at": true
+              "A · difference": true,
+              "A · number": true,
+              "A · state": true,
+              "C · difference": true,
+              "C · number": true,
+              "C · state": true
             },
-            "indexByName": {},
-            "renameByName": {}
+            "indexByName": {
+              "A · Time to Acknowledge": 4,
+              "A · difference": 2,
+              "A · number": 1,
+              "A · state": 0,
+              "Monthly Target": 3
+            },
+            "renameByName": {
+              "A · Time to Acknowledge": "Time To Acknowledge",
+              "C · Time to Acknowledge": "Remaining Budget",
+              "Monthly Target": "Monthly Budget"
+            }
           }
         }
       ],
@@ -1010,71 +862,10 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "MLT Metrics"
+        "type": "datasource",
+        "uid": "-- Mixed --"
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "m"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 2,
-        "x": 14,
-        "y": 3
-      },
-      "id": 68,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.3.6",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "MLT Metrics"
-          },
-          "editorMode": "code",
-          "expr": "vector(25)",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Monthly Target",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "grafana-servicenow-datasource",
-        "uid": "Servicenow"
-      },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1097,17 +888,38 @@
           },
           "unit": "m"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Monthly Target"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 5,
-        "w": 2,
-        "x": 16,
-        "y": 3
+        "h": 4,
+        "w": 4,
+        "x": 14,
+        "y": 6
       },
-      "id": 67,
+      "id": 112,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
@@ -1116,91 +928,52 @@
             "mean"
           ],
           "fields": "",
-          "values": false
+          "values": true
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
       "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "vector(25)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Monthly Target",
+          "range": false,
+          "refId": "B"
+        },
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
             "uid": "Servicenow"
           },
-          "displayValue": "true",
+          "displayValue": "all",
           "fields": [
             {
-              "aggregates": [
-                "count"
-              ],
+              "aggregates": [],
               "name": "state"
             },
             {
-              "aggregates": [
-                "count"
-              ],
+              "aggregates": [],
               "name": "number"
             },
             {
-              "aggregates": [
-                "count"
-              ],
+              "aggregates": [],
               "name": "opened_at"
             },
             {
-              "aggregates": [
-                "count"
-              ],
-              "name": "resolved_at"
+              "aggregates": [],
+              "name": "closed_at"
             }
           ],
           "filters": [
-            {
-              "conjunction": "and",
-              "field": "active",
-              "fieldDesc": {
-                "choice": "",
-                "choice_field": "",
-                "choice_table": "",
-                "description": "Active",
-                "element": "active",
-                "internal_type": {
-                  "link": "",
-                  "value": "boolean"
-                },
-                "label": "Active",
-                "name": "active",
-                "sys_name": "Active",
-                "table": "",
-                "value": "active"
-              },
-              "op": "=",
-              "type": "boolean",
-              "value": "True"
-            },
-            {
-              "conjunction": "and",
-              "field": "x_977123_grafana_0_service",
-              "fieldDesc": {
-                "choice": "",
-                "choice_field": "",
-                "choice_table": "",
-                "description": "X_977123_grafana_0_service",
-                "element": "x_977123_grafana_0_service",
-                "internal_type": {
-                  "link": "",
-                  "value": "string"
-                },
-                "label": "Service Name",
-                "name": "x_977123_grafana_0_service",
-                "sys_name": "Service Name",
-                "table": "",
-                "value": "x_977123_grafana_0_service"
-              },
-              "op": "ISNOTEMPTY",
-              "type": "string",
-              "value": ""
-            },
             {
               "conjunction": "and",
               "field": "state",
@@ -1302,78 +1075,100 @@
               },
               "op": "=",
               "type": "integer",
-              "value": "6"
+              "value": "7"
             },
             {}
           ],
           "groupBy": [],
+          "hide": false,
           "limit": 25,
           "queryType": "TableAPI",
-          "refId": "A",
+          "refId": "C",
           "sort": [
             {}
           ],
-          "stats": [
-            "count"
-          ],
+          "stats": [],
           "table": "incident",
           "timeField": "ignore_time"
         }
       ],
-      "title": "Current",
+      "title": "Mean Time To Repair",
       "transformations": [
         {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "count 1 - High": "High",
-              "count 2 - Medium": "Medium",
-              "count 3 - Low": "Low"
-            }
-          }
-        },
-        {
           "id": "calculateField",
           "options": {
-            "mode": "reduceRow",
-            "reduce": {
-              "include": [
-                "opened_at",
-                "resolved_at"
-              ],
-              "reducer": "diff"
-            }
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "Duration To Resolve",
+            "alias": "difference",
             "binary": {
-              "left": "Difference",
+              "left": "closed_at",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "opened_at"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Time to Repair",
+            "binary": {
+              "left": "C difference",
               "operator": "/",
               "reducer": "sum",
               "right": "60000"
             },
             "mode": "binary",
             "reduce": {
+              "include": [
+                "difference"
+              ],
               "reducer": "sum"
-            },
-            "replaceFields": false
+            }
           }
+        },
+        {
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "mode": "reduceFields",
+            "reducers": [
+              "mean"
+            ]
+          }
+        },
+        {
+          "id": "concatenate",
+          "options": {}
         },
         {
           "id": "organize",
           "options": {
             "excludeByName": {
-              "Difference": true,
-              "opened_at": true,
-              "resolved_at": true
+              "A · number": true,
+              "A · opened_at": true,
+              "A · state": true,
+              "A · x_977123_grafana_0_ack_datetime": true,
+              "Budget · Time": true,
+              "C · difference": true,
+              "C · number": true,
+              "C · opened_at": true,
+              "C · state": true,
+              "C · x_977123_grafana_0_ack_datetime": true,
+              "Duration to Resolve": false,
+              "Monthly Target · Time": true,
+              "difference": true
             },
             "indexByName": {},
-            "renameByName": {}
+            "renameByName": {
+              "C · Time to Acknowledge": "Time to Acknowledge",
+              "C · Time to Repair": "Remaining Budget",
+              "C · difference": "",
+              "C · opened_at": "",
+              "Monthly Target": "Monthly Budget"
+            }
           }
         }
       ],
@@ -1423,10 +1218,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
+        "h": 4,
         "w": 3,
         "x": 18,
-        "y": 3
+        "y": 6
       },
       "id": 35,
       "links": [
@@ -1436,7 +1231,7 @@
         }
       ],
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "fieldOptions": {
           "calcs": [
             "lastNotNull"
@@ -1453,25 +1248,27 @@
           "values": false
         },
         "text": {},
-        "textMode": "auto"
+        "textMode": "value_and_name"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "MLT Metrics"
           },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "sum_over_time(\n  (\n    ceil(\n      sum by (instance, job) (increase(probe_all_success_sum{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n      /\n      sum by (instance, job) (increase(probe_all_success_count{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n    )\n  )[$__range:]\n)\n/\ncount_over_time(\n  (\n      sum by (instance, job) (increase(probe_all_success_count{instance=\"http://api-gateway.default.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n  )[$__range:]\n)",
+          "expr": "sum_over_time(\n  (\n    ceil(\n      sum by (instance, job) (increase(probe_all_success_sum{instance=\"http://api-gateway.mltdemo.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n      /\n      sum by (instance, job) (increase(probe_all_success_count{instance=\"http://api-gateway.mltdemo.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n    )\n  )[$__range:]\n)\n/\ncount_over_time(\n  (\n      sum by (instance, job) (increase(probe_all_success_count{instance=\"http://api-gateway.mltdemo.svc.cluster.local/\", job=\"ecommerce-api-gateway\"}[5m]))\n  )[$__range:]\n)",
           "hide": false,
           "instant": true,
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "Uptime",
           "refId": "B"
         }
       ],
-      "title": "Uptime",
+      "title": "API Gateway",
+      "transparent": true,
       "type": "stat"
     },
     {
@@ -1518,10 +1315,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
+        "h": 4,
         "w": 3,
         "x": 21,
-        "y": 3
+        "y": 6
       },
       "id": 34,
       "links": [
@@ -1531,7 +1328,7 @@
         }
       ],
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "fieldOptions": {
           "calcs": [
             "lastNotNull"
@@ -1548,25 +1345,26 @@
           "values": false
         },
         "text": {},
-        "textMode": "auto"
+        "textMode": "value_and_name"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "MLT Metrics"
           },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "sum_over_time(\n  (\n    ceil(\n      sum by (instance, job) (increase(probe_all_success_sum{instance=\"http://web-gateway.default.svc.cluster.local/\", job=\"ecommerce-web-gateway\"}[5m]))\n      /\n      sum by (instance, job) (increase(probe_all_success_count{instance=\"http://web-gateway.default.svc.cluster.local/\", job=\"ecommerce-web-gateway\"}[5m]))\n    )\n  )[$__range:]\n)\n/\ncount_over_time(\n  (\n      sum by (instance, job) (increase(probe_all_success_count{instance=\"http://web-gateway.default.svc.cluster.local/\", job=\"ecommerce-web-gateway\"}[5m]))\n  )[$__range:]\n)",
+          "expr": "sum_over_time(\n  (\n    ceil(\n      sum by (instance, job) (increase(probe_all_success_sum{instance=\"http://web-gateway.mltdemo.svc.cluster.local/\", job=\"ecommerce-web-gateway\"}[5m]))\n      /\n      sum by (instance, job) (increase(probe_all_success_count{instance=\"http://web-gateway.mltdemo.svc.cluster.local/\", job=\"ecommerce-web-gateway\"}[5m]))\n    )\n  )[$__range:]\n)\n/\ncount_over_time(\n  (\n      sum by (instance, job) (increase(probe_all_success_count{instance=\"http://web-gateway.mltdemo.svc.cluster.local/\", job=\"ecommerce-web-gateway\"}[5m]))\n  )[$__range:]\n)",
           "hide": false,
           "instant": true,
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "Uptime",
           "refId": "B"
         }
       ],
-      "title": "Uptime",
+      "title": "Web Gateway",
       "type": "stat"
     },
     {
@@ -1575,7 +1373,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 8
+        "y": 10
       },
       "id": 74,
       "panels": [],
@@ -1587,6 +1385,7 @@
         "type": "datasource",
         "uid": "-- Mixed --"
       },
+      "description": "",
       "flowchartsData": {
         "flowcharts": [
           {
@@ -1597,14 +1396,14 @@
             "editorTheme": "dark",
             "editorUrl": "https://www.draw.io",
             "enableAnim": true,
-            "grid": false,
+            "grid": true,
             "lock": true,
             "name": "Main",
             "scale": true,
             "tooltip": true,
             "type": "xml",
             "url": "http://<YourUrl>/<Your XML/drawio file/api>",
-            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<mxfile host=\"app.diagrams.net\" modified=\"2022-09-28T09:08:38.080Z\" agent=\"5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36\" etag=\"TAFxK5EgdGB3ImfAZQfq\" version=\"20.3.0\" type=\"google\"><diagram id=\"MTbsGWXTnp812zgA_9wx\" name=\"Page-1\">7VrbcpswEP0aP4bh6stj7MRpO+00M24nyVNGBgVUC0TFYuN8fSUQBqpJ6k7rgjvxgy0d3dA5u6s1MHIWcXHDURp9YgGmI9sMipFzNbLtmTsW3xLYV4DnWRUQchJUUAtYkWesQFOhOQlw1ukIjFEgaRf0WZJgHzoY4pztut2eGO2umqIQa8DKR1RH70gAUYVO7UmDv8MkjOqVrfGsaolR3VntJItQwHYtyLkeOQvOGFSluFhgKrmreanGLV9oPVwYxwkcM2C6yt7nt/fZ9ab48vnx88ft84f1hWWri4N9vWMcCAJUlXGIWMgSRK8bdM5ZngRYTmuKWtPnI2OpAC0BfsMAe6UmyoEJKIKYqlZcELhvlR/kVIanaleFmrms7OtKAnx/3660RslqM6ys1eMy4GyDF4wyXu7PWZYf0aITqDjNWM59/BpryhARDzG80s+p+klGWwsoeW4wi7G4UtGBY4qAbLsmh5Tlhod+jbiioPT9Ha29c9G6T83Gw9JsfC6anaN/Toal9eRN69NpPR2W1rM3rU+ntTcsrat5t4jmaqXL2/cCuEGAd2ivGUIjs9RpFxHAqxSVxOxEjt2V9EUyt5gDLl7dvmq1XbcaolJ0e6oy1l2T8Fp1Fhu1kt2xeSrGTI2yPtzlFCZsH2nC1qBM2O41XDUh6qHV8qtw1USoh06A+nfh6lit7WHlIbbmfHd4PaB4NRtcuJq+Hea/7x3Okd4xG5RzOJpz3HIW5D707haua3X84uADvflFP6f2ufuFd+ypMawUwdMcY4H48LzCNvv2irFOVIT9DcsHSFbvR+tEJ4slIHc4NK4cr2+upvrRhPbxELlyez+aZi8f42LJMRXrz9dclEJZukKAeidxbHXz3gGc7/qdjSrmnwuF/R8Gtp5PaixlEUplkcTls8q53C/xRUaE1pjesowAYYloXzMAFosOVDbMkb8JS4Lr9CTATygvZalnuKQklCNBplZzlKXVE9QnUkhR5uWClzVq1ogoRwDy+eul3Ly9zFPKUGDsyIbEOCDIYDwUsKynsi7KPotjlmSiBFEei3+TS0mcvK2wFDuAkOPsO33EFKcRSsDItnICIYWZFhcvdDDSJPw7ZjGpzaD2LNc1Zo5mGY6rG4bjGebkVLbh/ge24QeJaxCfJU9EuDo3hCEINCijwVLi0ia4sJJM3ndYWq58P2D5NQECFAcX9oVn2adTWnj2cTK7p9JYT3BWOMukaFoIFb8olmIk6ywdSkj96WaMM+k9oupp0JvX/JnG1rTrNc7sZF4jt3V4I6Zsa71W5Fz/AA==</diagram></mxfile>",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<mxfile host=\"app.diagrams.net\" modified=\"2023-02-16T09:46:33.609Z\" agent=\"5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36\" etag=\"jcOvOFc2y41NBFEfhQWm\" version=\"20.8.20\" type=\"google\"><diagram id=\"MTbsGWXTnp812zgA_9wx\" name=\"Page-1\">7Vpdj5s4FP01eZyIzyQ8JpnJbFetOlJadeapcsABbwyXNSYh/fW1wQSoNdOsthGkTUbK2Mdf8b3nXK6Bkb2Mi0eG0ugDBJiOLCMoRvb9yLI82xbfEjhWwMTyKiBkJKggswHW5BtWoKHQnAQ463TkAJSTtAv6kCTY5x0MMQaHbrct0O6qKQqxBqx9RHX0Cwl4VKEza9rgf2ESRvXK5kTtb4P8XcggT9R6CSS4aolRPY3aYxahAA4tyH4Y2UsGwKtSXCwxlVatLVaNW73SevrJDCf8nAGzdfYuf3rOHnbFp49fP77ff/t7c2da6sfxY20LHAjTqCowHkEICaIPDboo94vltIaoNX3eA6QCNAX4D+b8qPyMcg4CinhMVSsuCH9ulV/kVGNX1e4LNXNZOdaVhLPjc7vSGiWrzbCyVo/LOIMdXgIFVu7P9sqPaNkSSlv41pV/pxE1D5xyxmAuWSaqGwr+roJWYrzahO4L5Z4Mcubjtxyg2I5YiPkb/ZTApHNaCyhPP2KIsdi06MAwRZzsu7xGSh7hqV/DE1FQVPkvtHGvhTa/ifsnw3L/5Frc/4dHjemwaDO90eYqaDMbFm28G22ugjbusGhTzbtHNFcrzZ/eCeARcXxAR41TDWOktQ4R4XidotIwB3Ho6bLjVWPuMeO4eHP7qtVynGqIOjNZM3VQODQnELM+PESt08fEuJTFDM1kfShv4GqwzlSDOSg1WL0G0SZwvrRafhZEm7j50gmbVxlEz6WNNayczdJCwhe8GVAU9QYXRGe3bKVXodlnCs0blM5sTWdPDILc570rzHHMjsROcupNYv2kJTeJ/Zjo//xaNqwcyNU0tkRseAKzjL4FNtENFWF/B/kAjdX7BX+qGwsSLnc4NFvZbt+2mulXOXSMh2grp/ernPd6RiCWnFCx/mLDRCmUpXvEUe9GnJjdbHwAqYJ+F6iK+ddiwv4vBpaemmpWyiKUyiKJywftC7lf4ovkCm0wfYKMcAKJTESAc4hFByobFqeH53VGE+Atyku31DPMKQnlSC6ztAXK0urx/5YU0imLcsF5jRo1IsoR5/LlgbncvLXKUwooGB/IjsQ4IGgMLBSwrKeyLso+xDEkmSjxKI/FGXclDSfvm6zEDnjIcPYv/YopTiOU8HG2lxMIVxhpcfdKh3GahL+GFtOaBrWyHGfs2RozbEcnhu2OjemluOH8Btzwg8QZEx+SLRFSZ2NBBIEGZTRYSVxyggmWZPJuyMp0XOGr1eeEE05xcGfduaZ1OU8LZZ/nZudSPtYTnDXOMuk0LYSK/yiWzkg2WTqUkPrDLSJ72ntE1dOgm2r+n4/NWVc1tncx1chtnV7aKtta78TZD98B</diagram></mxfile>",
             "zoom": "100%"
           }
         ]
@@ -1612,10 +1411,10 @@
       "format": "short",
       "graphId": "flowchart_48",
       "gridPos": {
-        "h": 15,
+        "h": 14,
         "w": 10,
         "x": 0,
-        "y": 9
+        "y": 11
       },
       "id": 48,
       "newFlag": false,
@@ -1625,8 +1424,8 @@
             "aggregation": "current",
             "alias": "APIGateway",
             "colors": [
-              "rgba(245, 54, 54, 0.9)",
-              "rgba(50, 172, 45, 0.97)"
+              "#FF7383",
+              "#96D98D"
             ],
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -1642,7 +1441,7 @@
                 "hidden": false,
                 "linkOn": "a",
                 "linkParams": false,
-                "linkUrl": "/d/a164a7f0339f99e89cea5cb47e9be617/kubernetes-compute-resources-workload?orgId=1&refresh=30s&var-cluster=microbs&var-namespace=default&var-workload=web-gateway",
+                "linkUrl": "/d/KajugoM4z/service-detail?orgId=1&refresh=5s&var-workload=api-gateway",
                 "pattern": "8SsIuPXsEkxTO_OLvzJb-2"
               }
             ],
@@ -1691,8 +1490,8 @@
             "aggregation": "current",
             "alias": "WebGateway",
             "colors": [
-              "#C4162A",
-              "rgba(50, 172, 45, 0.97)"
+              "#FF7383",
+              "#96D98D"
             ],
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -1708,7 +1507,7 @@
                 "hidden": false,
                 "linkOn": "a",
                 "linkParams": false,
-                "linkUrl": "/d/a164a7f0339f99e89cea5cb47e9be617/kubernetes-compute-resources-workload?orgId=1&refresh=30s&var-cluster=microbs&var-namespace=default&var-workload=api-gateway",
+                "linkUrl": "/d/KajugoM4z/service-detail?orgId=1&refresh=5s&var-workload=web-gateway",
                 "pattern": "8SsIuPXsEkxTO_OLvzJb-1"
               }
             ],
@@ -1757,8 +1556,8 @@
             "aggregation": "current",
             "alias": "Cart",
             "colors": [
-              "#56A64B",
-              "#C4162A"
+              "#96D98D",
+              "#FF7383"
             ],
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -1823,8 +1622,8 @@
             "aggregation": "current",
             "alias": "Checkout",
             "colors": [
-              "#56A64B",
-              "#C4162A"
+              "#96D98D",
+              "#FF7383"
             ],
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -1889,8 +1688,8 @@
             "aggregation": "current",
             "alias": "Content",
             "colors": [
-              "#56A64B",
-              "#C4162A"
+              "#96D98D",
+              "#FF7383"
             ],
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -1955,8 +1754,8 @@
             "aggregation": "current",
             "alias": "Payment",
             "colors": [
-              "#56A64B",
-              "#C4162A"
+              "#96D98D",
+              "#FF7383"
             ],
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -2021,8 +1820,8 @@
             "aggregation": "current",
             "alias": "Product",
             "colors": [
-              "#56A64B",
-              "#C4162A"
+              "#96D98D",
+              "#FF7383"
             ],
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -2087,8 +1886,8 @@
             "aggregation": "current",
             "alias": "SessionDb",
             "colors": [
-              "#56A64B",
-              "#F2495C"
+              "#96D98D",
+              "#FF7383"
             ],
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -2153,8 +1952,8 @@
             "aggregation": "current",
             "alias": "CartDb",
             "colors": [
-              "#56A64B",
-              "#C4162A"
+              "#96D98D",
+              "#FF7383"
             ],
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -2219,8 +2018,8 @@
             "aggregation": "current",
             "alias": "ProductDB",
             "colors": [
-              "#56A64B",
-              "#C4162A"
+              "#96D98D",
+              "#FF7383"
             ],
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -2406,152 +2205,12 @@
           "refId": "CartDb"
         }
       ],
-      "title": "Application Architecture",
+      "title": "ACME E-commerce Application Microservices",
       "transformations": [],
+      "transparent": true,
       "type": "agenty-flowcharting-panel",
       "valueName": "current",
       "version": "0.9.0"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "MLT Metrics"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "axisSoftMin": 0,
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 25,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "reqps"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "(total)"
-            },
-            "properties": [
-              {
-                "id": "custom.lineWidth",
-                "value": 3
-              },
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "text",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillOpacity",
-                "value": 0
-              },
-              {
-                "id": "custom.lineStyle",
-                "value": {
-                  "fill": "solid"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 14,
-        "x": 10,
-        "y": 9
-      },
-      "id": 2,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "right",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "MLT Metrics"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "sum(rate(traces_spanmetrics_calls_total{}[1m])) by (service_name)",
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "{{ service_name }}",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "MLT Metrics"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "sum(sum(rate(traces_spanmetrics_calls_total{}[1m])) by (service_name))",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "(total)",
-          "range": true,
-          "refId": "B"
-        }
-      ],
-      "title": "Service Throughput",
-      "type": "timeseries"
     },
     {
       "datasource": {
@@ -2619,15 +2278,20 @@
         "h": 5,
         "w": 14,
         "x": 10,
-        "y": 14
+        "y": 11
       },
       "id": 52,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "max",
+            "mean"
+          ],
+          "displayMode": "table",
           "placement": "right",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         },
         "tooltip": {
           "mode": "single",
@@ -2651,6 +2315,157 @@
         }
       ],
       "title": "Service Error Rate by Service",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "4kQwFA1Vk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 79,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "reqps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "(total)"
+            },
+            "properties": [
+              {
+                "id": "custom.lineWidth",
+                "value": 3
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "text",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "fill": "solid"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 14,
+        "x": 10,
+        "y": 16
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "MLT Metrics"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(rate(traces_spanmetrics_calls_total{}[1m])) by (service_name)",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{ service_name }}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Service Throughput",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Time",
+                "api-gateway",
+                "cart",
+                "checkout",
+                "content",
+                "payment",
+                "product",
+                "web-gateway"
+              ]
+            }
+          }
+        }
+      ],
       "type": "timeseries"
     },
     {
@@ -2678,7 +2493,7 @@
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
+            "lineInterpolation": "smooth",
             "lineStyle": {
               "fill": "solid"
             },
@@ -2700,7 +2515,7 @@
           "links": [
             {
               "title": "Kubernetes Details",
-              "url": "/d/85a562078cdf77779eaa1add43ccec1e/kubernetes-compute-resources-namespace-pods?var-datasource=grafanacloud-microbsalexkirtleyclose-prom&var-cluster=microbs&var-namespace=default&orgId=1&refresh=30s"
+              "url": "/d/85a562078cdf77779eaa1add43ccec1e/kubernetes-compute-resources-namespace-pods?var-datasource=grafanacloud-microbsalexkirtleyclose-prom&var-cluster=cloud&var-namespace=default&orgId=1&refresh=30s"
             }
           ],
           "mappings": [],
@@ -2747,19 +2562,24 @@
         ]
       },
       "gridPos": {
-        "h": 5,
+        "h": 4,
         "w": 14,
         "x": 10,
-        "y": 19
+        "y": 21
       },
       "id": 7,
       "links": [],
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "min",
+            "max"
+          ],
+          "displayMode": "table",
           "placement": "right",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         },
         "tooltip": {
           "mode": "single",
@@ -2781,23 +2601,28 @@
           "legendFormat": "{{ service_name }}",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "MLT Metrics"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{}[1m])) by (le)) * 1",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "(average)",
-          "range": true,
-          "refId": "B"
         }
       ],
       "title": "Service Latency",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Time",
+                "api-gateway",
+                "cart",
+                "checkout",
+                "content",
+                "payment",
+                "product",
+                "web-gateway"
+              ]
+            }
+          }
+        }
+      ],
       "type": "timeseries"
     },
     {
@@ -2806,7 +2631,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 24
+        "y": 25
       },
       "id": 76,
       "panels": [],
@@ -2816,306 +2641,7 @@
     {
       "datasource": {
         "type": "grafana-servicenow-datasource",
-        "uid": "Servicenow"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 7,
-        "x": 0,
-        "y": 25
-      },
-      "id": 56,
-      "options": {
-        "displayMode": "lcd",
-        "minVizHeight": 10,
-        "minVizWidth": 0,
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showUnfilled": true
-      },
-      "pluginVersion": "9.3.6",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-servicenow-datasource",
-            "uid": "Servicenow"
-          },
-          "displayValue": "true",
-          "fields": [
-            {
-              "aggregates": [
-                "count"
-              ],
-              "name": "state"
-            },
-            {
-              "aggregates": [
-                "count"
-              ],
-              "name": "priority"
-            },
-            {
-              "aggregates": [
-                "count"
-              ],
-              "name": "urgency"
-            }
-          ],
-          "filters": [
-            {
-              "conjunction": "and",
-              "field": "active",
-              "fieldDesc": {
-                "choice": "",
-                "choice_field": "",
-                "choice_table": "",
-                "description": "Active",
-                "element": "active",
-                "internal_type": {
-                  "link": "",
-                  "value": "boolean"
-                },
-                "label": "Active",
-                "name": "active",
-                "sys_name": "Active",
-                "table": "",
-                "value": "active"
-              },
-              "op": "=",
-              "type": "boolean",
-              "value": "True"
-            },
-            {
-              "conjunction": "and",
-              "field": "x_977123_grafana_0_service",
-              "fieldDesc": {
-                "choice": "",
-                "choice_field": "",
-                "choice_table": "",
-                "description": "X_977123_grafana_0_service",
-                "element": "x_977123_grafana_0_service",
-                "internal_type": {
-                  "link": "",
-                  "value": "string"
-                },
-                "label": "Service Name",
-                "name": "x_977123_grafana_0_service",
-                "sys_name": "Service Name",
-                "table": "",
-                "value": "x_977123_grafana_0_service"
-              },
-              "op": "ISNOTEMPTY",
-              "type": "string",
-              "value": ""
-            },
-            {}
-          ],
-          "groupBy": [
-            "urgency"
-          ],
-          "limit": 25,
-          "queryType": "AggregateAPI",
-          "refId": "A",
-          "sort": [
-            {}
-          ],
-          "stats": [
-            "count"
-          ],
-          "table": "incident",
-          "timeField": "ignore_time"
-        }
-      ],
-      "title": "Open Incidents by Urgency",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "count 1 - High": "High",
-              "count 2 - Medium": "Medium",
-              "count 3 - Low": "Low"
-            }
-          }
-        }
-      ],
-      "type": "bargauge"
-    },
-    {
-      "datasource": {
-        "type": "grafana-servicenow-datasource",
-        "uid": "2lBt98AVk"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 7,
-        "x": 7,
-        "y": 25
-      },
-      "id": 78,
-      "options": {
-        "displayMode": "basic",
-        "minVizHeight": 10,
-        "minVizWidth": 0,
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showUnfilled": true
-      },
-      "pluginVersion": "9.3.6",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-servicenow-datasource",
-            "uid": "2lBt98AVk"
-          },
-          "displayValue": "all",
-          "fields": [
-            {
-              "aggregates": [
-                "count"
-              ],
-              "name": "x_977123_grafana_0_service"
-            }
-          ],
-          "filters": [
-            {
-              "conjunction": "and",
-              "field": "x_977123_grafana_0_service",
-              "fieldDesc": {
-                "choice": "",
-                "choice_field": "",
-                "choice_table": "",
-                "description": "X_977123_grafana_0_service",
-                "element": "x_977123_grafana_0_service",
-                "internal_type": {
-                  "link": "",
-                  "value": "string"
-                },
-                "label": "Service Name",
-                "name": "x_977123_grafana_0_service",
-                "sys_name": "Service Name",
-                "table": "",
-                "value": "x_977123_grafana_0_service"
-              },
-              "op": "ISNOTEMPTY",
-              "type": "string",
-              "value": ""
-            },
-            {
-              "conjunction": "and",
-              "field": "active",
-              "fieldDesc": {
-                "choice": "",
-                "choice_field": "",
-                "choice_table": "",
-                "description": "Active",
-                "element": "active",
-                "internal_type": {
-                  "link": "",
-                  "value": "boolean"
-                },
-                "label": "Active",
-                "name": "active",
-                "sys_name": "Active",
-                "table": "",
-                "value": "active"
-              },
-              "op": "=",
-              "type": "boolean",
-              "value": "True"
-            },
-            {}
-          ],
-          "groupBy": [
-            "x_977123_grafana_0_service"
-          ],
-          "limit": 25,
-          "queryType": "AggregateAPI",
-          "refId": "A",
-          "sort": [
-            {}
-          ],
-          "stats": [],
-          "table": "incident",
-          "timeField": "ignore_time"
-        }
-      ],
-      "title": "Open Incidents by Service",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "count 1 - High": "High",
-              "count 2 - Medium": "Medium",
-              "count 3 - Low": "Low",
-              "count product": ""
-            }
-          }
-        }
-      ],
-      "type": "bargauge"
-    },
-    {
-      "datasource": {
-        "type": "grafana-servicenow-datasource",
-        "uid": "Servicenow"
+        "uid": "lzNqFAJ4z"
       },
       "fieldConfig": {
         "defaults": {
@@ -3137,14 +2663,14 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
-        "w": 4,
-        "x": 14,
-        "y": 25
+        "h": 3,
+        "w": 12,
+        "x": 0,
+        "y": 26
       },
       "id": 59,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -3157,12 +2683,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
       "targets": [
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "Servicenow"
+            "uid": "lzNqFAJ4z"
           },
           "displayValue": "true",
           "fields": [
@@ -3176,26 +2702,31 @@
           "filters": [
             {
               "conjunction": "and",
-              "field": "x_977123_grafana_0_service",
+              "field": "active",
               "fieldDesc": {
-                "choice": "",
+                "choice": "0",
                 "choice_field": "",
                 "choice_table": "",
-                "description": "X_977123_grafana_0_service",
-                "element": "x_977123_grafana_0_service",
+                "description": "Task",
+                "element": "active",
                 "internal_type": {
-                  "link": "",
-                  "value": "string"
+                  "link": "https://dev106823.service-now.com/api/now/v2/table/sys_glide_object?name=boolean",
+                  "value": "boolean"
                 },
-                "label": "Service Name",
-                "name": "x_977123_grafana_0_service",
-                "sys_name": "Service Name",
-                "table": "",
-                "value": "x_977123_grafana_0_service"
+                "label": "Active",
+                "name": "task",
+                "reference": {
+                  "display_value": "",
+                  "link": "",
+                  "value": ""
+                },
+                "sys_name": "Active",
+                "table": "task",
+                "value": "active"
               },
-              "op": "ISNOTEMPTY",
-              "type": "string",
-              "value": ""
+              "op": "=",
+              "type": "boolean",
+              "value": "True"
             },
             {}
           ],
@@ -3217,7 +2748,7 @@
     {
       "datasource": {
         "type": "grafana-servicenow-datasource",
-        "uid": "Servicenow"
+        "uid": "lzNqFAJ4z"
       },
       "fieldConfig": {
         "defaults": {
@@ -3242,14 +2773,14 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
-        "w": 4,
-        "x": 18,
-        "y": 25
+        "h": 3,
+        "w": 12,
+        "x": 12,
+        "y": 26
       },
       "id": 57,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "horizontal",
@@ -3262,12 +2793,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
       "targets": [
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "Servicenow"
+            "uid": "lzNqFAJ4z"
           },
           "displayValue": "true",
           "fields": [
@@ -3301,29 +2832,6 @@
               "op": "=",
               "type": "boolean",
               "value": "True"
-            },
-            {
-              "conjunction": "and",
-              "field": "x_977123_grafana_0_service",
-              "fieldDesc": {
-                "choice": "",
-                "choice_field": "",
-                "choice_table": "",
-                "description": "X_977123_grafana_0_service",
-                "element": "x_977123_grafana_0_service",
-                "internal_type": {
-                  "link": "",
-                  "value": "string"
-                },
-                "label": "Service Name",
-                "name": "x_977123_grafana_0_service",
-                "sys_name": "Service Name",
-                "table": "",
-                "value": "x_977123_grafana_0_service"
-              },
-              "op": "ISNOTEMPTY",
-              "type": "string",
-              "value": ""
             },
             {
               "conjunction": "and",
@@ -3434,10 +2942,659 @@
         }
       ],
       "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-servicenow-datasource",
+        "uid": "lzNqFAJ4z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-YlRd"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "High"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "High"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Medium"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Medium"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Low"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Low"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "count 5 - Planning"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Planning"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 29
+      },
+      "id": 119,
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-servicenow-datasource",
+            "uid": "lzNqFAJ4z"
+          },
+          "displayValue": "all",
+          "fields": [
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": ""
+            }
+          ],
+          "filters": [
+            {
+              "conjunction": "and",
+              "field": "active",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "Active",
+                "element": "active",
+                "internal_type": {
+                  "link": "",
+                  "value": "boolean"
+                },
+                "label": "Active",
+                "name": "active",
+                "sys_name": "Active",
+                "table": "",
+                "value": "active"
+              },
+              "op": "=",
+              "type": "boolean",
+              "value": "True"
+            },
+            {}
+          ],
+          "groupBy": [
+            "urgency"
+          ],
+          "limit": 25,
+          "queryType": "AggregateAPI",
+          "refId": "A",
+          "sort": [
+            {}
+          ],
+          "stats": [],
+          "table": "incident",
+          "timeField": "ignore_time"
+        }
+      ],
+      "title": "Open Incidents by Urgency",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "count 1 - High": "High",
+              "count 2 - Medium": "Medium",
+              "count 3 - Low": "Low",
+              "count product": ""
+            }
+          }
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "grafana-servicenow-datasource",
+        "uid": "lzNqFAJ4z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-YlRd"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "count 1 - Critical"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Critical"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "count 2 - High"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "High"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "count 3 - Moderate"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Moderate"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "count 4 - Low"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Low"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "count 5 - Planning"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Planning"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 29
+      },
+      "id": 78,
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-servicenow-datasource",
+            "uid": "lzNqFAJ4z"
+          },
+          "displayValue": "all",
+          "fields": [
+            {
+              "aggregates": [
+                "count"
+              ],
+              "name": "x_977123_grafana_0_service"
+            }
+          ],
+          "filters": [
+            {
+              "conjunction": "and",
+              "field": "active",
+              "fieldDesc": {
+                "choice": "",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "Active",
+                "element": "active",
+                "internal_type": {
+                  "link": "",
+                  "value": "boolean"
+                },
+                "label": "Active",
+                "name": "active",
+                "sys_name": "Active",
+                "table": "",
+                "value": "active"
+              },
+              "op": "=",
+              "type": "boolean",
+              "value": "True"
+            },
+            {}
+          ],
+          "groupBy": [
+            "priority"
+          ],
+          "limit": 25,
+          "queryType": "AggregateAPI",
+          "refId": "A",
+          "sort": [
+            {}
+          ],
+          "stats": [],
+          "table": "incident",
+          "timeField": "ignore_time"
+        }
+      ],
+      "title": "Open Incidents by Priority",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "count 1 - High": "High",
+              "count 2 - Medium": "Medium",
+              "count 3 - Low": "Low",
+              "count product": ""
+            }
+          }
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "grafana-servicenow-datasource",
+        "uid": "lzNqFAJ4z"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "number"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "Incident details",
+                    "url": "https://dev106823.service-now.com/incident.do?sysparm_query=number%3D${__data.fields.number}"
+                  }
+                ]
+              },
+              {
+                "id": "custom.width",
+                "value": 146
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": ""
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "severity"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.align"
+              },
+              {
+                "id": "custom.width",
+                "value": 113
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "priority"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.align"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "rgba(245, 54, 54, 0.9)"
+                    },
+                    {
+                      "color": "rgba(237, 129, 40, 0.89)",
+                      "value": 2
+                    },
+                    {
+                      "color": "rgba(50, 172, 45, 0.97)",
+                      "value": 3
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 104
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "urgency"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 104
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "opened_at"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 184
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "incident_state"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 131
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 29
+      },
+      "id": 118,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "opened_at"
+          }
+        ]
+      },
+      "pluginVersion": "9.5.0-cloud.2.f143d34",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-servicenow-datasource",
+            "uid": "lzNqFAJ4z"
+          },
+          "displayValue": "true",
+          "fields": [
+            {
+              "aggregates": [],
+              "name": "number"
+            },
+            {
+              "aggregates": [],
+              "name": "opened_at"
+            },
+            {
+              "aggregates": [],
+              "name": "priority"
+            },
+            {
+              "aggregates": [],
+              "name": "incident_state"
+            },
+            {
+              "aggregates": [],
+              "name": "short_description"
+            }
+          ],
+          "filters": [
+            {
+              "conjunction": "and",
+              "field": "opened_at",
+              "fieldDesc": {
+                "choice": "0",
+                "choice_field": "",
+                "choice_table": "",
+                "description": "Task",
+                "element": "opened_at",
+                "internal_type": {
+                  "link": "https://dev106823.service-now.com/api/now/v2/table/sys_glide_object?name=glide_date_time",
+                  "value": "glide_date_time"
+                },
+                "label": "Opened",
+                "name": "task",
+                "reference": {
+                  "display_value": "",
+                  "link": "",
+                  "value": ""
+                },
+                "sys_name": "Opened",
+                "table": "task",
+                "value": "opened_at"
+              },
+              "op": ">=",
+              "type": "glide_date_time",
+              "value": "2022-01-31"
+            },
+            {
+              "conjunction": "and",
+              "field": "incident_state",
+              "fieldDesc": {
+                "choice": "3",
+                "choice_field": "state",
+                "choice_table": "incident",
+                "description": "Incident",
+                "element": "incident_state",
+                "internal_type": {
+                  "link": "https://dev106823.service-now.com/api/now/v2/table/sys_glide_object?name=integer",
+                  "value": "integer"
+                },
+                "label": "Incident state",
+                "name": "incident",
+                "reference": {
+                  "display_value": "",
+                  "link": "",
+                  "value": ""
+                },
+                "sys_name": "Incident state",
+                "table": "incident",
+                "value": "incident_state"
+              },
+              "op": "IN",
+              "type": "integer",
+              "value": "2,1"
+            },
+            {}
+          ],
+          "groupBy": [],
+          "limit": 25,
+          "queryType": "TableAPI",
+          "refId": "A",
+          "sort": [],
+          "stats": [],
+          "table": "incident",
+          "timeField": "ignore_time"
+        }
+      ],
+      "title": "Incident Details",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {
+            "reducers": []
+          }
+        }
+      ],
+      "type": "table"
     }
   ],
-  "refresh": "5s",
-  "schemaVersion": 37,
+  "refresh": "10s",
+  "revision": 1,
+  "schemaVersion": 38,
   "style": "dark",
   "tags": [
     "microbs",
@@ -3452,8 +3609,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Services Overview",
+  "title": "eCommerce Services Overview",
   "uid": "ihMHTlZVk",
-  "version": 113,
+  "version": 42,
   "weekStart": ""
 }
