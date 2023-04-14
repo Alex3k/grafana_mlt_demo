@@ -2,22 +2,22 @@ namespace: mltdemo
 
 image:
   repository: grafana/agent
-  tag: "v0.31.3"
+  tag: "v0.32.1"
 
 tempo:
-    username: REDACTED
-    apikey: REDACTED
-    url: tempo-us-central1.grafana.net:443
+    username: 
+    apikey: 
+    url: 
 
 prometheus:
-    username: REDACTED
-    apikey: REDACTED
-    url: https://prometheus-us-central1.grafana.net/api/prom/push
+    username: 
+    apikey: 
+    url:
 
 loki:
-    username: REDACTED
-    apikey: REDACTED
-    url: https://logs-prod-017.grafana.net
+    username: 
+    apikey: 
+    url: 
 
 otel:
   host: otel-collector

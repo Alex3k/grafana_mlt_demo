@@ -18,7 +18,7 @@ spec:
       - name: synthetic-monitoring-private-probe
         image:  grafana/synthetic-monitoring-agent:v0.9.1-0-gc790779
         imagePullPolicy: IfNotPresent
-        args: ["-verbose", "-api-server-address=synthetic-monitoring-grpc.grafana.net:443", "-api-token=SgRhZe/k+gsMwMMaHrc9kxmc3nGT4LhanSrkewj5FOo8lZnJZeCHSboExSQB/H59dcevPtgHHOTCpf5Ch3KL2jXDZIkNqesCayx4kdONx+FVQxb9G8riHGBdqwrWFcBd0PYDL2KD+N4MKZ9AS6Kho6sgVG03L60dOO2ZLFT5Go4="]
+        args: ["-verbose", "-api-server-address=synthetic-monitoring-grpc-eu-west.grafana.net:443", "-api-token=Z7r3Xe4xX9xGoQXzlm2KfkzbRB1F4pLoGT7G58DK2Ytoa51jQ7prq9QrchoEVZoyNbwQOokpFvJLmb5niG+Xr6LInxKGYD1cmi8D5TBOu4RECXoT9HHrLrxca7qJaROvbGyjfrhcQD8eHqnnqUcHnGYcsXQqei29/OqOQ6gllEg="]
         livenessProbe:
           httpGet:
             path: /

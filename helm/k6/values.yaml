@@ -1,9 +1,9 @@
 namespace: mltdemo
 
 prometheus:
-    username: REDACTED
-    apikey: REDACTED
-    url: https://prometheus-us-central1.grafana.net/api/prom/push
+    username: 554339
+    apikey: eyJrIjoiMDE5NzM0ODE1NThhYjVjYmRjNTc4Mzk2NGUxOWViODNlZGU1YTExMiIsIm4iOiJtaWNyb2JzMyIsImlkIjo2NTY1NTF9
+    url: https://prometheus-prod-01-eu-west-0.grafana.net/api/prom/push
 
 k6:
     virtual_user_count: 20
@@ -12,7 +12,7 @@ k6:
       tag: "3.4.32"
 
 k6browser:
-    frontend_url: "http://34.29.94.7"
+    frontend_url: "http://104.154.155.82"
     virtual_user_count: 2
     duration: "10000h"
     image:

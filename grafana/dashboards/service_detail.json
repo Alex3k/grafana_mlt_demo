@@ -1,4 +1,107 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM",
+      "label": "grafanacloud-magicroundabout-prom",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    },
+    {
+      "name": "DS_SERVICENOW",
+      "label": "Servicenow",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "grafana-servicenow-datasource",
+      "pluginName": "ServiceNow"
+    },
+    {
+      "name": "DS_GRAFANACLOUD-MAGICROUNDABOUT-LOGS",
+      "label": "grafanacloud-magicroundabout-logs",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "loki",
+      "pluginName": "Loki"
+    },
+    {
+      "name": "DS_MLT_LOGS",
+      "label": "MLT Logs",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "loki",
+      "pluginName": "Loki"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "bargauge",
+      "name": "Bar gauge",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.5.0-cloud.2.f143d34"
+    },
+    {
+      "type": "datasource",
+      "id": "grafana-servicenow-datasource",
+      "name": "ServiceNow",
+      "version": "2.6.0"
+    },
+    {
+      "type": "panel",
+      "id": "logs",
+      "name": "Logs",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "loki",
+      "name": "Loki",
+      "version": "1.0.0"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table-old",
+      "name": "Table (old)",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -22,7 +125,7 @@
       {
         "datasource": {
           "type": "loki",
-          "uid": "grafanacloud-logs"
+          "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-LOGS}"
         },
         "enable": true,
         "expr": "{job=\"integrations/kubernetes/eventhandler\", cluster=\"$cluster\", namespace=\"$namespace\"} |~ \"(?i)kind=$type\" |~ \"name=$workload.*\" | logfmt",
@@ -41,7 +144,7 @@
       {
         "datasource": {
           "type": "loki",
-          "uid": "grafanacloud-logs"
+          "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-LOGS}"
         },
         "enable": false,
         "expr": "{service=\"product\"} |= \"product_super_fast_mode is\" | logfmt |  line_format \"Service: {{.service}} - Pod: {{.pod}} - {{.msg}}\"",
@@ -54,7 +157,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 32,
+  "id": null,
   "links": [
     {
       "asDropdown": false,
@@ -86,7 +189,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "description": "",
       "gridPos": {
@@ -111,7 +214,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "description": "",
       "gridPos": {
@@ -149,7 +252,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "fieldConfig": {
         "defaults": {
@@ -215,7 +318,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "vector(1)",
@@ -305,7 +408,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -320,7 +423,7 @@
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "lzNqFAJ4z"
+            "uid": "${DS_SERVICENOW}"
           },
           "displayValue": "true",
           "fields": [
@@ -575,7 +678,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "fieldConfig": {
         "defaults": {
@@ -670,7 +773,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=~\"$workload\"}[1m])) by (le)) * 1",
@@ -685,7 +788,7 @@
     {
       "datasource": {
         "type": "grafana-servicenow-datasource",
-        "uid": "Servicenow"
+        "uid": "${DS_SERVICENOW}"
       },
       "fieldConfig": {
         "defaults": {
@@ -738,7 +841,7 @@
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "Servicenow"
+            "uid": "${DS_SERVICENOW}"
           },
           "displayValue": "true",
           "fields": [
@@ -920,7 +1023,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -935,7 +1038,7 @@
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "lzNqFAJ4z"
+            "uid": "${DS_SERVICENOW}"
           },
           "displayValue": "all",
           "fields": [
@@ -1206,7 +1309,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1285,7 +1388,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "sum(rate(traces_spanmetrics_calls_total{service_name=~\"$workload\"}[1m])) ",
@@ -1313,7 +1416,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "grafanacloud-logs"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-LOGS}"
       },
       "gridPos": {
         "h": 9,
@@ -1336,7 +1439,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "grafanacloud-logs"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-LOGS}"
           },
           "editorMode": "code",
           "expr": "{cluster=\"cloud\",container=~\"$workload\"} |~ \"critical|Critical|CRITICAL|error|Error|ERROR|exception|Exception|EXCEPTION|fail|Fail|FAIL|fatal|Fatal|FATAL\"",
@@ -1351,7 +1454,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "jtxKFAJ4z"
+        "uid": "${DS_MLT_LOGS}"
       },
       "gridPos": {
         "h": 8,
@@ -1374,7 +1477,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "jtxKFAJ4z"
+            "uid": "${DS_MLT_LOGS}"
           },
           "editorMode": "code",
           "expr": "{cluster=\"cloud\",container=~\"$workload\"} | logfmt != \"healthz\"",
@@ -1388,7 +1491,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1466,7 +1569,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "sum by(container) (kube_pod_container_status_restarts_total{job=\"integrations/kubernetes/kube-state-metrics\", container=\"$workload\"})",
@@ -1477,7 +1580,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "sum(kube_pod_container_status_restarts_total{job=\"integrations/kubernetes/kube-state-metrics\", container=\"$workload\"})",
@@ -1493,7 +1596,7 @@
     {
       "datasource": {
         "type": "grafana-servicenow-datasource",
-        "uid": "Servicenow"
+        "uid": "${DS_SERVICENOW}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1588,7 +1691,7 @@
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "Servicenow"
+            "uid": "${DS_SERVICENOW}"
           },
           "displayValue": "all",
           "fields": [
@@ -1662,7 +1765,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "fill": 1,
       "fontSize": "100%",
@@ -1816,7 +1919,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"cloud\", namespace=\"mltdemo\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\"}\n) by (pod)\n",
@@ -1830,7 +1933,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\"}\n) by (pod)\n",
@@ -1844,7 +1947,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", namespace=\"$namespace\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
           "format": "table",
@@ -1857,7 +1960,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "expr": "sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
           "format": "table",
@@ -1870,7 +1973,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", namespace=\"$namespace\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
           "format": "table",
@@ -1912,7 +2015,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1993,7 +2096,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "sum(\n    node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"cloud\", namespace=\"mltdemo\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\"}\n) by (pod)\n",
@@ -2016,7 +2119,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "fill": 1,
       "fontSize": "100%",
@@ -2170,7 +2273,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"cloud\", namespace=\"mltdemo\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\"}\n) by (pod)\n",
@@ -2184,7 +2287,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"cloud\", namespace=\"mltdemo\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\"}\n) by (pod)\n",
@@ -2198,7 +2301,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"cloud\", namespace=\"mltdemo\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_requests{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"cloud\", namespace=\"mltdemo\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\"}\n) by (pod)\n",
@@ -2212,7 +2315,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"cloud\", namespace=\"mltdemo\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
@@ -2226,7 +2329,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"cloud\", namespace=\"mltdemo\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n/sum(\n    kube_pod_container_resource_limits{job=\"integrations/kubernetes/kube-state-metrics\", cluster=\"cloud\", namespace=\"mltdemo\", resource=\"memory\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\", workload_type=\"$type\"}\n) by (pod)\n",
@@ -2269,7 +2372,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2350,7 +2453,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"cloud\", namespace=\"mltdemo\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=\"$workload\"}\n) by (pod)\n",
@@ -2420,7 +2523,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2501,7 +2604,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_receive_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"cloud\", namespace=\"mltdemo\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=~\"$workload\"}) by (pod))\n",
@@ -2519,7 +2622,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2600,7 +2703,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_transmit_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"cloud\", namespace=\"mltdemo\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=~\"$workload\"}) by (pod))\n",
@@ -2644,7 +2747,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2725,7 +2828,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "(avg(irate(container_network_receive_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"cloud\", namespace=\"mltdemo\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=~\"$workload\"}) by (pod))\n",
@@ -2743,7 +2846,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2824,7 +2927,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "(avg(irate(container_network_transmit_bytes_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"cloud\", namespace=\"mltdemo\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=~\"$workload\"}) by (pod))\n",
@@ -2868,7 +2971,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2949,7 +3052,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_receive_packets_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"cloud\", namespace=\"mltdemo\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=~\"$workload\"}) by (pod))\n",
@@ -2967,7 +3070,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "fieldConfig": {
         "defaults": {
@@ -3048,7 +3151,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_transmit_packets_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"cloud\", namespace=\"mltdemo\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=~\"$workload\"}) by (pod))\n",
@@ -3092,7 +3195,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "fieldConfig": {
         "defaults": {
@@ -3173,7 +3276,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_receive_packets_dropped_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"cloud\", namespace=\"mltdemo\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=~\"$workload\"}) by (pod))\n",
@@ -3191,7 +3294,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "grafanacloud-prom"
+        "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
       },
       "fieldConfig": {
         "defaults": {
@@ -3272,7 +3375,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "grafanacloud-prom"
+            "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
           },
           "editorMode": "code",
           "expr": "(sum(irate(container_network_transmit_packets_dropped_total{job=\"integrations/kubernetes/cadvisor\", cluster=\"cloud\", namespace=\"mltdemo\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\", workload=~\"$workload\"}) by (pod))\n",
@@ -3296,18 +3399,10 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
-          "value": [
-            "$__all"
-          ]
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "grafanacloud-prom"
+          "uid": "${DS_GRAFANACLOUD-MAGICROUNDABOUT-PROM}"
         },
         "definition": "label_values(namespace_workload_pod:kube_pod_owner:relabel{cluster=\"cloud\", namespace=\"mltdemo\"}, workload)",
         "hide": 0,

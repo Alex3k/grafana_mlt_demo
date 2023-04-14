@@ -95,11 +95,10 @@ spec:
     spec:
       containers:
       - args:
+        - -config.expand-env=true
         - -config.file=/etc/agent/agent.yaml
         - -enable-features=integrations-next
         - -server.http.address=0.0.0.0:80
-        command:
-        - /bin/agent
         env:
         - name: HOSTNAME
           valueFrom:
@@ -119,7 +118,7 @@ spec:
           name: agent-wal
         - mountPath: /etc/agent
           name: grafana-agent-k8s
-      serviceAccount: grafana-agent-k8s
+      serviceAccountName: grafana-agent-k8s
       volumes:
       - configMap:
           name: grafana-agent-k8s
@@ -131,7 +130,7 @@ spec:
     kind: PersistentVolumeClaim
     metadata:
       name: agent-wal
-      namespace: default
+      namespace: {{ .Values.namespace }}
     spec:
       accessModes:
       - ReadWriteOnce

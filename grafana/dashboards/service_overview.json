@@ -1,4 +1,93 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_MLT_METRICS",
+      "label": "MLT Metrics",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    },
+    {
+      "name": "DS_MLT_LOGS",
+      "label": "MLT Logs",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "loki",
+      "pluginName": "Loki"
+    },
+    {
+      "name": "DS_SERVICENOW",
+      "label": "Servicenow",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "grafana-servicenow-datasource",
+      "pluginName": "ServiceNow"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "agenty-flowcharting-panel",
+      "name": "FlowCharting",
+      "version": "0.9.1"
+    },
+    {
+      "type": "panel",
+      "id": "bargauge",
+      "name": "Bar gauge",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.5.0-cloud.2.f143d34"
+    },
+    {
+      "type": "datasource",
+      "id": "grafana-servicenow-datasource",
+      "name": "ServiceNow",
+      "version": "2.6.0"
+    },
+    {
+      "type": "datasource",
+      "id": "loki",
+      "name": "Loki",
+      "version": "1.0.0"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -22,7 +111,7 @@
       {
         "datasource": {
           "type": "grafana-servicenow-datasource",
-          "uid": "Servicenow"
+          "uid": "${DS_SERVICENOW}"
         },
         "enable": false,
         "iconColor": "red",
@@ -114,7 +203,7 @@
       {
         "datasource": {
           "type": "loki",
-          "uid": "MLT Logs"
+          "uid": "${DS_MLT_LOGS}"
         },
         "enable": true,
         "expr": "{service=\"product\"} |= \"product_super_fast_mode is\" | logfmt |  line_format \"Service: {{.service}} - Pod: {{.pod}} - {{.msg}}\"",
@@ -129,7 +218,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": 29,
+  "id": null,
   "links": [
     {
       "asDropdown": false,
@@ -161,7 +250,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "${DS_MLT_METRICS}"
       },
       "description": "",
       "gridPos": {
@@ -186,7 +275,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "${DS_MLT_METRICS}"
       },
       "description": "",
       "gridPos": {
@@ -224,7 +313,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "${DS_MLT_METRICS}"
       },
       "description": "",
       "fieldConfig": {
@@ -337,7 +426,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -352,7 +441,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -367,7 +456,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -473,7 +562,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -486,7 +575,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "MLT Logs"
+            "uid": "${DS_MLT_LOGS}"
           },
           "editorMode": "code",
           "expr": "500 - sum(count_over_time({service=\"payment\"} | logfmt | endpoint = `/process` | status != `200` [29d])) or vector(500)",
@@ -577,7 +666,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -592,7 +681,7 @@
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "lzNqFAJ4z"
+            "uid": "${DS_SERVICENOW}"
           },
           "displayValue": "all",
           "fields": [
@@ -937,7 +1026,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -952,7 +1041,7 @@
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "Servicenow"
+            "uid": "${DS_SERVICENOW}"
           },
           "displayValue": "all",
           "fields": [
@@ -1177,7 +1266,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "${DS_MLT_METRICS}"
       },
       "description": "The fraction of time the target was up during the whole period.",
       "fieldConfig": {
@@ -1255,7 +1344,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -1274,7 +1363,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "${DS_MLT_METRICS}"
       },
       "description": "The fraction of time the target was up during the whole period.",
       "fieldConfig": {
@@ -1352,7 +1441,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -2086,7 +2175,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(probe_success{job=\"ecommerce-web-gateway\"})",
@@ -2097,7 +2186,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(probe_success{job=\"ecommerce-api-gateway\"})",
@@ -2109,7 +2198,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"product\"}[1m])) by (le)) * 1) > bool 2000 or (probe_success{job=\"ecommerce-product\"}) == bool 0 or {name=\"ProductDBErrors\"} > bool 0",
@@ -2121,7 +2210,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "ProductDBErrors{name=\"ProductDBErrors\"}",
@@ -2133,7 +2222,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"cart\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-cart\"}) == bool 0",
@@ -2145,7 +2234,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"checkout\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-checkout\"}) == bool 0",
@@ -2157,7 +2246,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "(histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"content\"}[1m])) by (le)) * 1) or (probe_success{job=\"ecommerce-content\"}) == bool 0",
@@ -2169,7 +2258,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": " (histogram_quantile(0.95, sum(rate(traces_spanmetrics_latency_bucket{service_name=\"payment\"}[1m])) by (le)) * 1) > bool 2000  or (probe_success{job=\"ecommerce-payment\"}) == bool 0 or sum_over_time(PaymentProcessErrors1m[1m]) > bool 0",
@@ -2181,7 +2270,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "expr": "SessionDBErrors{}",
@@ -2193,7 +2282,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -2215,7 +2304,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2302,7 +2391,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -2321,7 +2410,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "4kQwFA1Vk"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2434,7 +2523,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -2471,7 +2560,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "MLT Metrics"
+        "uid": "${DS_MLT_METRICS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2591,7 +2680,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "MLT Metrics"
+            "uid": "${DS_MLT_METRICS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -2641,7 +2730,7 @@
     {
       "datasource": {
         "type": "grafana-servicenow-datasource",
-        "uid": "lzNqFAJ4z"
+        "uid": "${DS_SERVICENOW}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2688,7 +2777,7 @@
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "lzNqFAJ4z"
+            "uid": "${DS_SERVICENOW}"
           },
           "displayValue": "true",
           "fields": [
@@ -2748,7 +2837,7 @@
     {
       "datasource": {
         "type": "grafana-servicenow-datasource",
-        "uid": "lzNqFAJ4z"
+        "uid": "${DS_SERVICENOW}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2798,7 +2887,7 @@
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "lzNqFAJ4z"
+            "uid": "${DS_SERVICENOW}"
           },
           "displayValue": "true",
           "fields": [
@@ -2946,7 +3035,7 @@
     {
       "datasource": {
         "type": "grafana-servicenow-datasource",
-        "uid": "lzNqFAJ4z"
+        "uid": "${DS_SERVICENOW}"
       },
       "fieldConfig": {
         "defaults": {
@@ -3042,7 +3131,7 @@
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "lzNqFAJ4z"
+            "uid": "${DS_SERVICENOW}"
           },
           "displayValue": "all",
           "fields": [
@@ -3114,7 +3203,7 @@
     {
       "datasource": {
         "type": "grafana-servicenow-datasource",
-        "uid": "lzNqFAJ4z"
+        "uid": "${DS_SERVICENOW}"
       },
       "fieldConfig": {
         "defaults": {
@@ -3222,7 +3311,7 @@
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "lzNqFAJ4z"
+            "uid": "${DS_SERVICENOW}"
           },
           "displayValue": "all",
           "fields": [
@@ -3294,7 +3383,7 @@
     {
       "datasource": {
         "type": "grafana-servicenow-datasource",
-        "uid": "lzNqFAJ4z"
+        "uid": "${DS_SERVICENOW}"
       },
       "description": "",
       "fieldConfig": {
@@ -3486,7 +3575,7 @@
         {
           "datasource": {
             "type": "grafana-servicenow-datasource",
-            "uid": "lzNqFAJ4z"
+            "uid": "${DS_SERVICENOW}"
           },
           "displayValue": "true",
           "fields": [

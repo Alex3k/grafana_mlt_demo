@@ -867,7 +867,7 @@ spec:
         - name: SERVICE_VERSION
           value: "3.4.29"
         - name: FARO_ENDPOINT
-          value: "http://35.224.5.38:12121/collect"
+          value: "http://104.197.122.121:12121/collect"
         - name: SERVICE_NAME
           valueFrom:
             fieldRef:
