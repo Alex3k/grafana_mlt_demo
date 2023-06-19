@@ -51,15 +51,43 @@ def post_payment():
         span = trace.get_current_span()
         span.set_attribute('event.outcome', 'failure')
         span.set_status(Status(StatusCode.ERROR))
-        logger.error("Invalid card number")
+        logger.error(f"Invalid card number", extra={
+            'tags': [
+                ( 'ip', request.environ.get('REMOTE_ADDR') ),
+                ( 'method', request.method ),
+                ( 'path', request.path ),
+                ( 'user_agent', request.headers.get('User-Agent') ),
+                ( 'device_country', request.headers.get('X-Device-Country') ),
+                ( 'device_platform', request.headers.get('X-Device-Platform') ),
+                ( 'device_id', request.headers.get('X-Device-ID') ),
+                ( 'forwarded_for', request.headers.get('X-Forwarded-For') ),
+                ( 'customer_tier', request.headers.get('X-Customer-Tier') ),
+                ( 'session_id', request.headers.get('X-Session-Id') )
+            ]
+        })
         return jsonify({ 'message': 'failure', 'reason': 'Invalid card number' }), 400
+        
     payment_result = process_payment(data.get('card', {}).get('number'), data.get('amount'))
 
     if payment_result is False:
         span = trace.get_current_span()
         span.set_attribute('event.outcome', 'failure')
         span.set_status(Status(StatusCode.ERROR))
-        logger.error("Failed to connect to payment provider")
+        logger.error(f"Failed to connect to payment provider", extra={
+            'tags': [
+                ( 'ip', request.environ.get('REMOTE_ADDR') ),
+                ( 'method', request.method ),
+                ( 'path', request.path ),
+                ( 'user_agent', request.headers.get('User-Agent') ),
+                ( 'device_country', request.headers.get('X-Device-Country') ),
+                ( 'device_platform', request.headers.get('X-Device-Platform') ),
+                ( 'device_id', request.headers.get('X-Device-ID') ),
+                ( 'forwarded_for', request.headers.get('X-Forwarded-For') ),
+                ( 'customer_tier', request.headers.get('X-Customer-Tier') ),
+                ( 'session_id', request.headers.get('X-Session-Id') )
+            ]
+        })
+
         return jsonify({ 'message': 'failure', 'reason': 'Failed to connect to payment provider' }), 400
 
     return jsonify({ 'message': 'success' })
