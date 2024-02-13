@@ -18,4 +18,6 @@ jobs:
             fetch-depth: 0
         - name: Get previous release tag
           id: previous-release
-          uses: sammcoe/get-previous-release-action@v1
+          run: |
+            LAST_RELEASE=$(git tag -l --sort=-v:refname | head -n 2 | tail -n 1)
+            echo "Last Release: $LAST_RELEASE"
