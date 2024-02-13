@@ -1,0 +1,32 @@
+name: "Roll back to previous release"
+on:
+    workflow_dispatch:
+        inputs:
+            # The following token must match with the token in Github secrets. This validates that the
+            # user creating the deployment has authorisation to do so.
+            # fe_deploy_token: The token that allows deployments.
+            fe_deployment_token:
+                description: "The FE available token to allow deployments"
+                required: true
+            # The release version of the demo application to deploy
+            version:
+                description: "The version (or tag) to build and release, must be a valid tag on the repo"
+                required: true
+            # k8s_agent_version: The version of the K8S GrAgent to deploy
+            k8s_agent_version:
+                description: "The version of the K8S GrAgent to deploy"
+                required: true
+                default: "0.8.3"
+            # gds2024_agent_version: The version of the GrAgent for Postgres monitoring
+            postgres_agent_version:
+                description: "The version of the GrAgent for Postgres monitoring"
+                required: true
+                default: "0.31.0"
+jobs:
+    get_previous_release:
+      name: "Find previous release"
+      runs-on: ubuntu-latest
+      steps:
+        - name: Get previous release tag
+          id: previous-release
+          uses: sammcoe/get-previous-release-action@v1
